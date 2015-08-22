@@ -70,6 +70,7 @@ namespace Client
             // 
             // txtMessage
             // 
+            this.txtMessage.BackColor = System.Drawing.Color.Gray;
             resources.ApplyResources(this.txtMessage, "txtMessage");
             this.txtMessage.Name = "txtMessage";
             this.txtMessage.TextChanged += new System.EventHandler(this.txtMessage_TextChanged);
@@ -160,6 +161,7 @@ namespace Client
             resources.ApplyResources(this.txtColorChanger, "txtColorChanger");
             this.txtColorChanger.Name = "txtColorChanger";
             this.txtColorChanger.UseVisualStyleBackColor = true;
+            this.txtColorChanger.Click += new System.EventHandler(this.txtColorChanger_Click);
             // 
             // dispTextRedraw
             // 

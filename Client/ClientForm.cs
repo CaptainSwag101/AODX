@@ -24,6 +24,8 @@ namespace Client
         public string strName;      //Name by which the user logs into the room
         public string character; //Character that the user is playing as
         private int selectedAnim = 3;
+        private int colorIndex = 0;
+        private Color selectedColor = Color.White;
         private string[] textToDisp = new string[3];
         private int textTicks = 1;
         private bool redraw = false;
@@ -87,6 +89,7 @@ namespace Client
                 msgToSend.charName = character;
                 msgToSend.preAnim = iniParser.GetPreAnim(character, selectedAnim);
                 msgToSend.anim = iniParser.GetAnim(character, selectedAnim);
+                msgToSend.textColor = selectedColor;
                 msgToSend.strMessage = txtMessage.Text;
                 msgToSend.cmdCommand = Command.Message;
 
@@ -141,7 +144,7 @@ namespace Client
                         //blipPlayer.PlayLooping();
                         latestMsg = msgReceived;
                         charLayerPB.Load("base/characters/" + msgReceived.charName + "/(b)" + msgReceived.anim + ".gif");
-                        prepWriteDispBoxes(msgReceived);
+                        prepWriteDispBoxes(msgReceived, msgReceived.textColor);
                         //dispTextRedraw.Enabled = true;
                         break;
 
@@ -185,7 +188,7 @@ namespace Client
             txtLog.Text += txt;
         }
 
-        private void prepWriteDispBoxes(Data msg)
+        private void prepWriteDispBoxes(Data msg, Color newColor)
         {
             string msgText = msg.strMessage;
             textToDisp = new string[3];
@@ -195,6 +198,9 @@ namespace Client
             displayMsg1.Text = "";
             displayMsg2.Text = "";
             displayMsg3.Text = "";
+            if (newColor.ToKnownColor() != KnownColor.PeachPuff)
+                setDispMsgColor(newColor);
+
             msgText = msg.strMessage.Substring(msg.strName.Length + 2);
 
             for (int i = 0; i < 3; i++)
@@ -378,6 +384,42 @@ namespace Client
                 }
             }
         }
+
+        private void txtColorChanger_Click(object sender, EventArgs e)
+        {
+            if (colorIndex < 3)
+            {
+                colorIndex++;
+            }
+            else
+            {
+                colorIndex = 0;
+            }
+
+            switch (colorIndex)
+            {
+                case 0:
+                    txtMessage.ForeColor = Color.Black;
+                    selectedColor = Color.White;
+                    txtColorChanger.Text = "Text Color: White";
+                    break;
+                case 1:
+                    txtMessage.ForeColor = Color.DeepSkyBlue;
+                    selectedColor = Color.DeepSkyBlue;
+                    txtColorChanger.Text = "Text Color: Blue";
+                    break;
+                case 2:
+                    txtMessage.ForeColor = Color.FromArgb(0, 255, 0);
+                    selectedColor = Color.FromArgb(0, 255, 0);
+                    txtColorChanger.Text = "Text Color: Green";
+                    break;
+                case 3:
+                    txtMessage.ForeColor = Color.OrangeRed;
+                    selectedColor = Color.OrangeRed;
+                    txtColorChanger.Text = "Text Color: Orange";
+                    break;
+            }
+        }
     }
 
     //The data structure by which the server and the client interact with 
@@ -392,6 +434,7 @@ namespace Client
             strName = null;
             charName = null;
             preAnim = null;
+            textColor = Color.PeachPuff;
             anim = null;
         }
 
@@ -410,33 +453,40 @@ namespace Client
 
             int animLen = BitConverter.ToInt32(data, 16);
 
+            int textColorLen = BitConverter.ToInt32(data, 20);
+
             //The next four store the length of the message
-            int msgLen = BitConverter.ToInt32(data, 20);
+            int msgLen = BitConverter.ToInt32(data, 24);
 
             //This check makes sure that strName has been passed in the array of bytes
             if (nameLen > 0)
-                strName = Encoding.UTF8.GetString(data, 24, nameLen);
+                strName = Encoding.UTF8.GetString(data, 28, nameLen);
             else
                 strName = null;
 
             if (charNameLen > 0)
-                charName = Encoding.UTF8.GetString(data, 24 + nameLen, charNameLen);
+                charName = Encoding.UTF8.GetString(data, 28 + nameLen, charNameLen);
             else
                 charName = null;
 
             if (preAnimLen > 0)
-                preAnim = Encoding.UTF8.GetString(data, 24 + nameLen + charNameLen, preAnimLen);
+                preAnim = Encoding.UTF8.GetString(data, 28 + nameLen + charNameLen, preAnimLen);
             else
                 preAnim = null;
 
             if (animLen > 0)
-                anim = Encoding.UTF8.GetString(data, 24 + nameLen + charNameLen + preAnimLen, animLen);
+                anim = Encoding.UTF8.GetString(data, 28 + nameLen + charNameLen + preAnimLen, animLen);
             else
                 anim = null;
 
+            if (textColorLen > 0)
+                textColor = Color.FromArgb(BitConverter.ToInt32(data, 28 + nameLen + charNameLen + preAnimLen + animLen));
+            else
+                textColor = Color.White;
+
             //This checks for a null message field
             if (msgLen > 0)
-                strMessage = Encoding.UTF8.GetString(data, 24 + nameLen + charNameLen + preAnimLen + animLen, msgLen);
+                strMessage = Encoding.UTF8.GetString(data, 28 + nameLen + charNameLen + preAnimLen + animLen + textColorLen, msgLen);
             else
                 strMessage = null;
         }
@@ -470,6 +520,9 @@ namespace Client
             else
                 result.AddRange(BitConverter.GetBytes(0));
 
+            //Add the color length
+            result.AddRange(BitConverter.GetBytes(4));
+
             //Length of the message
             if (strMessage != null)
                 result.AddRange(BitConverter.GetBytes(strMessage.Length));
@@ -490,6 +543,9 @@ namespace Client
             if (anim != null)
                 result.AddRange(Encoding.UTF8.GetBytes(anim));
 
+            //if (textColor != Color.PeachPuff)
+            result.AddRange(BitConverter.GetBytes(textColor.ToArgb()));
+
             //And, lastly we add the message text to our array of bytes
             if (strMessage != null)
                 result.AddRange(Encoding.UTF8.GetBytes(strMessage));
@@ -501,6 +557,7 @@ namespace Client
         public string charName;
         public string preAnim;
         public string anim;
+        public Color textColor;
         public string strMessage;   //Message text
         public Command cmdCommand;  //Command type (login, logout, send message, etcetera)
     }
