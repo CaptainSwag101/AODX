@@ -88,5 +88,30 @@ namespace Client
                 return null;
             }
         }
+
+        public static string GetSide(string charName)
+        {
+            string dirName = "base/characters/" + charName + "/";
+            if (charName != null && Directory.Exists(dirName) && File.Exists(dirName + "char.ini"))
+            {
+                using (var r = new StreamReader(dirName + "char.ini"))
+                {
+                    int count = 0;
+                    while (!r.EndOfStream)
+                    {
+                        string line = r.ReadLine();
+                        if (count <= 0 && line.StartsWith("side", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return line.Split(new string[] { " = " }, StringSplitOptions.None)[1];
+                        }
+                    }
+                }
+                return "def";
+            }
+            else
+            {
+                return "def"; ;
+            }
+        }
     }
 }

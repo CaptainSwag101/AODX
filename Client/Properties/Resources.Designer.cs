@@ -103,16 +103,6 @@ namespace Client.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap defenseempty {
-            get {
-                object obj = ResourceManager.GetObject("defenseempty", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap phoenix_normal_a_ {
             get {
                 object obj = ResourceManager.GetObject("phoenix_normal_a_", resourceCulture);
@@ -133,9 +123,29 @@ namespace Client.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap Prosecutor_Bench_Overlay_resized {
+            get {
+                object obj = ResourceManager.GetObject("Prosecutor_Bench_Overlay_resized", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap PW_Textbox_Trans {
             get {
                 object obj = ResourceManager.GetObject("PW_Textbox_Trans", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap PW_Witness_Stand_Overlay {
+            get {
+                object obj = ResourceManager.GetObject("PW_Witness_Stand_Overlay", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

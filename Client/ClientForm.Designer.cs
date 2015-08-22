@@ -151,7 +151,7 @@ namespace Client
             // backgroundPB
             // 
             this.backgroundPB.BackColor = System.Drawing.Color.Transparent;
-            this.backgroundPB.Image = global::Client.Properties.Resources.defenseempty;
+            this.backgroundPB.Image = null;
             resources.ApplyResources(this.backgroundPB, "backgroundPB");
             this.backgroundPB.Name = "backgroundPB";
             this.backgroundPB.TabStop = false;

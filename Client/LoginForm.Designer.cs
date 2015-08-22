@@ -111,8 +111,8 @@ namespace Client
             this.charList.FormattingEnabled = true;
             this.charList.Items.AddRange(new object[] {
             "Phoenix",
-            "Edgeworth (Pro)",
-            "Edgeworth (Wit)",
+            "Edgeworth",
+            "Edgeworthw",
             "Mia (Def)",
             "Mia (Wit)",
             "Maya (CoDef)",

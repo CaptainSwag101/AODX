@@ -38,7 +38,7 @@ namespace Client
         {
             InitializeComponent();
             backgroundPB.BackColor = Color.Transparent;
-            backgroundPB.Image = Properties.Resources.defenseempty;
+            backgroundPB.Load("base/background/default/defenseempty.png");
             backgroundPB.Controls.Add(charLayerPB);
             charLayerPB.BackColor = Color.Transparent;
             charLayerPB.Image = Properties.Resources.phoenix_normal_a_;
@@ -253,6 +253,25 @@ namespace Client
                     textToDisp[i] = msgText;
                     break;
                 }
+            }
+            switch (iniParser.GetSide(latestMsg.charName))
+            {
+                case "def":
+                    backgroundPB.Load("base/background/default/defenseempty.png");
+                    deskLayerPB.Image = Properties.Resources.Defense_Bench_Overlay_resized;
+                    break;
+                case "pro":
+                    backgroundPB.Load("base/background/default/prosecutorempty.png");
+                    deskLayerPB.Image = Properties.Resources.Prosecutor_Bench_Overlay_resized;
+                    break;
+                case "jud":
+                    backgroundPB.Load("base/background/default/judgestand.png");
+                    deskLayerPB.Image = null;
+                    break;
+                case "wit":
+                    backgroundPB.Load("base/background/default/witnessempty.png");
+                    deskLayerPB.Image = Properties.Resources.PW_Witness_Stand_Overlay;
+                    break;
             }
             //dispTextRedraw.Enabled = true;
             blipPlayer.PlayLooping();

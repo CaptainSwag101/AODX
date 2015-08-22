@@ -115,9 +115,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\defenseempty.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\phoenix-normal%28a%29.gif" />
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +149,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\sfx-blipmale2.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Prosecutor Bench Overlay resized.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\PW Witness Stand Overlay.png" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
