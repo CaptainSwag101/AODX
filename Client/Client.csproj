@@ -145,10 +145,13 @@
     <None Include="Resources\sfx-blipfemale.wav" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\sfx-typwriter.wav" />
+  </ItemGroup>
+  <ItemGroup>
     <None Include="Resources\sfx-blipmale.wav" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\sfx-typwriter.wav" />
+    <None Include="Resources\sfx-blipmale2.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

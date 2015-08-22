@@ -11,8 +11,8 @@ namespace Client
     {
         public static string GetPreAnim(string charName, int anim)
         {
-            string dirName = "./base/character/" + charName + "/char.ini";
-            if (charName != null && Directory.Exists(dirName) && File.Exists(dirName + "/char.ini") & anim >= 0)
+            string dirName = "base/characters/" + charName + "/";
+            if (charName != null && Directory.Exists(dirName) && File.Exists(dirName + "char.ini") & anim >= 0)
             {
                 using (var r = new StreamReader(dirName + "char.ini"))
                 {
@@ -30,9 +30,9 @@ namespace Client
                         {
                             string parseThis = line.Split(new string[] { " = " }, StringSplitOptions.None)[1];
                             string[] animData = parseThis.Split('#');
-                            if (animData[4] == "1")
+                            if (animData[3] == "1")
                             {
-                                return animData[2];
+                                return animData[1];
                             }
                             else
                             {
@@ -51,8 +51,8 @@ namespace Client
 
         public static string GetAnim(string charName, int anim)
         {
-            string dirName = "./base/character/" + charName + "/char.ini";
-            if (charName != null && Directory.Exists(dirName) && File.Exists(dirName + "/char.ini") & anim >= 0)
+            string dirName = "base/characters/" + charName + "/";
+            if (charName != null && Directory.Exists(dirName) && File.Exists(dirName + "char.ini") & anim >= 0)
             {
                 using (var r = new StreamReader(dirName + "char.ini"))
                 {
@@ -70,9 +70,9 @@ namespace Client
                         {
                             string parseThis = line.Split(new string[] { " = " }, StringSplitOptions.None)[1];
                             string[] animData = parseThis.Split('#');
-                            if (animData[4] == "0" | animData[4] == "1")
+                            if (animData[3] == "0" | animData[3] == "1")
                             {
-                                return animData[3];
+                                return animData[2];
                             }
                             else
                             {

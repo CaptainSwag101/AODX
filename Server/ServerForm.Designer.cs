@@ -38,7 +38,7 @@ namespace Server
             this.messageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userNumStat = new System.Windows.Forms.ToolStripStatusLabel();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
+            this.localIPLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
@@ -129,19 +129,19 @@ namespace Server
             this.statusStrip1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Visible;
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.userNumStat,
-            this.toolStripStatusLabel1});
+            this.localIPLabel});
             this.statusStrip1.Location = new System.Drawing.Point(0, 364);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(548, 22);
             this.statusStrip1.TabIndex = 3;
             this.statusStrip1.Text = "statusStrip1";
             // 
-            // toolStripStatusLabel1
+            // localIPLabel
             // 
-            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
-            this.toolStripStatusLabel1.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-            this.toolStripStatusLabel1.Size = new System.Drawing.Size(113, 17);
-            this.toolStripStatusLabel1.Text = "Server IP: 127.0.0.1";
+            this.localIPLabel.Name = "localIPLabel";
+            this.localIPLabel.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
+            this.localIPLabel.Size = new System.Drawing.Size(113, 17);
+            this.localIPLabel.Text = "Server IP: 127.0.0.1";
             // 
             // label1
             // 
@@ -275,7 +275,7 @@ namespace Server
         private System.Windows.Forms.ToolStripMenuItem adminModControlsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem configureServerToolStripMenuItem;
-        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.ToolStripStatusLabel localIPLabel;
     }
 }
 

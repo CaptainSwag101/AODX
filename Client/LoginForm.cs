@@ -9,6 +9,7 @@ namespace Client
     {
         public Socket clientSocket;
         public string strName;
+        public string character;
 
         public LoginForm()
         {
@@ -20,6 +21,7 @@ namespace Client
         {
             try
             {
+                character = charList.SelectedItem.ToString();
                 clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 IPAddress ipAddress = IPAddress.Parse(txtServerIP.Text);

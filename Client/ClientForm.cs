@@ -1,4 +1,5 @@
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
@@ -22,10 +23,12 @@ namespace Client
         public Socket clientSocket; //The main client socket
         public string strName;      //Name by which the user logs into the room
         public string character; //Character that the user is playing as
-        private int selectedAnim = 1;
+        private int selectedAnim = 3;
         private string[] textToDisp = new string[3];
         private int textTicks = 1;
         private bool redraw = false;
+        private Data latestMsg;
+        private System.Media.SoundPlayer blipPlayer = new System.Media.SoundPlayer(Properties.Resources.sfx_blipmale);
 
         private byte[] byteData = new byte[1024];
 
@@ -45,7 +48,6 @@ namespace Client
             chatBGLayerPB.BackColor = Color.Transparent;
             chatBGLayerPB.Controls.Add(objectLayerPB);
             objectLayerPB.BackColor = Color.Transparent;
-
             objectLayerPB.Controls.Add(displayMsg1);
             objectLayerPB.Controls.Add(displayMsg2);
             objectLayerPB.Controls.Add(displayMsg3);
@@ -53,6 +55,8 @@ namespace Client
             displayMsg2.BackColor = Color.Transparent;
             displayMsg3.BackColor = Color.Transparent;
             setDispMsgColor(Color.White);
+
+            blipPlayer.Load();
             //displayMsg.Text = "Sample Text";
             //Refresh();
         }
@@ -134,6 +138,9 @@ namespace Client
                         break;
 
                     case Command.Message:
+                        //blipPlayer.PlayLooping();
+                        latestMsg = msgReceived;
+                        charLayerPB.Load("base/characters/" + msgReceived.charName + "/(b)" + msgReceived.anim + ".gif");
                         prepWriteDispBoxes(msgReceived);
                         //dispTextRedraw.Enabled = true;
                         break;
@@ -141,13 +148,13 @@ namespace Client
                     case Command.List:
                         lstUsers.Items.AddRange(msgReceived.strMessage.Split('*'));
                         lstUsers.Items.RemoveAt(lstUsers.Items.Count - 1);
-                        txtChatBox.Text += "<<<" + strName + " has entered the courtroom>>>\r\n";
+                        appendTxtLogSafe("<<<" + strName + " has entered the courtroom>>>\r\n");
                         break;
                 }
 
                 if (msgReceived.strMessage != null && msgReceived.cmdCommand != Command.List)
                 {
-                    txtChatBox.Text += msgReceived.strMessage + "\r\n";
+                    appendTxtLogSafe(msgReceived.strMessage + "\r\n");
                 }
 
                 byteData = new byte[1024];
@@ -166,6 +173,16 @@ namespace Client
             {
                 MessageBox.Show(ex.Message, "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void appendTxtLogSafe(string txt)
+        {
+            if (txtLog.InvokeRequired)
+            {
+                txtLog.Invoke(new Action(() => txtLog.Text += txt));
+                return;
+            }
+            txtLog.Text += txt;
         }
 
         private void prepWriteDispBoxes(Data msg)
@@ -188,20 +205,40 @@ namespace Client
                     string combined = "";
                     for (int x = 0; x < parts.Length; x++)
                     {
-                        if (i == 2)
+                        /* if (i == 2) // test bit of code to try and help me test these stupid loops
                         {
                             string test = "";
-                        }
+                        } */
+
                         //TO DO: Add a handler in case a single word is too long, and measure it by characters
-                        if (TextRenderer.MeasureText(combined + parts[x] + " ", displayMsg1.Font).Width <= 240)
+                        if (TextRenderer.MeasureText(parts[x], displayMsg1.Font).Width <= 246)
                         {
-                            combined = combined + parts[x] + " "; // TO DO: Don't add a space after the last word
+                            if (TextRenderer.MeasureText(combined + parts[x] + " ", displayMsg1.Font).Width <= 246)
+                            {
+                                combined = combined + parts[x] + " "; // TO DO: Don't add a space after the last word
+                            }
+                            else
+                            {
+                                textToDisp[i] = combined;
+                                msgText = msgText.Substring(combined.Length);
+                                break;
+                            }
                         }
                         else
                         {
-                            textToDisp[i] = combined;
-                            msgText = msgText.Substring(combined.Length);
-                            break;
+                            for (int y = 0; y < parts[x].Length; y++)
+                            {
+                                if (TextRenderer.MeasureText(combined + parts[x].Substring(0, y), displayMsg1.Font).Width <= 246)
+                                {
+                                    combined = combined + parts[x].Substring(0, y); // TO DO: Don't add a space after the last word
+                                }
+                                else
+                                {
+                                    textToDisp[i] = combined;
+                                    msgText = msgText.Substring(combined.Length);
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
@@ -212,6 +249,7 @@ namespace Client
                 }
             }
             //dispTextRedraw.Enabled = true;
+            blipPlayer.PlayLooping();
             redraw = true;
         }
 
@@ -252,11 +290,11 @@ namespace Client
 
         private void AODXClient_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to leave the courtroom?", "AODXClient: " + strName, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.No)
+            /* if (MessageBox.Show("Are you sure you want to leave the courtroom?", "AODXClient: " + strName, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.No)
             {
                 e.Cancel = true;
                 return;
-            }
+            } */
 
             try
             {
@@ -283,7 +321,6 @@ namespace Client
             if (e.KeyCode == Keys.Enter)
             {
                 btnSend_Click(sender, null);
-                //txtMessage.Clear();
             }
         }
 
@@ -291,10 +328,6 @@ namespace Client
         {
             if (redraw == true)
             {
-                System.Media.SoundPlayer player = new System.Media.SoundPlayer(Properties.Resources.sfx_blipmale);
-                if (Math.IEEERemainder(textTicks, 2) != 0)
-                    player.Play();
-
                 for (int x = 0; x < textToDisp.Length; x++)
                 {
                     if (textToDisp[x] == null)
@@ -339,6 +372,8 @@ namespace Client
                 }
                 else
                 {
+                    blipPlayer.Stop();
+                    charLayerPB.Load("base/characters/" + latestMsg.charName + "/(a)" + latestMsg.anim + ".gif");
                     redraw = false;
                 }
             }
@@ -401,7 +436,7 @@ namespace Client
 
             //This checks for a null message field
             if (msgLen > 0)
-                strMessage = Encoding.UTF8.GetString(data, 24 + nameLen, msgLen);
+                strMessage = Encoding.UTF8.GetString(data, 24 + nameLen + charNameLen + preAnimLen + animLen, msgLen);
             else
                 strMessage = null;
         }
@@ -440,6 +475,7 @@ namespace Client
                 result.AddRange(BitConverter.GetBytes(strMessage.Length));
             else
                 result.AddRange(BitConverter.GetBytes(0));
+
 
             //Add the name
             if (strName != null)

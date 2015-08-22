@@ -44,7 +44,21 @@ namespace Server
         }
 
         private void Form1_Load(object sender, EventArgs e)
-        {            
+        {
+            userNumStat.Text = "Users Online: " + clientList.Count;
+
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    localIPLabel.Text = "Server IP Address: " + ip.ToString();
+                    break;
+                }
+                //throw new Exception("Local IP Address Not Found!");
+            }
+            
+
             try
             {
                 //We are using TCP sockets
@@ -103,7 +117,7 @@ namespace Server
                 //We will send this object in response the users request
                 Data msgToSend = new Data();
 
-                byte [] message;
+                byte[] message;
                 
                 //If the message is to login, logout, or simple text message
                 //then when send to others the type of the message remains the same
@@ -123,10 +137,11 @@ namespace Server
                         clientInfo.character = msgReceived.strMessage;
 
                         clientList.Add(clientInfo);
-                        lstUsers.Items.Add(msgReceived.strName + " - " + msgReceived.strMessage);
+                        appendLstUsersSafe(msgReceived.strName + " - " + msgReceived.strMessage);
                         
                         //Set the text of the message that we will broadcast to all users
-                        msgToSend.strMessage = "<<<" + msgReceived.strName + " has entered the courtroom>>>";   
+                        msgToSend.strMessage = "<<<" + msgReceived.strName + " has entered the courtroom>>>";
+                        userNumStat.Text = "Users Online: " + clientList.Count; 
                         break;
 
                     case Command.Logout:                    
@@ -140,7 +155,7 @@ namespace Server
                             if (client.socket == clientSocket)
                             {
                                 clientList.RemoveAt(nIndex);
-                                lstUsers.Items.Remove(client.strName + " - " + client.character);
+                                removeLstUsersSafe(client.strName + " - " + client.character);
                                 break;
                             }
                             ++nIndex;
@@ -149,6 +164,7 @@ namespace Server
                         clientSocket.Close();
 
                         msgToSend.strMessage = "<<<" + msgReceived.strName + " has left the courtroom>>>";
+                        userNumStat.Text = "Users Online: " + clientList.Count;
                         break;
 
                     case Command.Message:
@@ -221,6 +237,26 @@ namespace Server
             txtLog.Text += txt;
         }
 
+        private void appendLstUsersSafe(string txt)
+        {
+            if (lstUsers.InvokeRequired)
+            {
+                lstUsers.Invoke(new Action(() => lstUsers.Items.Add(txt)));
+                return;
+            }
+            lstUsers.Items.Add(txt);
+        }
+
+        private void removeLstUsersSafe(string txt)
+        {
+            if (lstUsers.InvokeRequired)
+            {
+                lstUsers.Invoke(new Action(() => lstUsers.Items.Remove(txt)));
+                return;
+            }
+            lstUsers.Items.Remove(txt);
+        }
+
         public void OnSend(IAsyncResult ar)
         {
             try
@@ -291,7 +327,7 @@ namespace Server
 
             //This checks for a null message field
             if (msgLen > 0)
-                strMessage = Encoding.UTF8.GetString(data, 24 + nameLen, msgLen);
+                strMessage = Encoding.UTF8.GetString(data, 24 + nameLen + charNameLen + preAnimLen + animLen, msgLen);
             else
                 strMessage = null;
         }

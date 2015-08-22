@@ -143,27 +143,9 @@ namespace Client.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream sfx_blipfemale {
-            get {
-                return ResourceManager.GetStream("sfx_blipfemale", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
         internal static System.IO.UnmanagedMemoryStream sfx_blipmale {
             get {
                 return ResourceManager.GetStream("sfx_blipmale", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream sfx_typwriter {
-            get {
-                return ResourceManager.GetStream("sfx_typwriter", resourceCulture);
             }
         }
     }

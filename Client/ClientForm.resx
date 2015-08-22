@@ -130,7 +130,7 @@
     <value>178, 273</value>
   </data>
   <data name="btnSend.Size" type="System.Drawing.Size, System.Drawing">
-    <value>90, 23</value>
+    <value>85, 23</value>
   </data>
   <data name="btnSend.TabIndex" type="System.Int32, mscorlib">
     <value>3</value>
@@ -150,38 +150,47 @@
   <data name="&gt;&gt;btnSend.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="txtChatBox.Location" type="System.Drawing.Point, System.Drawing">
+  <data name="txtLog.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="txtLog.Location" type="System.Drawing.Point, System.Drawing">
     <value>274, 12</value>
   </data>
-  <data name="txtChatBox.Multiline" type="System.Boolean, mscorlib">
+  <data name="txtLog.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>246, 284</value>
+  </data>
+  <data name="txtLog.Multiline" type="System.Boolean, mscorlib">
     <value>True</value>
   </data>
-  <data name="txtChatBox.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+  <data name="txtLog.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
     <value>Vertical</value>
   </data>
-  <data name="txtChatBox.Size" type="System.Drawing.Size, System.Drawing">
-    <value>256, 284</value>
+  <data name="txtLog.Size" type="System.Drawing.Size, System.Drawing">
+    <value>277, 284</value>
   </data>
-  <data name="txtChatBox.TabIndex" type="System.Int32, mscorlib">
+  <data name="txtLog.TabIndex" type="System.Int32, mscorlib">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;txtChatBox.Name" xml:space="preserve">
-    <value>txtChatBox</value>
+  <data name="&gt;&gt;txtLog.Name" xml:space="preserve">
+    <value>txtLog</value>
   </data>
-  <data name="&gt;&gt;txtChatBox.Type" xml:space="preserve">
+  <data name="&gt;&gt;txtLog.Type" xml:space="preserve">
     <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;txtChatBox.Parent" xml:space="preserve">
+  <data name="&gt;&gt;txtLog.Parent" xml:space="preserve">
     <value>$this</value>
   </data>
-  <data name="&gt;&gt;txtChatBox.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;txtLog.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
   <data name="txtMessage.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Ace Attorney, 12pt</value>
+    <value>Ace Attorney 2, 12pt</value>
   </data>
   <data name="txtMessage.Location" type="System.Drawing.Point, System.Drawing">
     <value>17, 210</value>
+  </data>
+  <data name="txtMessage.MaxLength" type="System.Int32, mscorlib">
+    <value>1000</value>
   </data>
   <data name="txtMessage.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>246, 45</value>
@@ -207,11 +216,14 @@
   <data name="&gt;&gt;txtMessage.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="lstUsers.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
   <data name="lstUsers.IntegralHeight" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
   <data name="lstUsers.Location" type="System.Drawing.Point, System.Drawing">
-    <value>536, 12</value>
+    <value>560, 12</value>
   </data>
   <data name="lstUsers.Size" type="System.Drawing.Size, System.Drawing">
     <value>131, 284</value>
@@ -231,8 +243,125 @@
   <data name="&gt;&gt;lstUsers.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="&gt;&gt;displayMsg3.Name" xml:space="preserve">
+    <value>displayMsg3</value>
+  </data>
+  <data name="&gt;&gt;displayMsg3.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;displayMsg3.Parent" xml:space="preserve">
+    <value>GameDisplay</value>
+  </data>
+  <data name="&gt;&gt;displayMsg3.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;displayMsg2.Name" xml:space="preserve">
+    <value>displayMsg2</value>
+  </data>
+  <data name="&gt;&gt;displayMsg2.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;displayMsg2.Parent" xml:space="preserve">
+    <value>GameDisplay</value>
+  </data>
+  <data name="&gt;&gt;displayMsg2.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;displayMsg1.Name" xml:space="preserve">
+    <value>displayMsg1</value>
+  </data>
+  <data name="&gt;&gt;displayMsg1.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;displayMsg1.Parent" xml:space="preserve">
+    <value>GameDisplay</value>
+  </data>
+  <data name="&gt;&gt;displayMsg1.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;objectLayerPB.Name" xml:space="preserve">
+    <value>objectLayerPB</value>
+  </data>
+  <data name="&gt;&gt;objectLayerPB.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;objectLayerPB.Parent" xml:space="preserve">
+    <value>GameDisplay</value>
+  </data>
+  <data name="&gt;&gt;objectLayerPB.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;chatBGLayerPB.Name" xml:space="preserve">
+    <value>chatBGLayerPB</value>
+  </data>
+  <data name="&gt;&gt;chatBGLayerPB.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;chatBGLayerPB.Parent" xml:space="preserve">
+    <value>GameDisplay</value>
+  </data>
+  <data name="&gt;&gt;chatBGLayerPB.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;deskLayerPB.Name" xml:space="preserve">
+    <value>deskLayerPB</value>
+  </data>
+  <data name="&gt;&gt;deskLayerPB.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;deskLayerPB.Parent" xml:space="preserve">
+    <value>GameDisplay</value>
+  </data>
+  <data name="&gt;&gt;deskLayerPB.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;charLayerPB.Name" xml:space="preserve">
+    <value>charLayerPB</value>
+  </data>
+  <data name="&gt;&gt;charLayerPB.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;charLayerPB.Parent" xml:space="preserve">
+    <value>GameDisplay</value>
+  </data>
+  <data name="&gt;&gt;charLayerPB.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;backgroundPB.Name" xml:space="preserve">
+    <value>backgroundPB</value>
+  </data>
+  <data name="&gt;&gt;backgroundPB.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;backgroundPB.Parent" xml:space="preserve">
+    <value>GameDisplay</value>
+  </data>
+  <data name="&gt;&gt;backgroundPB.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="GameDisplay.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="GameDisplay.Size" type="System.Drawing.Size, System.Drawing">
+    <value>256, 192</value>
+  </data>
+  <data name="GameDisplay.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;GameDisplay.Name" xml:space="preserve">
+    <value>GameDisplay</value>
+  </data>
+  <data name="&gt;&gt;GameDisplay.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GameDisplay.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GameDisplay.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="displayMsg3.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Ace Attorney, 12pt</value>
+    <value>Ace Attorney 2, 12pt</value>
   </data>
   <data name="displayMsg3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -268,7 +397,7 @@
     <value>0</value>
   </data>
   <data name="displayMsg2.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Ace Attorney, 12pt</value>
+    <value>Ace Attorney 2, 12pt</value>
   </data>
   <data name="displayMsg2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -304,7 +433,7 @@
     <value>1</value>
   </data>
   <data name="displayMsg1.Font" type="System.Drawing.Font, System.Drawing">
-    <value>Ace Attorney, 12pt</value>
+    <value>Ace Attorney 2, 12pt</value>
   </data>
   <data name="displayMsg1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -459,32 +588,11 @@
   <data name="&gt;&gt;backgroundPB.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
-  <data name="GameDisplay.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="GameDisplay.Size" type="System.Drawing.Size, System.Drawing">
-    <value>256, 192</value>
-  </data>
-  <data name="GameDisplay.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;GameDisplay.Name" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;GameDisplay.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GameDisplay.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;GameDisplay.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="txtColorChanger.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="txtColorChanger.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 273</value>
+    <value>17, 273</value>
   </data>
   <data name="txtColorChanger.Size" type="System.Drawing.Size, System.Drawing">
     <value>160, 23</value>
@@ -517,10 +625,13 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>679, 633</value>
+    <value>703, 633</value>
+  </data>
+  <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>690, 672</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
-    <value>AODXClientTCP</value>
+    <value>Attorney Online Deluxe Client</value>
   </data>
   <data name="&gt;&gt;dispTextRedraw.Name" xml:space="preserve">
     <value>dispTextRedraw</value>

@@ -31,7 +31,7 @@ namespace Client
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ClientForm));
             this.btnSend = new System.Windows.Forms.Button();
-            this.txtChatBox = new System.Windows.Forms.TextBox();
+            this.txtLog = new System.Windows.Forms.TextBox();
             this.txtMessage = new System.Windows.Forms.TextBox();
             this.lstUsers = new System.Windows.Forms.ListBox();
             this.GameDisplay = new System.Windows.Forms.Panel();
@@ -60,13 +60,13 @@ namespace Client
             this.btnSend.UseVisualStyleBackColor = true;
             this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
-            // txtChatBox
+            // txtLog
             // 
-            this.txtChatBox.BackColor = System.Drawing.SystemColors.Window;
-            resources.ApplyResources(this.txtChatBox, "txtChatBox");
-            this.txtChatBox.Name = "txtChatBox";
-            this.txtChatBox.ReadOnly = true;
-            this.txtChatBox.ShortcutsEnabled = false;
+            resources.ApplyResources(this.txtLog, "txtLog");
+            this.txtLog.BackColor = System.Drawing.SystemColors.Window;
+            this.txtLog.Name = "txtLog";
+            this.txtLog.ReadOnly = true;
+            this.txtLog.ShortcutsEnabled = false;
             // 
             // txtMessage
             // 
@@ -77,8 +77,8 @@ namespace Client
             // 
             // lstUsers
             // 
-            this.lstUsers.FormattingEnabled = true;
             resources.ApplyResources(this.lstUsers, "lstUsers");
+            this.lstUsers.FormattingEnabled = true;
             this.lstUsers.Name = "lstUsers";
             this.lstUsers.SelectionMode = System.Windows.Forms.SelectionMode.None;
             // 
@@ -169,13 +169,14 @@ namespace Client
             // 
             // ClientForm
             // 
+            this.AcceptButton = this.btnSend;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.txtColorChanger);
             this.Controls.Add(this.GameDisplay);
             this.Controls.Add(this.lstUsers);
             this.Controls.Add(this.txtMessage);
-            this.Controls.Add(this.txtChatBox);
+            this.Controls.Add(this.txtLog);
             this.Controls.Add(this.btnSend);
             this.MaximizeBox = false;
             this.Name = "ClientForm";
@@ -195,7 +196,7 @@ namespace Client
         #endregion
 
         private System.Windows.Forms.Button btnSend;
-        private System.Windows.Forms.TextBox txtChatBox;
+        private System.Windows.Forms.TextBox txtLog;
         private System.Windows.Forms.TextBox txtMessage;
         private System.Windows.Forms.ListBox lstUsers;
         private System.Windows.Forms.Panel GameDisplay;
