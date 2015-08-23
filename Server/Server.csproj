@@ -63,6 +63,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="iniParser.cs" />
     <Compile Include="ServerForm.cs">
       <SubType>Form</SubType>
     </Compile>

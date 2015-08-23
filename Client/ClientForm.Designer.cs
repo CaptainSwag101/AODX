@@ -35,6 +35,7 @@ namespace Client
             this.txtMessage = new System.Windows.Forms.TextBox();
             this.lstUsers = new System.Windows.Forms.ListBox();
             this.GameDisplay = new System.Windows.Forms.Panel();
+            this.nameLabel = new System.Windows.Forms.Label();
             this.displayMsg3 = new System.Windows.Forms.Label();
             this.displayMsg2 = new System.Windows.Forms.Label();
             this.displayMsg1 = new System.Windows.Forms.Label();
@@ -85,6 +86,7 @@ namespace Client
             // 
             // GameDisplay
             // 
+            this.GameDisplay.Controls.Add(this.nameLabel);
             this.GameDisplay.Controls.Add(this.displayMsg3);
             this.GameDisplay.Controls.Add(this.displayMsg2);
             this.GameDisplay.Controls.Add(this.displayMsg1);
@@ -95,6 +97,13 @@ namespace Client
             this.GameDisplay.Controls.Add(this.backgroundPB);
             resources.ApplyResources(this.GameDisplay, "GameDisplay");
             this.GameDisplay.Name = "GameDisplay";
+            // 
+            // nameLabel
+            // 
+            this.nameLabel.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.nameLabel, "nameLabel");
+            this.nameLabel.ForeColor = System.Drawing.Color.White;
+            this.nameLabel.Name = "nameLabel";
             // 
             // displayMsg3
             // 
@@ -151,7 +160,6 @@ namespace Client
             // backgroundPB
             // 
             this.backgroundPB.BackColor = System.Drawing.Color.Transparent;
-            this.backgroundPB.Image = null;
             resources.ApplyResources(this.backgroundPB, "backgroundPB");
             this.backgroundPB.Name = "backgroundPB";
             this.backgroundPB.TabStop = false;
@@ -212,6 +220,7 @@ namespace Client
         private System.Windows.Forms.Label displayMsg2;
         private System.Windows.Forms.Label displayMsg3;
         private System.Windows.Forms.Timer dispTextRedraw;
+        private System.Windows.Forms.Label nameLabel;
     }
 }
 

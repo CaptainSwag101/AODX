@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using System.Collections;
 using System.Text;
+using System.Linq;
 using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
@@ -16,6 +17,7 @@ namespace Server
         Logout,     //Logout of the server
         Message,    //Send a text message to all the chat clients
         List,       //Get a list of users in the chat room from the server
+        DataInfo,
         Null        //No command
     }
 
@@ -80,7 +82,7 @@ namespace Server
             catch (Exception ex)
             { 
                 MessageBox.Show(ex.Message, "AODXServer",                     
-                    MessageBoxButtons.OK, MessageBoxIcon.Error); 
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
             }            
         }
 
@@ -195,9 +197,52 @@ namespace Server
                         clientSocket.BeginSend(message, 0, message.Length, SocketFlags.None,
                                 new AsyncCallback(OnSend), clientSocket);                        
                         break;
+                    case Command.DataInfo:
+                        msgToSend.cmdCommand = Command.DataInfo;
+                        msgToSend.strName = null;
+                        msgToSend.strMessage = "";
+                        List<string> allChars = iniParser.GetCharList();
+                        List<string> charsInUse = new List<string>();
+                        foreach (string cName in allChars)
+                        {
+                            if (clientList != null && clientList.Count > 0)
+                            {
+                                foreach (ClientInfo client in clientList)
+                                {
+                                    if (client.character == cName)
+                                    {
+                                        charsInUse.Add(cName);
+                                    }
+                                }
+                            }
+                        }
+                        foreach (string cName in charsInUse)
+                        {
+                            allChars.Remove(cName);
+                        }
+
+                        msgToSend.strMessage += allChars.Count + ",";
+                        foreach (string cName in allChars)
+                        {
+                            msgToSend.strMessage += cName + ",";
+                        }
+                        
+                        List<string> songs = iniParser.GetMusicList();
+                        msgToSend.strMessage += songs.Count + ",";
+                        foreach (string song in songs)
+                        {
+                            msgToSend.strMessage += song + ",";
+                        }
+                        
+                        message = msgToSend.ToByte(true);
+                        message.Concat(iniParser.GetEvidenceList().ToArray());
+
+                        clientSocket.BeginSend(message, 0, message.Length, SocketFlags.None,
+                                new AsyncCallback(OnSend), clientSocket);
+                        break;
                 }
 
-                if (msgToSend.cmdCommand != Command.List)   //List messages are not broadcasted
+                if (msgToSend.cmdCommand != Command.List & msgToSend.cmdCommand != Command.DataInfo)   //List messages are not broadcasted
                 {
                     message = msgToSend.ToByte();
 
@@ -342,7 +387,7 @@ namespace Server
         }
 
         //Converts the Data structure into an array of bytes
-        public byte[] ToByte()
+        public byte[] ToByte(bool appendExtra = false)
         {
             List<byte> result = new List<byte>();
 
@@ -399,6 +444,11 @@ namespace Server
             //And, lastly we add the message text to our array of bytes
             if (strMessage != null)
                 result.AddRange(Encoding.UTF8.GetBytes(strMessage));
+
+            if (appendExtra == true)
+                result.Add(1);
+            else
+                result.Add(0);
 
             return result.ToArray();
         }

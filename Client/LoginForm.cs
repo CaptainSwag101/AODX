@@ -37,6 +37,30 @@ namespace Client
              } 
         }
 
+        private void OnConnect(IAsyncResult ar)
+        {
+            try
+            {
+                clientSocket.EndConnect(ar);
+
+                //We are connected so we login into the server
+                Data msgToSend = new Data ();
+                //msgToSend.cmdCommand = Command.Login;
+                //msgToSend.strName = txtName.Text;
+                //msgToSend.strMessage = charList.SelectedItem.ToString();
+                msgToSend.cmdCommand = Command.DataInfo;
+
+                byte[] b = msgToSend.ToByte ();
+
+                //Send the message to the server
+                clientSocket.BeginSend(b, 0, b.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+            }
+            catch (Exception ex)
+            { 
+                MessageBox.Show(ex.Message, "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error); 
+            }
+        }
+
         private void OnSend(IAsyncResult ar)
         {
             try
@@ -49,29 +73,6 @@ namespace Client
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void OnConnect(IAsyncResult ar)
-        {
-            try
-            {
-                clientSocket.EndConnect(ar);
-
-                //We are connected so we login into the server
-                Data msgToSend = new Data ();
-                msgToSend.cmdCommand = Command.Login;
-                msgToSend.strName = txtName.Text;
-                msgToSend.strMessage = charList.SelectedItem.ToString();
-
-                byte[] b = msgToSend.ToByte ();
-
-                //Send the message to the server
-                clientSocket.BeginSend(b, 0, b.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
-            }
-            catch (Exception ex)
-            { 
-                MessageBox.Show(ex.Message, "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error); 
             }
         }
 

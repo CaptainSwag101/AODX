@@ -190,7 +190,7 @@
     <value>17, 210</value>
   </data>
   <data name="txtMessage.MaxLength" type="System.Int32, mscorlib">
-    <value>1000</value>
+    <value>250</value>
   </data>
   <data name="txtMessage.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>246, 45</value>
@@ -243,122 +243,35 @@
   <data name="&gt;&gt;lstUsers.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
-  <data name="&gt;&gt;displayMsg3.Name" xml:space="preserve">
-    <value>displayMsg3</value>
+  <data name="nameLabel.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Calibri, 8.25pt</value>
   </data>
-  <data name="&gt;&gt;displayMsg3.Type" xml:space="preserve">
+  <data name="nameLabel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>-1, 117</value>
+  </data>
+  <data name="nameLabel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>61, 17</value>
+  </data>
+  <data name="nameLabel.TabIndex" type="System.Int32, mscorlib">
+    <value>9</value>
+  </data>
+  <data name="nameLabel.Text" xml:space="preserve">
+    <value>Phoenix</value>
+  </data>
+  <data name="nameLabel.TextAlign" type="System.Drawing.ContentAlignment, System.Drawing">
+    <value>TopCenter</value>
+  </data>
+  <data name="&gt;&gt;nameLabel.Name" xml:space="preserve">
+    <value>nameLabel</value>
+  </data>
+  <data name="&gt;&gt;nameLabel.Type" xml:space="preserve">
     <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
-  <data name="&gt;&gt;displayMsg3.Parent" xml:space="preserve">
+  <data name="&gt;&gt;nameLabel.Parent" xml:space="preserve">
     <value>GameDisplay</value>
   </data>
-  <data name="&gt;&gt;displayMsg3.ZOrder" xml:space="preserve">
+  <data name="&gt;&gt;nameLabel.ZOrder" xml:space="preserve">
     <value>0</value>
-  </data>
-  <data name="&gt;&gt;displayMsg2.Name" xml:space="preserve">
-    <value>displayMsg2</value>
-  </data>
-  <data name="&gt;&gt;displayMsg2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;displayMsg2.Parent" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;displayMsg2.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;displayMsg1.Name" xml:space="preserve">
-    <value>displayMsg1</value>
-  </data>
-  <data name="&gt;&gt;displayMsg1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;displayMsg1.Parent" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;displayMsg1.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;objectLayerPB.Name" xml:space="preserve">
-    <value>objectLayerPB</value>
-  </data>
-  <data name="&gt;&gt;objectLayerPB.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;objectLayerPB.Parent" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;objectLayerPB.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;chatBGLayerPB.Name" xml:space="preserve">
-    <value>chatBGLayerPB</value>
-  </data>
-  <data name="&gt;&gt;chatBGLayerPB.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chatBGLayerPB.Parent" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;chatBGLayerPB.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;deskLayerPB.Name" xml:space="preserve">
-    <value>deskLayerPB</value>
-  </data>
-  <data name="&gt;&gt;deskLayerPB.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;deskLayerPB.Parent" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;deskLayerPB.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;charLayerPB.Name" xml:space="preserve">
-    <value>charLayerPB</value>
-  </data>
-  <data name="&gt;&gt;charLayerPB.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;charLayerPB.Parent" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;charLayerPB.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;backgroundPB.Name" xml:space="preserve">
-    <value>backgroundPB</value>
-  </data>
-  <data name="&gt;&gt;backgroundPB.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;backgroundPB.Parent" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;backgroundPB.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="GameDisplay.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="GameDisplay.Size" type="System.Drawing.Size, System.Drawing">
-    <value>256, 192</value>
-  </data>
-  <data name="GameDisplay.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;GameDisplay.Name" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;GameDisplay.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GameDisplay.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;GameDisplay.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="displayMsg3.Font" type="System.Drawing.Font, System.Drawing">
     <value>Ace Attorney 2, 12pt</value>
@@ -394,7 +307,7 @@
     <value>GameDisplay</value>
   </data>
   <data name="&gt;&gt;displayMsg3.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="displayMsg2.Font" type="System.Drawing.Font, System.Drawing">
     <value>Ace Attorney 2, 12pt</value>
@@ -430,7 +343,7 @@
     <value>GameDisplay</value>
   </data>
   <data name="&gt;&gt;displayMsg2.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="displayMsg1.Font" type="System.Drawing.Font, System.Drawing">
     <value>Ace Attorney 2, 12pt</value>
@@ -466,7 +379,7 @@
     <value>GameDisplay</value>
   </data>
   <data name="&gt;&gt;displayMsg1.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="objectLayerPB.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -490,7 +403,7 @@
     <value>GameDisplay</value>
   </data>
   <data name="&gt;&gt;objectLayerPB.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="chatBGLayerPB.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -514,7 +427,7 @@
     <value>GameDisplay</value>
   </data>
   <data name="&gt;&gt;chatBGLayerPB.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="deskLayerPB.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -538,7 +451,7 @@
     <value>GameDisplay</value>
   </data>
   <data name="&gt;&gt;deskLayerPB.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="charLayerPB.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -562,7 +475,7 @@
     <value>GameDisplay</value>
   </data>
   <data name="&gt;&gt;charLayerPB.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="backgroundPB.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -586,7 +499,28 @@
     <value>GameDisplay</value>
   </data>
   <data name="&gt;&gt;backgroundPB.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
+  </data>
+  <data name="GameDisplay.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="GameDisplay.Size" type="System.Drawing.Size, System.Drawing">
+    <value>256, 192</value>
+  </data>
+  <data name="GameDisplay.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;GameDisplay.Name" xml:space="preserve">
+    <value>GameDisplay</value>
+  </data>
+  <data name="&gt;&gt;GameDisplay.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GameDisplay.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GameDisplay.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="txtColorChanger.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>

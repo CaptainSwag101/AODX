@@ -15,6 +15,7 @@ namespace Client
         Logout,     //Logout of the server
         Message,    //Send a text message to all the chat clients
         List,       //Get a list of users in the chat room from the server
+        DataInfo,
         Null        //No command
     }
 
@@ -53,9 +54,11 @@ namespace Client
             objectLayerPB.Controls.Add(displayMsg1);
             objectLayerPB.Controls.Add(displayMsg2);
             objectLayerPB.Controls.Add(displayMsg3);
+            objectLayerPB.Controls.Add(nameLabel);
             displayMsg1.BackColor = Color.Transparent;
             displayMsg2.BackColor = Color.Transparent;
             displayMsg3.BackColor = Color.Transparent;
+            clearDispMsg();
             setDispMsgColor(Color.White);
 
             blipPlayer.Load();
@@ -153,6 +156,9 @@ namespace Client
                         lstUsers.Items.RemoveAt(lstUsers.Items.Count - 1);
                         appendTxtLogSafe("<<<" + strName + " has entered the courtroom>>>\r\n");
                         break;
+                    case Command.DataInfo:
+
+                        break;
                 }
 
                 if (msgReceived.strMessage != null && msgReceived.cmdCommand != Command.List)
@@ -195,9 +201,7 @@ namespace Client
             textToDisp[0] = "";
             textToDisp[1] = "";
             textToDisp[2] = "";
-            displayMsg1.Text = "";
-            displayMsg2.Text = "";
-            displayMsg3.Text = "";
+            clearDispMsg();
             if (newColor.ToKnownColor() != KnownColor.PeachPuff)
                 setDispMsgColor(newColor);
 
@@ -274,6 +278,7 @@ namespace Client
                     break;
             }
             //dispTextRedraw.Enabled = true;
+            nameLabel.Text = latestMsg.charName;
             blipPlayer.PlayLooping();
             redraw = true;
         }
