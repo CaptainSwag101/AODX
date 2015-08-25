@@ -33,7 +33,6 @@ namespace Client
             this.btnSend = new System.Windows.Forms.Button();
             this.txtLog = new System.Windows.Forms.TextBox();
             this.txtMessage = new System.Windows.Forms.TextBox();
-            this.lstUsers = new System.Windows.Forms.ListBox();
             this.GameDisplay = new System.Windows.Forms.Panel();
             this.nameLabel = new System.Windows.Forms.Label();
             this.displayMsg3 = new System.Windows.Forms.Label();
@@ -46,6 +45,8 @@ namespace Client
             this.backgroundPB = new System.Windows.Forms.PictureBox();
             this.txtColorChanger = new System.Windows.Forms.Button();
             this.dispTextRedraw = new System.Windows.Forms.Timer(this.components);
+            this.OOCChat = new System.Windows.Forms.TextBox();
+            this.OOCInput = new System.Windows.Forms.TextBox();
             this.GameDisplay.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectLayerPB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chatBGLayerPB)).BeginInit();
@@ -63,8 +64,8 @@ namespace Client
             // 
             // txtLog
             // 
-            resources.ApplyResources(this.txtLog, "txtLog");
             this.txtLog.BackColor = System.Drawing.SystemColors.Window;
+            resources.ApplyResources(this.txtLog, "txtLog");
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
             this.txtLog.ShortcutsEnabled = false;
@@ -76,13 +77,6 @@ namespace Client
             this.txtMessage.Name = "txtMessage";
             this.txtMessage.TextChanged += new System.EventHandler(this.txtMessage_TextChanged);
             this.txtMessage.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtMessage_KeyDown);
-            // 
-            // lstUsers
-            // 
-            resources.ApplyResources(this.lstUsers, "lstUsers");
-            this.lstUsers.FormattingEnabled = true;
-            this.lstUsers.Name = "lstUsers";
-            this.lstUsers.SelectionMode = System.Windows.Forms.SelectionMode.None;
             // 
             // GameDisplay
             // 
@@ -177,14 +171,28 @@ namespace Client
             this.dispTextRedraw.Interval = 60;
             this.dispTextRedraw.Tick += new System.EventHandler(this.dispTextRedraw_Tick);
             // 
+            // OOCChat
+            // 
+            resources.ApplyResources(this.OOCChat, "OOCChat");
+            this.OOCChat.BackColor = System.Drawing.SystemColors.Window;
+            this.OOCChat.Name = "OOCChat";
+            this.OOCChat.ReadOnly = true;
+            this.OOCChat.ShortcutsEnabled = false;
+            // 
+            // OOCInput
+            // 
+            resources.ApplyResources(this.OOCInput, "OOCInput");
+            this.OOCInput.Name = "OOCInput";
+            // 
             // ClientForm
             // 
             this.AcceptButton = this.btnSend;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.OOCInput);
+            this.Controls.Add(this.OOCChat);
             this.Controls.Add(this.txtColorChanger);
             this.Controls.Add(this.GameDisplay);
-            this.Controls.Add(this.lstUsers);
             this.Controls.Add(this.txtMessage);
             this.Controls.Add(this.txtLog);
             this.Controls.Add(this.btnSend);
@@ -208,7 +216,6 @@ namespace Client
         private System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.TextBox txtLog;
         private System.Windows.Forms.TextBox txtMessage;
-        private System.Windows.Forms.ListBox lstUsers;
         private System.Windows.Forms.Panel GameDisplay;
         private System.Windows.Forms.Button txtColorChanger;
         private System.Windows.Forms.PictureBox backgroundPB;
@@ -221,6 +228,8 @@ namespace Client
         private System.Windows.Forms.Label displayMsg3;
         private System.Windows.Forms.Timer dispTextRedraw;
         private System.Windows.Forms.Label nameLabel;
+        private System.Windows.Forms.TextBox OOCChat;
+        private System.Windows.Forms.TextBox OOCInput;
     }
 }
 

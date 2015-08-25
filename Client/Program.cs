@@ -23,6 +23,7 @@ namespace Client
                 AODXClientForm.clientSocket = loginForm.clientSocket;
                 AODXClientForm.strName = loginForm.strName;
                 AODXClientForm.character = loginForm.character;
+                AODXClientForm.incomingSize = loginForm.incomingSize;
                 AODXClientForm.ShowDialog();
             }
 

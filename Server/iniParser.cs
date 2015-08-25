@@ -9,6 +9,33 @@ namespace Server
 {
     public static class iniParser
     {
+        public static string GetServerInfo()
+        {
+            string result = "A New Server|Server Description|";
+            if (File.Exists("base/settings.ini"))
+            {
+                using (var r = new StreamReader("base/settings.ini"))
+                {
+                    while (!r.EndOfStream)
+                    {
+                        string line = r.ReadLine();
+                        if (line.StartsWith("name", StringComparison.OrdinalIgnoreCase))
+                        {
+                            result = "";
+                            result += (line.Split(new string[] { " = " }, StringSplitOptions.None)[1]);
+                            result += "|";
+                        }
+
+                        if (line.StartsWith("desc", StringComparison.OrdinalIgnoreCase))
+                        {
+                            result += (line.Split(new string[] { " = " }, StringSplitOptions.None)[1]);
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
         public static List<string> GetCharList()
         {
             List<string> chars = new List<string>();
@@ -53,30 +80,30 @@ namespace Server
         }
 
         //Currently not called because it would be time-consuming and use lots of data and I haven't implemented evidence yet, so it's pointless
-        public static List<byte> GetEvidenceList()
+        public static List<byte> GetEvidenceData()
         {
             List<byte> evidence = new List<byte>();
             string dirName = "base/evidence/";
             if (Directory.Exists(dirName))
             {
-                foreach (string dir in Directory.EnumerateDirectories(dirName))
+                //foreach (string dir in Directory.EnumerateDirectories(dirName))
+                //{
+                foreach (string file in Directory.EnumerateFiles(dirName))
                 {
-                    foreach (string file in Directory.EnumerateFiles(dir))
+                    //TO DO (IMPORTANT!!!): ONLY SEND TEXT FILES AND IMAGES TO PREVENT THE TRANSFER OF MALICIOUS DATA!!!
+                    using (var fs = new FileStream(file, FileMode.Open))
                     {
-                        //TO DO (IMPORTANT!!!): ONLY SEND TEXT FILES AND IMAGES TO PREVENT THE TRANSFER OF MALICIOUS DATA!!!
-                        using (var fs = new FileStream(file, FileMode.Open))
+                        using (var b = new BinaryReader(fs))
                         {
-                            using (var b = new BinaryReader(fs))
-                            {
-                                evidence.AddRange(BitConverter.GetBytes((int)fs.Length));
-                                evidence.AddRange(b.ReadBytes((int)fs.Length));
-                            }
+                            evidence.AddRange(BitConverter.GetBytes((int)fs.Length));
+                            evidence.AddRange(b.ReadBytes((int)fs.Length));
                         }
                     }
                 }
-                return evidence;
+                //}
             }
-            return null;
+            evidence.Add(255);
+            return evidence;
         }
     }
 }

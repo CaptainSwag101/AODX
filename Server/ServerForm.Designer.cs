@@ -243,6 +243,7 @@ namespace Server
             this.MinimumSize = new System.Drawing.Size(430, 200);
             this.Name = "ServerForm";
             this.Text = "AO Deluxe Server";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ServerForm_FormClosing);
             this.Load += new System.EventHandler(this.Form1_Load);
             this.userListRCMenu.ResumeLayout(false);
             this.statusStrip1.ResumeLayout(false);

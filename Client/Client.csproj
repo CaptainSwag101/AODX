@@ -156,6 +156,213 @@
   <ItemGroup>
     <None Include="Resources\PW Witness Stand Overlay.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\addfav button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\advocat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\b1_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\b1_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\b2_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\b2_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\b3_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\b3_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\b4_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\b4_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\b5_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\b5_on.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_centr_show.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\btn_centr_show_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\button_holdit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\button_holdit_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\button_takethat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\button_takethat_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chat2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chatbig.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\chatmed.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\connect button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\connectionmenu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\crossex.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\crossexamination.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\defminus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\defplus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\derp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\favorites.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\favorites_chosen.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fond_defilant_accusation.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\fond_defilant_defense.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\frame.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\helperstand.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\holdit.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\interface122.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invent2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\invent3.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\inventory.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\inventory_dis.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\Leet.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\leet2.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lobby.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lobby2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OBJ!.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\OBJ!off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\objection.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\page1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\page2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\panel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\placeholder.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\placeholder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\procuror.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\prominus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\ProPlus.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\public.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\public_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\refresh button.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\svidetel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\takethat.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\testimony.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\testimony.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\toogle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\whitish.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\witnessTestimony.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\witnessTestimony2.gif" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zdoh.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\zettaslow.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

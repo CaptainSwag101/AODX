@@ -15,7 +15,8 @@ namespace Client
         Logout,     //Logout of the server
         Message,    //Send a text message to all the chat clients
         List,       //Get a list of users in the chat room from the server
-        DataInfo,
+        DataInfo,   //Get a list of music filenames, evidence, and currently unused characters that the server has loaded
+        PacketSize, //Get the size in bytes of the next incoming packet so we can size our receiving packet accordingly. Used for receiving the DataInfo packets.
         Null        //No command
     }
 
@@ -24,6 +25,7 @@ namespace Client
         public Socket clientSocket; //The main client socket
         public string strName;      //Name by which the user logs into the room
         public string character; //Character that the user is playing as
+        public int incomingSize;
         private int selectedAnim = 3;
         private int colorIndex = 0;
         private Color selectedColor = Color.White;
@@ -32,8 +34,7 @@ namespace Client
         private bool redraw = false;
         private Data latestMsg;
         private System.Media.SoundPlayer blipPlayer = new System.Media.SoundPlayer(Properties.Resources.sfx_blipmale);
-
-        private byte[] byteData = new byte[1024];
+        private byte[] byteData;
 
         public ClientForm()
         {
@@ -129,18 +130,30 @@ namespace Client
         {
             try
             {
+                if (byteData[0] == 4)
+                {
+                    while (byteData.Length != incomingSize)
+                    {
+
+                    }
+                }
                 clientSocket.EndReceive(ar);
+                if (byteData.Length > 1024)
+                {
+                    if (byteData[0] == 4)
+                    {
+
+                    }
+                }
 
                 Data msgReceived = new Data(byteData);
                 //Accordingly process the message received
                 switch (msgReceived.cmdCommand)
                 {
                     case Command.Login:
-                        lstUsers.Items.Add(msgReceived.strName); // + " - " + msgReceived.strMessage);
                         break;
 
                     case Command.Logout:
-                        lstUsers.Items.Remove(msgReceived.strName); // + " - " + msgReceived.strMessage);
                         break;
 
                     case Command.Message:
@@ -152,28 +165,45 @@ namespace Client
                         break;
 
                     case Command.List:
-                        lstUsers.Items.AddRange(msgReceived.strMessage.Split('*'));
-                        lstUsers.Items.RemoveAt(lstUsers.Items.Count - 1);
                         appendTxtLogSafe("<<<" + strName + " has entered the courtroom>>>\r\n");
                         break;
                     case Command.DataInfo:
+                        //Do the stuff with the incoming server data here
 
+                        //The user has logged into the system so we now request the server to send
+                        //the names of all users who are in the chat room
+                        Data msgToSend = new Data();
+                        msgToSend.cmdCommand = Command.Login;
+                        msgToSend.strName = strName;
+                        msgToSend.strMessage = character;
+
+                        byteData = new byte[1024];
+                        byteData = msgToSend.ToByte();
+
+                        clientSocket.BeginSend(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+
+                        byteData = new byte[1024];
+                        break;
+                    case Command.PacketSize:
                         break;
                 }
 
-                if (msgReceived.strMessage != null && msgReceived.cmdCommand != Command.List)
+                if (msgReceived.strMessage != null && msgReceived.cmdCommand != Command.List && msgReceived.cmdCommand != Command.DataInfo && msgReceived.cmdCommand != Command.PacketSize)
                 {
                     appendTxtLogSafe(msgReceived.strMessage + "\r\n");
                 }
 
-                byteData = new byte[1024];
+                if (msgReceived.cmdCommand != Command.PacketSize)
+                    byteData = new byte[1024];
+                else
+                    byteData = new byte[Convert.ToInt32(msgReceived.strMessage)];
 
                 clientSocket.BeginReceive(byteData,
-                                          0,
-                                          byteData.Length,
-                                          SocketFlags.None,
-                                          new AsyncCallback(OnReceive),
-                                          null);
+                                            0,
+                                            byteData.Length,
+                                            SocketFlags.None,
+                                            new AsyncCallback(OnReceive),
+                                            null);
 
             }
             catch (ObjectDisposedException)
@@ -285,12 +315,13 @@ namespace Client
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
             Text = "AODXClient: " + strName;
+
+            byteData = new byte[incomingSize];
 
             //The user has logged into the system so we now request the server to send
             //the names of all users who are in the chat room
-            Data msgToSend = new Data();
+            /* Data msgToSend = new Data();
             msgToSend.cmdCommand = Command.List;
             msgToSend.strName = strName;
             msgToSend.strMessage = null;
@@ -299,7 +330,8 @@ namespace Client
 
             clientSocket.BeginSend(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
 
-            byteData = new byte[1024];
+            byteData = new byte[1024]; */
+
             //Start listening to the data asynchronously
             clientSocket.BeginReceive(byteData,
                                        0,
@@ -465,6 +497,9 @@ namespace Client
         //Converts the bytes into an object of type Data
         public Data(byte[] data)
         {
+            if (data[0] == 4)
+                cmdCommand = Command.DataInfo;
+
             //The first four bytes are for the Command
             cmdCommand = (Command)BitConverter.ToInt32(data, 0);
 
@@ -510,7 +545,13 @@ namespace Client
 
             //This checks for a null message field
             if (msgLen > 0)
+            {
+                string test;
+                if (cmdCommand == Command.DataInfo)
+                    test = "";
+
                 strMessage = Encoding.UTF8.GetString(data, 28 + nameLen + charNameLen + preAnimLen + animLen + textColorLen, msgLen);
+            }
             else
                 strMessage = null;
         }

@@ -28,130 +28,196 @@ namespace Client
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnCancel = new System.Windows.Forms.Button();
-            this.btnOK = new System.Windows.Forms.Button();
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.txtServerIP = new System.Windows.Forms.TextBox();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.charList = new System.Windows.Forms.ComboBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.btn_PublicServers = new System.Windows.Forms.PictureBox();
+            this.background = new System.Windows.Forms.PictureBox();
+            this.btn_FavoriteServers = new System.Windows.Forms.PictureBox();
+            this.serverList = new System.Windows.Forms.ListBox();
+            this.btn_Refresh = new System.Windows.Forms.PictureBox();
+            this.btn_AddFav = new System.Windows.Forms.PictureBox();
+            this.btn_Connect = new System.Windows.Forms.PictureBox();
+            this.serverDescTextBox = new System.Windows.Forms.TextBox();
+            this.lobbyChat = new System.Windows.Forms.TextBox();
+            this.lobbyName = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.versionLabel = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_PublicServers)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.background)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_FavoriteServers)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_Refresh)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_AddFav)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_Connect)).BeginInit();
             this.SuspendLayout();
             // 
-            // btnCancel
+            // statusStrip1
             // 
-            this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(165, 95);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 5;
-            this.btnCancel.Text = "&Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 696);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(520, 22);
+            this.statusStrip1.SizingGrip = false;
+            this.statusStrip1.TabIndex = 1;
+            this.statusStrip1.Text = "statusStrip1";
             // 
-            // btnOK
+            // btn_PublicServers
             // 
-            this.btnOK.Enabled = false;
-            this.btnOK.Location = new System.Drawing.Point(84, 95);
-            this.btnOK.Name = "btnOK";
-            this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 4;
-            this.btnOK.Text = "&OK";
-            this.btnOK.UseVisualStyleBackColor = true;
-            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            this.btn_PublicServers.BackColor = System.Drawing.Color.Transparent;
+            this.btn_PublicServers.Image = ((System.Drawing.Image)(resources.GetObject("btn_PublicServers.Image")));
+            this.btn_PublicServers.Location = new System.Drawing.Point(45, 111);
+            this.btn_PublicServers.Name = "btn_PublicServers";
+            this.btn_PublicServers.Size = new System.Drawing.Size(116, 32);
+            this.btn_PublicServers.TabIndex = 2;
+            this.btn_PublicServers.TabStop = false;
+            this.btn_PublicServers.Click += new System.EventHandler(this.btn_PublicServers_Click);
             // 
-            // txtName
+            // background
             // 
-            this.txtName.Location = new System.Drawing.Point(69, 14);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(171, 20);
-            this.txtName.TabIndex = 2;
-            this.txtName.TextChanged += new System.EventHandler(this.txtName_TextChanged);
+            this.background.Image = ((System.Drawing.Image)(resources.GetObject("background.Image")));
+            this.background.Location = new System.Drawing.Point(0, 0);
+            this.background.Name = "background";
+            this.background.Size = new System.Drawing.Size(520, 720);
+            this.background.TabIndex = 0;
+            this.background.TabStop = false;
             // 
-            // txtServerIP
+            // btn_FavoriteServers
             // 
-            this.txtServerIP.Location = new System.Drawing.Point(69, 40);
-            this.txtServerIP.Name = "txtServerIP";
-            this.txtServerIP.Size = new System.Drawing.Size(171, 20);
-            this.txtServerIP.TabIndex = 3;
-            this.txtServerIP.Text = "127.0.0.1";
-            this.txtServerIP.TextChanged += new System.EventHandler(this.txtServerIP_TextChanged);
+            this.btn_FavoriteServers.BackColor = System.Drawing.Color.Transparent;
+            this.btn_FavoriteServers.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btn_FavoriteServers.Image = ((System.Drawing.Image)(resources.GetObject("btn_FavoriteServers.Image")));
+            this.btn_FavoriteServers.Location = new System.Drawing.Point(164, 111);
+            this.btn_FavoriteServers.Name = "btn_FavoriteServers";
+            this.btn_FavoriteServers.Size = new System.Drawing.Size(116, 32);
+            this.btn_FavoriteServers.TabIndex = 3;
+            this.btn_FavoriteServers.TabStop = false;
+            this.btn_FavoriteServers.Click += new System.EventHandler(this.btn_FavoriteServers_Click);
             // 
-            // label1
+            // serverList
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 17);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "&Name:";
+            this.serverList.BackColor = System.Drawing.Color.Gray;
+            this.serverList.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.serverList.FormattingEnabled = true;
+            this.serverList.IntegralHeight = false;
+            this.serverList.ItemHeight = 16;
+            this.serverList.Location = new System.Drawing.Point(16, 149);
+            this.serverList.Name = "serverList";
+            this.serverList.Size = new System.Drawing.Size(295, 236);
+            this.serverList.TabIndex = 4;
             // 
-            // label2
+            // btn_Refresh
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 43);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(54, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "&Server IP:";
+            this.btn_Refresh.BackColor = System.Drawing.Color.Transparent;
+            this.btn_Refresh.Image = ((System.Drawing.Image)(resources.GetObject("btn_Refresh.Image")));
+            this.btn_Refresh.Location = new System.Drawing.Point(56, 405);
+            this.btn_Refresh.Name = "btn_Refresh";
+            this.btn_Refresh.Size = new System.Drawing.Size(132, 28);
+            this.btn_Refresh.TabIndex = 5;
+            this.btn_Refresh.TabStop = false;
+            this.btn_Refresh.Click += new System.EventHandler(this.btn_Refresh_Click);
             // 
-            // label3
+            // btn_AddFav
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 70);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(56, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "&Character:";
+            this.btn_AddFav.BackColor = System.Drawing.Color.Transparent;
+            this.btn_AddFav.Image = ((System.Drawing.Image)(resources.GetObject("btn_AddFav.Image")));
+            this.btn_AddFav.Location = new System.Drawing.Point(194, 405);
+            this.btn_AddFav.Name = "btn_AddFav";
+            this.btn_AddFav.Size = new System.Drawing.Size(132, 28);
+            this.btn_AddFav.TabIndex = 6;
+            this.btn_AddFav.TabStop = false;
+            this.btn_AddFav.Click += new System.EventHandler(this.btn_AddFav_Click);
             // 
-            // charList
+            // btn_Connect
             // 
-            this.charList.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.charList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.charList.FormattingEnabled = true;
-            this.charList.Items.AddRange(new object[] {
-            "Phoenix",
-            "Edgeworth",
-            "Edgeworthw",
-            "Mia (Def)",
-            "Mia (Wit)",
-            "Maya (CoDef)",
-            "Maya (Wit)",
-            "Pearl",
-            "Godot (Pro)",
-            "Godot (Wit)",
-            "Judge",
-            "Payne",
-            "Franziska",
-            "Manfred",
-            "Larry"});
-            this.charList.Location = new System.Drawing.Point(69, 67);
-            this.charList.Name = "charList";
-            this.charList.Size = new System.Drawing.Size(171, 21);
-            this.charList.TabIndex = 7;
+            this.btn_Connect.BackColor = System.Drawing.Color.Transparent;
+            this.btn_Connect.Image = ((System.Drawing.Image)(resources.GetObject("btn_Connect.Image")));
+            this.btn_Connect.Location = new System.Drawing.Point(332, 405);
+            this.btn_Connect.Name = "btn_Connect";
+            this.btn_Connect.Size = new System.Drawing.Size(132, 28);
+            this.btn_Connect.TabIndex = 7;
+            this.btn_Connect.TabStop = false;
+            this.btn_Connect.Click += new System.EventHandler(this.btn_Connect_Click);
+            // 
+            // serverDescTextBox
+            // 
+            this.serverDescTextBox.BackColor = System.Drawing.Color.Black;
+            this.serverDescTextBox.Cursor = System.Windows.Forms.Cursors.Default;
+            this.serverDescTextBox.ForeColor = System.Drawing.Color.White;
+            this.serverDescTextBox.Location = new System.Drawing.Point(336, 129);
+            this.serverDescTextBox.Multiline = true;
+            this.serverDescTextBox.Name = "serverDescTextBox";
+            this.serverDescTextBox.ReadOnly = true;
+            this.serverDescTextBox.Size = new System.Drawing.Size(172, 248);
+            this.serverDescTextBox.TabIndex = 8;
+            // 
+            // lobbyChat
+            // 
+            this.lobbyChat.BackColor = System.Drawing.Color.Gray;
+            this.lobbyChat.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lobbyChat.Location = new System.Drawing.Point(0, 467);
+            this.lobbyChat.Multiline = true;
+            this.lobbyChat.Name = "lobbyChat";
+            this.lobbyChat.ReadOnly = true;
+            this.lobbyChat.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.lobbyChat.Size = new System.Drawing.Size(520, 204);
+            this.lobbyChat.TabIndex = 9;
+            // 
+            // lobbyName
+            // 
+            this.lobbyName.BackColor = System.Drawing.Color.DimGray;
+            this.lobbyName.Location = new System.Drawing.Point(0, 671);
+            this.lobbyName.Name = "lobbyName";
+            this.lobbyName.Size = new System.Drawing.Size(100, 20);
+            this.lobbyName.TabIndex = 10;
+            this.lobbyName.Text = "Name";
+            // 
+            // textBox2
+            // 
+            this.textBox2.BackColor = System.Drawing.Color.DimGray;
+            this.textBox2.Location = new System.Drawing.Point(100, 671);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(420, 20);
+            this.textBox2.TabIndex = 11;
+            // 
+            // versionLabel
+            // 
+            this.versionLabel.AutoSize = true;
+            this.versionLabel.BackColor = System.Drawing.Color.Transparent;
+            this.versionLabel.Location = new System.Drawing.Point(6, 6);
+            this.versionLabel.Name = "versionLabel";
+            this.versionLabel.Size = new System.Drawing.Size(60, 13);
+            this.versionLabel.TabIndex = 12;
+            this.versionLabel.Text = "Version 1.0";
             // 
             // LoginForm
             // 
-            this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(254, 127);
-            this.Controls.Add(this.charList);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
-            this.Controls.Add(this.txtServerIP);
-            this.Controls.Add(this.txtName);
-            this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.btnCancel);
+            this.ClientSize = new System.Drawing.Size(520, 718);
+            this.Controls.Add(this.versionLabel);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.lobbyName);
+            this.Controls.Add(this.lobbyChat);
+            this.Controls.Add(this.serverDescTextBox);
+            this.Controls.Add(this.btn_Connect);
+            this.Controls.Add(this.btn_AddFav);
+            this.Controls.Add(this.btn_Refresh);
+            this.Controls.Add(this.serverList);
+            this.Controls.Add(this.btn_FavoriteServers);
+            this.Controls.Add(this.btn_PublicServers);
+            this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.background);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Login";
+            this.Text = "Attorney Online Deluxe";
             this.Load += new System.EventHandler(this.LoginForm_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.btn_PublicServers)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.background)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_FavoriteServers)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_Refresh)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_AddFav)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_Connect)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -159,13 +225,18 @@ namespace Client
 
         #endregion
 
-        private System.Windows.Forms.Button btnCancel;
-        private System.Windows.Forms.Button btnOK;
-        private System.Windows.Forms.TextBox txtName;
-        private System.Windows.Forms.TextBox txtServerIP;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox charList;
+        private System.Windows.Forms.PictureBox background;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.PictureBox btn_PublicServers;
+        private System.Windows.Forms.PictureBox btn_FavoriteServers;
+        private System.Windows.Forms.ListBox serverList;
+        private System.Windows.Forms.PictureBox btn_Refresh;
+        private System.Windows.Forms.PictureBox btn_AddFav;
+        private System.Windows.Forms.PictureBox btn_Connect;
+        private System.Windows.Forms.TextBox serverDescTextBox;
+        private System.Windows.Forms.TextBox lobbyChat;
+        private System.Windows.Forms.TextBox lobbyName;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label versionLabel;
     }
 }
