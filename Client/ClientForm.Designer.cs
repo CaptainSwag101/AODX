@@ -198,8 +198,8 @@ namespace Client
             this.Controls.Add(this.btnSend);
             this.MaximizeBox = false;
             this.Name = "ClientForm";
-            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.AODXClient_FormClosing);
-            this.Load += new System.EventHandler(this.Form1_Load);
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ClientForm_FormClosing);
+            this.Load += new System.EventHandler(this.ClientForm_Load);
             this.GameDisplay.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.objectLayerPB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chatBGLayerPB)).EndInit();

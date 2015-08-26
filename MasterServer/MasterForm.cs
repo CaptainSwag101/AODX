@@ -117,19 +117,17 @@ namespace MasterServer
                 else if (byteData[0] == 102) //client
                 {
                     List<byte> msgToSend = new List<byte>();
+                    string data = "";
                     foreach (ServerInfo server in serverList)
                     {
-                        msgToSend.AddRange(Encoding.UTF8.GetBytes(server.name));
-                        msgToSend.AddRange(Encoding.UTF8.GetBytes("|"));
-                        msgToSend.AddRange(Encoding.UTF8.GetBytes(server.desc));
-                        msgToSend.AddRange(Encoding.UTF8.GetBytes("|"));
-                        msgToSend.AddRange(BitConverter.GetBytes(server.users));
-                        msgToSend.AddRange(Encoding.UTF8.GetBytes("|"));
-                        msgToSend.AddRange(Encoding.UTF8.GetBytes(((IPEndPoint)server.socket.RemoteEndPoint).Address.ToString()));
-                        msgToSend.AddRange(Encoding.UTF8.GetBytes(":"));
-                        msgToSend.AddRange(Encoding.UTF8.GetBytes(((IPEndPoint)server.socket.RemoteEndPoint).Port.ToString()));
-                        msgToSend.AddRange(Encoding.UTF8.GetBytes("/"));
+                        data += server.name + "|";
+                        data += server.desc + "|";
+                        data += server.users + "|";
+                        data += ((IPEndPoint)server.socket.RemoteEndPoint).Address.ToString() + ":";
+                        data += ((IPEndPoint)server.socket.RemoteEndPoint).Port.ToString() + "/";
                     }
+                    msgToSend.AddRange(BitConverter.GetBytes(data.Length));
+                    msgToSend.AddRange(Encoding.UTF8.GetBytes(data));
                     byte[] message = msgToSend.ToArray();
                     connectingSocket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSendClose), connectingSocket);
                 }

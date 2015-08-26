@@ -31,7 +31,7 @@ namespace Server
         {
             public Socket socket;   //Socket of the client
             public string strName;  //Name by which the user logged into the chat room
-            public string character; //Character (file)name that the user is playing as
+            //public string character; //Character (file)name that the user is playing as
         }
 
         //The collection of all clients logged into the room (an array of type ClientInfo)
@@ -77,14 +77,10 @@ namespace Server
                                           SocketType.Stream,
                                           ProtocolType.Tcp);
 
-                //Assign the any IP of the machine and listen on port number 1000
+                //The masterserver is listening on port 1002
                 IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse("129.138.39.18"), 1002);
 
-                //Bind and listen on the given address
-                //masterSocket.Bind(ipEndPoint);
-                //masterSocket.Listen(4);
-
-                //Accept the incoming clients
+                //Connect to the masterserver
                 masterSocket.BeginConnect(ipEndPoint, new AsyncCallback(OnConnect), null);
             }
             catch (Exception ex)
@@ -99,7 +95,10 @@ namespace Server
             try
             {
                 masterSocket.EndConnect(ar);
-                sendServerInfo();
+                sendServerInfo(masterSocket);
+
+                //Start listening for info refresh requests from the masterserver
+                masterSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), masterSocket);
 
                 //Start accepting client connections
                 //We are using TCP sockets
@@ -127,19 +126,23 @@ namespace Server
         {
             try
             {
-                Socket clientSocket = serverSocket.EndAccept(ar);
+                if (!isClosing)
+                {
+                    Socket clientSocket = serverSocket.EndAccept(ar);
 
-                //Start listening for more clients
-                serverSocket.BeginAccept(new AsyncCallback(OnAccept), null);
+                    //Start listening for more clients
+                    serverSocket.BeginAccept(new AsyncCallback(OnAccept), null);
 
-                //Once the client connects then start receiving the commands from her
-                clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None,
-                    new AsyncCallback(OnReceive), clientSocket);
+                    //Send the client our basic info (description, connected users)
+                    sendServerInfo(clientSocket);
+
+                    //Now that the client is connected, start receiving the commands from her
+                    clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), clientSocket);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXServer",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -150,19 +153,24 @@ namespace Server
                 Socket receiveSocket = (Socket)ar.AsyncState;
                 receiveSocket.EndReceive(ar);
 
-                //If the data is from a client
-                if (byteData[0] == 101)
-                    sendServerInfo();
-                else
-                    parseMessage(receiveSocket);
+                if (!isClosing)
+                {
+                    //If the masterserver is requesting our info (description, user count, etc.)
+                    if (byteData[0] == 101)
+                        sendServerInfo(masterSocket);
+                    else if (byteData[0] == 103)
+                        receiveSocket.Close();
+                    else
+                        parseMessage(receiveSocket);
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message + "\r\n" + ar.AsyncState, "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void sendServerInfo()
+        private void sendServerInfo(Socket socketToUse)
         {
             try
             {
@@ -173,10 +181,10 @@ namespace Server
                 msgToSend.AddRange(Encoding.UTF8.GetBytes(info));
                 byte[] message = msgToSend.ToArray();
 
-                masterSocket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), masterSocket);
-
-                masterSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), masterSocket);
+                socketToUse.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), socketToUse);
             }
+            catch (ObjectDisposedException)
+            { }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -187,7 +195,7 @@ namespace Server
         {
             try
             {
-                if (isClosing != false)
+                if (isClosing != true)
                 {
                     //Transform the array of bytes received from the user into an
                     //intelligent form of object Data
@@ -213,17 +221,16 @@ namespace Server
                             ClientInfo clientInfo = new ClientInfo();
                             clientInfo.socket = clientSocket;
                             clientInfo.strName = msgReceived.strName;
-                            clientInfo.character = msgReceived.strMessage;
 
                             clientList.Add(clientInfo);
-                            appendLstUsersSafe(msgReceived.strName + " - " + msgReceived.strMessage);
+                            appendLstUsersSafe(msgReceived.strName + " - " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address.ToString());
 
                             //Set the text of the message that we will broadcast to all users
                             msgToSend.strMessage = "<<<" + msgReceived.strName + " has entered the courtroom>>>";
                             userNumStat.Text = "Users Online: " + clientList.Count;
 
 
-                            //DO THE SAME STUFF AS IF THE CLIENT SENT A LIST COMMAND
+                            /* //DO THE SAME STUFF AS IF THE CLIENT SENT A LIST COMMAND
                             //Send the names of all users in the chat room to the new user
                             msgToSend.cmdCommand = Command.List;
                             msgToSend.strName = null;
@@ -234,13 +241,12 @@ namespace Server
                             {
                                 //To keep things simple we use asterisk as the marker to separate the user names
                                 msgToSend.strMessage += client.strName + "*";
-                            }
+                            } */
 
                             message = msgToSend.ToByte();
 
                             //Send the name of the users in the chat room
-                            clientSocket.BeginSend(message, 0, message.Length, SocketFlags.None,
-                                    new AsyncCallback(OnSend), clientSocket);
+                            clientSocket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), clientSocket);
                             break;
 
                         case Command.Logout:
@@ -254,7 +260,8 @@ namespace Server
                                 if (client.socket == clientSocket)
                                 {
                                     clientList.RemoveAt(nIndex);
-                                    removeLstUsersSafe(client.strName + " - " + client.character);
+                                    //removeLstUsersSafe(client.strName + " - " + client.character);
+                                    removeLstUsersSafe(client.strName + " - " + ((IPEndPoint)client.socket.RemoteEndPoint).Address.ToString());
                                     break;
                                 }
                                 ++nIndex;
@@ -290,9 +297,9 @@ namespace Server
                             message = msgToSend.ToByte();
 
                             //Send the name of the users in the chat room
-                            clientSocket.BeginSend(message, 0, message.Length, SocketFlags.None,
-                                    new AsyncCallback(OnSend), clientSocket);
+                            clientSocket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), clientSocket);
                             break;
+
                         case Command.PacketSize:
                             msgToSend.cmdCommand = Command.DataInfo;
                             msgToSend.strName = null;
@@ -305,7 +312,7 @@ namespace Server
                                 {
                                     foreach (ClientInfo client in clientList)
                                     {
-                                        if (client.character == cName)
+                                        if (client.strName == cName)
                                         {
                                             charsInUse.Add(cName);
                                         }
@@ -348,12 +355,11 @@ namespace Server
                             break;
 
                         case Command.DataInfo:
-                            clientSocket.BeginSend(allData, 0, allData.Length, SocketFlags.None,
-                                    new AsyncCallback(OnSend), clientSocket);
+                            clientSocket.BeginSend(allData, 0, allData.Length, SocketFlags.None, new AsyncCallback(OnSend), clientSocket);
                             break;
                     }
 
-                    if (msgToSend.cmdCommand != Command.List & msgToSend.cmdCommand != Command.DataInfo & msgToSend.cmdCommand != Command.PacketSize & isClosing != true)   //List messages are not broadcasted
+                    if (msgToSend.cmdCommand != Command.List & msgToSend.cmdCommand != Command.DataInfo & msgToSend.cmdCommand != Command.PacketSize)   //List messages are not broadcasted
                     {
                         message = msgToSend.ToByte();
 
@@ -362,22 +368,24 @@ namespace Server
                             if (clientInfo.socket != clientSocket || msgToSend.cmdCommand != Command.Login)
                             {
                                 //Send the message to all users
-                                clientInfo.socket.BeginSend(message, 0, message.Length, SocketFlags.None,
-                                    new AsyncCallback(OnSend), clientInfo.socket);
+                                clientInfo.socket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), clientInfo.socket);
                             }
                         }
                         appendTxtLogSafe(msgToSend.strMessage + "\r\n");
-
                     }
 
                     //If the user is logging out then we need not listen from her
-                    if (msgReceived.cmdCommand != Command.Logout & isClosing != true)
+                    if (msgReceived.cmdCommand != Command.Logout)
                     {
                         //Start listening to the message send by the user
                         clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), clientSocket);
                     }
                 }
             }
+            catch (ObjectDisposedException)
+            { }
+            catch (SocketException)
+            { }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -392,8 +400,12 @@ namespace Server
                 msgToSend.Add(103);
                 byte[] message = msgToSend.ToArray();
                 masterSocket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSendClose), null);
-                //masterSocket.Close();
+                masterSocket.Close();
             }
+            catch (ObjectDisposedException)
+            { }
+            catch (SocketException)
+            { }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -448,16 +460,18 @@ namespace Server
             try
             {
                 masterSocket.EndSend(ar);
+                masterSocket.Disconnect(false);
                 int nIndex = 0;
                 foreach (ClientInfo client in clientList)
                 {
                     clientList.RemoveAt(nIndex);
-                    removeLstUsersSafe(client.strName + " - " + client.character);
+                    //removeLstUsersSafe(client.strName + " - " + client.character);
+                    removeLstUsersSafe(client.strName + " - " + ((IPEndPoint)client.socket.RemoteEndPoint).Address.ToString());
                     client.socket.Close();
                     ++nIndex;
                 }
                 //serverSocket.EndReceive();
-                //serverSocket.Close();
+                serverSocket.Close();
                 isClosing = true;
             }
             catch (Exception ex)
@@ -477,7 +491,6 @@ namespace Server
             cmdCommand = Command.Null;
             strMessage = null;
             strName = null;
-            charName = null;
             preAnim = null;
             textColor = Color.PeachPuff;
             anim = null;
@@ -486,52 +499,48 @@ namespace Server
         //Converts the bytes into an object of type Data
         public Data(byte[] data)
         {
+            if (data[0] == 4)
+                cmdCommand = Command.DataInfo;
+
             //The first four bytes are for the Command
             cmdCommand = (Command)BitConverter.ToInt32(data, 0);
 
             //The next four store the length of the name
             int nameLen = BitConverter.ToInt32(data, 4);
 
-            int charNameLen = BitConverter.ToInt32(data, 8);
+            int preAnimLen = BitConverter.ToInt32(data, 8);
 
-            int preAnimLen = BitConverter.ToInt32(data, 12);
+            int animLen = BitConverter.ToInt32(data, 12);
 
-            int animLen = BitConverter.ToInt32(data, 16);
-
-            int textColorLen = BitConverter.ToInt32(data, 20);
+            int textColorLen = BitConverter.ToInt32(data, 16);
 
             //The next four store the length of the message
-            int msgLen = BitConverter.ToInt32(data, 24);
+            int msgLen = BitConverter.ToInt32(data, 20);
 
             //This check makes sure that strName has been passed in the array of bytes
             if (nameLen > 0)
-                strName = Encoding.UTF8.GetString(data, 28, nameLen);
+                strName = Encoding.UTF8.GetString(data, 24, nameLen);
             else
                 strName = null;
 
-            if (charNameLen > 0)
-                charName = Encoding.UTF8.GetString(data, 28 + nameLen, charNameLen);
-            else
-                charName = null;
-
             if (preAnimLen > 0)
-                preAnim = Encoding.UTF8.GetString(data, 28 + nameLen + charNameLen, preAnimLen);
+                preAnim = Encoding.UTF8.GetString(data, 24 + nameLen, preAnimLen);
             else
                 preAnim = null;
 
             if (animLen > 0)
-                anim = Encoding.UTF8.GetString(data, 28 + nameLen + charNameLen + preAnimLen, animLen);
+                anim = Encoding.UTF8.GetString(data, 24 + nameLen + preAnimLen, animLen);
             else
                 anim = null;
 
             if (textColorLen > 0)
-                textColor = Color.FromArgb(BitConverter.ToInt32(data, 28 + nameLen + charNameLen + preAnimLen + animLen));
+                textColor = Color.FromArgb(BitConverter.ToInt32(data, 24 + nameLen + preAnimLen + animLen));
             else
                 textColor = Color.White;
 
             //This checks for a null message field
             if (msgLen > 0)
-                strMessage = Encoding.UTF8.GetString(data, 28 + nameLen + charNameLen + preAnimLen + animLen + textColorLen, msgLen);
+                strMessage = Encoding.UTF8.GetString(data, 24 + nameLen + preAnimLen + animLen + textColorLen, msgLen);
             else
                 strMessage = null;
         }
@@ -547,11 +556,6 @@ namespace Server
             //Add the length of the name
             if (strName != null)
                 result.AddRange(BitConverter.GetBytes(strName.Length));
-            else
-                result.AddRange(BitConverter.GetBytes(0));
-
-            if (charName != null)
-                result.AddRange(BitConverter.GetBytes(charName.Length));
             else
                 result.AddRange(BitConverter.GetBytes(0));
 
@@ -578,9 +582,6 @@ namespace Server
             //Add the name
             if (strName != null)
                 result.AddRange(Encoding.UTF8.GetBytes(strName));
-
-            if (charName != null)
-                result.AddRange(Encoding.UTF8.GetBytes(charName));
 
             if (preAnim != null)
                 result.AddRange(Encoding.UTF8.GetBytes(preAnim));
@@ -612,7 +613,6 @@ namespace Server
         }
 
         public string strName;      //Name by which the client logs into the room
-        public string charName;
         public string preAnim;
         public string anim;
         public Color textColor;

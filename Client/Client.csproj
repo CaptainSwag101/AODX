@@ -63,6 +63,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CharForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CharForm.Designer.cs">
+      <DependentUpon>CharForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ClientForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -78,6 +84,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CharForm.resx">
+      <DependentUpon>CharForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ClientForm.resx">
       <SubType>Designer</SubType>
       <DependentUpon>ClientForm.cs</DependentUpon>

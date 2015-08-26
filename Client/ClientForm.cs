@@ -23,8 +23,7 @@ namespace Client
     public partial class ClientForm : Form
     {
         public Socket clientSocket; //The main client socket
-        public string strName;      //Name by which the user logs into the room
-        public string character; //Character that the user is playing as
+        public string strName;      //Character that the user is playing as
         public int incomingSize;
         private int selectedAnim = 3;
         private int colorIndex = 0;
@@ -67,6 +66,57 @@ namespace Client
             //Refresh();
         }
 
+        private void ClientForm_Load(object sender, EventArgs e)
+        {
+            Text = "AODXClient: " + strName;
+
+            //byteData = new byte[incomingSize];
+            byteData = new byte[1024];
+
+            //The user has logged into the system so we now request the server to send
+            //the names of all users who are in the chat room
+            Data msgToSend = new Data();
+            msgToSend.cmdCommand = Command.List;
+            msgToSend.strName = strName;
+
+            byteData = msgToSend.ToByte();
+
+            clientSocket.BeginSend(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+
+            byteData = new byte[1024];
+
+            //Start listening to the data asynchronously
+            clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), null);
+        }
+
+        private void ClientForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            /* if (MessageBox.Show("Are you sure you want to leave the courtroom?", "AODXClient: " + strName, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.No)
+            {
+                e.Cancel = true;
+                return;
+            } */
+
+            try
+            {
+                //Send a message to logout of the server
+                Data msgToSend = new Data();
+                msgToSend.cmdCommand = Command.Logout;
+                msgToSend.strName = strName;
+                msgToSend.strMessage = null;
+
+                byte[] b = msgToSend.ToByte();
+                clientSocket.Send(b, 0, b.Length, SocketFlags.None);
+                clientSocket.Close();
+            }
+            catch (ObjectDisposedException)
+            { }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void clearDispMsg()
         {
             displayMsg1.Text = "";
@@ -90,9 +140,8 @@ namespace Client
                 Data msgToSend = new Data();
 
                 msgToSend.strName = strName;
-                msgToSend.charName = character;
-                msgToSend.preAnim = iniParser.GetPreAnim(character, selectedAnim);
-                msgToSend.anim = iniParser.GetAnim(character, selectedAnim);
+                msgToSend.preAnim = iniParser.GetPreAnim(strName, selectedAnim);
+                msgToSend.anim = iniParser.GetAnim(strName, selectedAnim);
                 msgToSend.textColor = selectedColor;
                 msgToSend.strMessage = txtMessage.Text;
                 msgToSend.cmdCommand = Command.Message;
@@ -159,7 +208,7 @@ namespace Client
                     case Command.Message:
                         //blipPlayer.PlayLooping();
                         latestMsg = msgReceived;
-                        charLayerPB.Load("base/characters/" + msgReceived.charName + "/(b)" + msgReceived.anim + ".gif");
+                        charLayerPB.Load("base/characters/" + msgReceived.strName + "/(b)" + msgReceived.anim + ".gif");
                         prepWriteDispBoxes(msgReceived, msgReceived.textColor);
                         //dispTextRedraw.Enabled = true;
                         break;
@@ -175,7 +224,6 @@ namespace Client
                         Data msgToSend = new Data();
                         msgToSend.cmdCommand = Command.Login;
                         msgToSend.strName = strName;
-                        msgToSend.strMessage = character;
 
                         byteData = new byte[1024];
                         byteData = msgToSend.ToByte();
@@ -288,7 +336,7 @@ namespace Client
                     break;
                 }
             }
-            switch (iniParser.GetSide(latestMsg.charName))
+            switch (iniParser.GetSide(latestMsg.strName))
             {
                 case "def":
                     backgroundPB.Load("base/background/default/defenseempty.png");
@@ -308,38 +356,9 @@ namespace Client
                     break;
             }
             //dispTextRedraw.Enabled = true;
-            nameLabel.Text = latestMsg.charName;
+            nameLabel.Text = latestMsg.strName;
             blipPlayer.PlayLooping();
             redraw = true;
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            Text = "AODXClient: " + strName;
-
-            byteData = new byte[incomingSize];
-
-            //The user has logged into the system so we now request the server to send
-            //the names of all users who are in the chat room
-            /* Data msgToSend = new Data();
-            msgToSend.cmdCommand = Command.List;
-            msgToSend.strName = strName;
-            msgToSend.strMessage = null;
-
-            byteData = msgToSend.ToByte();
-
-            clientSocket.BeginSend(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
-
-            byteData = new byte[1024]; */
-
-            //Start listening to the data asynchronously
-            clientSocket.BeginReceive(byteData,
-                                       0,
-                                       byteData.Length,
-                                       SocketFlags.None,
-                                       new AsyncCallback(OnReceive),
-                                       null);
-
         }
 
         private void txtMessage_TextChanged(object sender, EventArgs e)
@@ -348,34 +367,6 @@ namespace Client
                 btnSend.Enabled = false;
             else
                 btnSend.Enabled = true;
-        }
-
-        private void AODXClient_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            /* if (MessageBox.Show("Are you sure you want to leave the courtroom?", "AODXClient: " + strName, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.No)
-            {
-                e.Cancel = true;
-                return;
-            } */
-
-            try
-            {
-                //Send a message to logout of the server
-                Data msgToSend = new Data();
-                msgToSend.cmdCommand = Command.Logout;
-                msgToSend.strName = strName;
-                msgToSend.strMessage = null;
-
-                byte[] b = msgToSend.ToByte();
-                clientSocket.Send(b, 0, b.Length, SocketFlags.None);
-                clientSocket.Close();
-            }
-            catch (ObjectDisposedException)
-            { }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void txtMessage_KeyDown(object sender, KeyEventArgs e)
@@ -435,7 +426,7 @@ namespace Client
                 else
                 {
                     blipPlayer.Stop();
-                    charLayerPB.Load("base/characters/" + latestMsg.charName + "/(a)" + latestMsg.anim + ".gif");
+                    charLayerPB.Load("base/characters/" + latestMsg.strName + "/(a)" + latestMsg.anim + ".gif");
                     redraw = false;
                 }
             }
@@ -488,10 +479,10 @@ namespace Client
             cmdCommand = Command.Null;
             strMessage = null;
             strName = null;
-            charName = null;
             preAnim = null;
             textColor = Color.PeachPuff;
             anim = null;
+            extraData = null;
         }
 
         //Converts the bytes into an object of type Data
@@ -506,52 +497,39 @@ namespace Client
             //The next four store the length of the name
             int nameLen = BitConverter.ToInt32(data, 4);
 
-            int charNameLen = BitConverter.ToInt32(data, 8);
+            int preAnimLen = BitConverter.ToInt32(data, 8);
 
-            int preAnimLen = BitConverter.ToInt32(data, 12);
+            int animLen = BitConverter.ToInt32(data, 12);
 
-            int animLen = BitConverter.ToInt32(data, 16);
-
-            int textColorLen = BitConverter.ToInt32(data, 20);
+            int textColorLen = BitConverter.ToInt32(data, 16);
 
             //The next four store the length of the message
-            int msgLen = BitConverter.ToInt32(data, 24);
+            int msgLen = BitConverter.ToInt32(data, 20);
 
             //This check makes sure that strName has been passed in the array of bytes
             if (nameLen > 0)
-                strName = Encoding.UTF8.GetString(data, 28, nameLen);
+                strName = Encoding.UTF8.GetString(data, 24, nameLen);
             else
                 strName = null;
 
-            if (charNameLen > 0)
-                charName = Encoding.UTF8.GetString(data, 28 + nameLen, charNameLen);
-            else
-                charName = null;
-
             if (preAnimLen > 0)
-                preAnim = Encoding.UTF8.GetString(data, 28 + nameLen + charNameLen, preAnimLen);
+                preAnim = Encoding.UTF8.GetString(data, 24 + nameLen, preAnimLen);
             else
                 preAnim = null;
 
             if (animLen > 0)
-                anim = Encoding.UTF8.GetString(data, 28 + nameLen + charNameLen + preAnimLen, animLen);
+                anim = Encoding.UTF8.GetString(data, 24 + nameLen + preAnimLen, animLen);
             else
                 anim = null;
 
             if (textColorLen > 0)
-                textColor = Color.FromArgb(BitConverter.ToInt32(data, 28 + nameLen + charNameLen + preAnimLen + animLen));
+                textColor = Color.FromArgb(BitConverter.ToInt32(data, 24 + nameLen + preAnimLen + animLen));
             else
                 textColor = Color.White;
 
             //This checks for a null message field
             if (msgLen > 0)
-            {
-                string test;
-                if (cmdCommand == Command.DataInfo)
-                    test = "";
-
-                strMessage = Encoding.UTF8.GetString(data, 28 + nameLen + charNameLen + preAnimLen + animLen + textColorLen, msgLen);
-            }
+                strMessage = Encoding.UTF8.GetString(data, 24 + nameLen + preAnimLen + animLen + textColorLen, msgLen);
             else
                 strMessage = null;
         }
@@ -567,11 +545,6 @@ namespace Client
             //Add the length of the name
             if (strName != null)
                 result.AddRange(BitConverter.GetBytes(strName.Length));
-            else
-                result.AddRange(BitConverter.GetBytes(0));
-
-            if (charName != null)
-                result.AddRange(BitConverter.GetBytes(charName.Length));
             else
                 result.AddRange(BitConverter.GetBytes(0));
 
@@ -599,9 +572,6 @@ namespace Client
             if (strName != null)
                 result.AddRange(Encoding.UTF8.GetBytes(strName));
 
-            if (charName != null)
-                result.AddRange(Encoding.UTF8.GetBytes(charName));
-
             if (preAnim != null)
                 result.AddRange(Encoding.UTF8.GetBytes(preAnim));
 
@@ -619,9 +589,9 @@ namespace Client
         }
 
         public string strName;      //Name by which the client logs into the room
-        public string charName;
         public string preAnim;
         public string anim;
+        public byte[] extraData;
         public Color textColor;
         public string strMessage;   //Message text
         public Command cmdCommand;  //Command type (login, logout, send message, etcetera)

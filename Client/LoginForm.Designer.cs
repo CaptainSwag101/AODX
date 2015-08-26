@@ -42,6 +42,7 @@ namespace Client
             this.lobbyName = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.versionLabel = new System.Windows.Forms.Label();
+            this.userCount = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.btn_PublicServers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.background)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_FavoriteServers)).BeginInit();
@@ -102,6 +103,7 @@ namespace Client
             this.serverList.Name = "serverList";
             this.serverList.Size = new System.Drawing.Size(295, 236);
             this.serverList.TabIndex = 4;
+            this.serverList.SelectedIndexChanged += new System.EventHandler(this.serverList_SelectedIndexChanged);
             // 
             // btn_Refresh
             // 
@@ -187,11 +189,24 @@ namespace Client
             this.versionLabel.TabIndex = 12;
             this.versionLabel.Text = "Version 1.0";
             // 
+            // userCount
+            // 
+            this.userCount.AutoSize = true;
+            this.userCount.BackColor = System.Drawing.Color.Transparent;
+            this.userCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.userCount.ForeColor = System.Drawing.Color.White;
+            this.userCount.Location = new System.Drawing.Point(396, 113);
+            this.userCount.Name = "userCount";
+            this.userCount.Size = new System.Drawing.Size(52, 16);
+            this.userCount.TabIndex = 13;
+            this.userCount.Text = "Offline";
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(520, 718);
+            this.Controls.Add(this.userCount);
             this.Controls.Add(this.versionLabel);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.lobbyName);
@@ -238,5 +253,6 @@ namespace Client
         private System.Windows.Forms.TextBox lobbyName;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label versionLabel;
+        private System.Windows.Forms.Label userCount;
     }
 }

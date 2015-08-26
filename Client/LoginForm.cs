@@ -10,12 +10,13 @@ namespace Client
     public partial class LoginForm : Form
     {
         public Socket clientSocket;
-        public string strName;
-        public string character;
-        public int incomingSize;
-        private List<string> serverAddresses = new List<string>();
+        public Socket masterSocket;
+        public List<string> charList = new List<string>();
+        public List<string> musicList = new List<string>();
+        private Dictionary<string, string> serverData = new Dictionary<string, string>(); // Address, Name
         private byte[] byteData = new byte[1024];
         private bool favorites = false;
+        private int incomingSize;
 
         public LoginForm()
         {
@@ -26,12 +27,18 @@ namespace Client
             background.Controls.Add(btn_AddFav);
             background.Controls.Add(btn_Connect);
             background.Controls.Add(versionLabel);
+            background.Controls.Add(userCount);
         }
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
             CheckForIllegalCrossThreadCalls = false;
-            clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            ConnectToMasterServer();
+        }
+
+        private void ConnectToMasterServer()
+        {
+            masterSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
             IPAddress ipAddress = IPAddress.Parse("129.138.39.18");
 
@@ -39,7 +46,21 @@ namespace Client
             IPEndPoint ipEndPoint = new IPEndPoint(ipAddress, 1002);
 
             //Connect to the masterserver
-            clientSocket.BeginConnect(ipEndPoint, new AsyncCallback(OnConnectMaster), null);
+            masterSocket.BeginConnect(ipEndPoint, new AsyncCallback(OnConnectMaster), null);
+        }
+
+        private void ConnectToServer(string ip)
+        {
+            clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+
+            IPAddress ipAddress = IPAddress.Parse(ip.Split(':')[0]);
+
+            //Servers usually listen on port 1000, but just in case...
+            //IPEndPoint ipEndPoint = new IPEndPoint(ipAddress, Convert.ToInt32(ip.Split(':')[1]));
+            IPEndPoint ipEndPoint = new IPEndPoint(ipAddress, 1000);
+
+            //Connect to the server
+            clientSocket.BeginConnect(ipEndPoint, new AsyncCallback(OnConnect), null);
         }
 
         private void OnConnect(IAsyncResult ar)
@@ -49,29 +70,13 @@ namespace Client
                 clientSocket.EndConnect(ar);
                 //btnOK.Enabled = false;
 
-                //We are connected so we login into the server
-                Data msgToSend = new Data ();
-                //msgToSend.cmdCommand = Command.Login;
-                //msgToSend.strName = txtName.Text;
-                //msgToSend.strMessage = charList.SelectedItem.ToString();
+                //We are connected, so request the description and user count from the server
+                clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceiveServerInfo), null);
 
-                //msgToSend.cmdCommand = Command.PacketSize;
-
-                byte[] b = msgToSend.ToByte ();
-
-                //Send the message to the server
-                clientSocket.BeginSend(b, 0, b.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
-
-                clientSocket.BeginReceive(byteData,
-                                       0,
-                                       byteData.Length,
-                                       SocketFlags.None,
-                                       new AsyncCallback(OnReceive),
-                                       null);
             }
             catch (Exception ex)
-            { 
-                MessageBox.Show(ex.Message, "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error); 
+            {
+                MessageBox.Show(ex.Message, "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -79,25 +84,20 @@ namespace Client
         {
             try
             {
-                clientSocket.EndConnect(ar);
+                masterSocket.EndConnect(ar);
                 //btnOK.Enabled = false;
 
                 byte[] b = new byte[1];
                 b[0] = 102;
 
                 //Send the message to the server
-                clientSocket.BeginSend(b, 0, b.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+                masterSocket.BeginSend(b, 0, b.Length, SocketFlags.None, new AsyncCallback(OnSendMaster), null);
 
-                clientSocket.BeginReceive(byteData,
-                                       0,
-                                       byteData.Length,
-                                       SocketFlags.None,
-                                       new AsyncCallback(OnReceiveServers),
-                                       null);
+                masterSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceiveServerList), null);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Unable to connect to the masterserver:\r\n" + ex.Message, "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -113,61 +113,109 @@ namespace Client
             }
         }
 
+        private void OnSendMaster(IAsyncResult ar)
+        {
+            try
+            {
+                masterSocket.EndSend(ar);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void OnReceive(IAsyncResult ar)
         {
             try
             {
+                while (byteData[0] == 4 && byteData.Length < incomingSize)
+                {
+                    //string test = "";
+                }
+
                 clientSocket.EndReceive(ar);
 
                 Data msgReceived = new Data(byteData);
 
                 if (msgReceived.cmdCommand == Command.PacketSize)
                 {
-                    byteData = new byte[Convert.ToInt32(msgReceived.strMessage)];
                     incomingSize = Convert.ToInt32(msgReceived.strMessage);
-                    //strName = txtName.Text;
-                    DialogResult = DialogResult.OK;
+                    byteData = new byte[incomingSize];
+
+                    //DialogResult = DialogResult.OK;
                     Data msgToSend = new Data();
-                    //msgToSend.cmdCommand = Command.Login;
-                    //msgToSend.strName = txtName.Text;
-                    //msgToSend.strMessage = charList.SelectedItem.ToString();
                     msgToSend.cmdCommand = Command.DataInfo;
 
                     byte[] b = msgToSend.ToByte();
 
                     //Send the message to the server
                     clientSocket.BeginSend(b, 0, b.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
-                    Close();
+
+                    clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), null);
+                    //Close();
+                }
+                else if (msgReceived.cmdCommand == Command.DataInfo)
+                {
+                    if (msgReceived.strMessage != null && msgReceived.strMessage != "")
+                    {
+                        string[] data = msgReceived.strMessage.Split(',');
+                        int charCount = Convert.ToInt32(data[0]);
+                        if (charCount > 0)
+                        {
+                            for (int x = 1; x < charCount; x++)
+                            {
+                                charList.Add(data[x]);
+                            }
+                        }
+
+                        int songCount = Convert.ToInt32(data[charCount + 1]);
+                        if (songCount > 0)
+                        {
+                            for (int x = charCount + 2; x < charCount + 1 + songCount; x++)
+                            {
+                                musicList.Add(data[x]);
+                            }
+                        }
+                    }
+
+                    //Do stuff with the evidence/extra binary data here
+
                 }
                 else
-                    clientSocket.BeginReceive(byteData,
-                                       0,
-                                       byteData.Length,
-                                       SocketFlags.None,
-                                       new AsyncCallback(OnReceive),
-                                       null);
+                    clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), null);
+
+                if (msgReceived.cmdCommand == Command.DataInfo)
+                {
+                    //Program.charList = charList;
+                    //Program.musicList = musicList;
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
 
             }
             catch (ObjectDisposedException)
             { }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void OnReceiveServers(IAsyncResult ar)
+        private void OnReceiveServerInfo(IAsyncResult ar)
         {
             try
             {
                 clientSocket.EndReceive(ar);
 
-                string allServerData = Encoding.UTF8.GetString(byteData);
-                string[] servers = allServerData.Split('/');
-                foreach (string server in servers)
+                if (byteData[0] == 101) //server
                 {
-                    serverList.Items.Add(server.Split('|')[0]); // + server.Split('|')[2] + server.Split('|')[3]);
-                    editServerDescTB(server.Split('|')[1]);
+                    int len = BitConverter.ToInt32(byteData, 1);
+                    string infoString = Encoding.UTF8.GetString(byteData, 5, len);
+                    editServerDescTB(infoString.Split('|')[1]);
+                    userCount.Text = "Users: " + Convert.ToInt32(infoString.Split('|')[2]);
+
+                    //connectingSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), connectingSocket);
                 }
 
             }
@@ -175,7 +223,46 @@ namespace Client
             { }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OnReceiveServerList(IAsyncResult ar)
+        {
+            try
+            {
+                serverData.Clear();
+                serverList.ClearSelected();
+                masterSocket.EndReceive(ar);
+                int strLen = BitConverter.ToInt32(byteData, 0);
+                string allServerData = Encoding.UTF8.GetString(byteData, 4, strLen);
+                string[] servers = allServerData.Split(new string[] { "/" }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string server in servers)
+                {
+                    //serverList.Items.Add(server.Split('|')[0]); // + server.Split('|')[2] + server.Split('|')[3]);
+                    serverData.Add(server.Split('|')[3], server.Split('|')[0]);
+                    editServerDescTB(server.Split('|')[1]);
+                }
+                if (serverData.Count > 0)
+                {
+                    serverList.DataSource = new BindingSource(serverData, null);
+                    serverList.DisplayMember = "Value";
+                    serverList.ValueMember = "Key";
+                }
+                else
+                {
+                    serverList.DataSource = null;
+                    serverList.DisplayMember = null;
+                    serverList.ValueMember = null;
+                    serverList.Items.Clear();
+                }
+                masterSocket.Close();
+            }
+            catch (ObjectDisposedException)
+            { }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -211,7 +298,12 @@ namespace Client
 
         private void btn_Refresh_Click(object sender, EventArgs e)
         {
-
+            if (clientSocket != null && clientSocket.Connected == true)
+            {
+                //clientSocket.BeginDisconnect(true, new AsyncCallback(OnDisconnect), null);
+                //clientSocket.Close();
+            }
+            ConnectToMasterServer();
         }
 
         private void btn_AddFav_Click(object sender, EventArgs e)
@@ -223,15 +315,43 @@ namespace Client
         {
             try
             {
-                clientSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                if (serverList.Items.Count > 0 && serverList.SelectedItem != null && clientSocket != null)
+                {
+                    Data msgToSend = new Data();
+                    msgToSend.cmdCommand = Command.PacketSize;
 
-                //IPAddress ipAddress = IPAddress.Parse(txtServerIP.Text);
+                    byte[] message = msgToSend.ToByte();
 
-                //Server is listening on port 1000
-                //IPEndPoint ipEndPoint = new IPEndPoint(ipAddress, 1000);
+                    clientSocket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
 
-                //Connect to the server
-                //clientSocket.BeginConnect(ipEndPoint, new AsyncCallback(OnConnect), null);
+                    clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), null);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void serverList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (clientSocket != null && clientSocket != null)
+            {
+                //clientSocket.BeginDisconnect(true, new AsyncCallback(OnDisconnect), null);
+                //clientSocket.Close();
+            }
+
+            if (serverList.Items.Count > 0 && serverList.SelectedItem != null)
+            {
+                ConnectToServer(((KeyValuePair<string, string>)serverList.SelectedItem).Key.ToString().Split(',')[0]);
+            }
+        }
+
+        public void OnDisconnect(IAsyncResult ar)
+        {
+            try
+            {
+                clientSocket.EndDisconnect(ar);
             }
             catch (Exception ex)
             {
