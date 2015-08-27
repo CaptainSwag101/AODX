@@ -45,9 +45,11 @@ namespace Client
             byte[] b = msgToSend.ToByte();
 
             //Send the message to the server
-            clientSocket.BeginSend(b, 0, b.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+            clientSocket?.BeginSend(b, 0, b.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
 
-            clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), null);
+            //clientSocket?.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), null);
+
+            DialogResult = DialogResult.OK;
             Close();
         }
 
@@ -66,20 +68,6 @@ namespace Client
             {
                 clientSocket.EndSend(ar);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
-        private void OnReceive(IAsyncResult ar)
-        {
-            try
-            {
-                clientSocket.EndReceive(ar);
-            }
-            catch (ObjectDisposedException)
-            { }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);

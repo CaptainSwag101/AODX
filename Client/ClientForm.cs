@@ -42,7 +42,8 @@ namespace Client
             backgroundPB.Load("base/background/default/defenseempty.png");
             backgroundPB.Controls.Add(charLayerPB);
             charLayerPB.BackColor = Color.Transparent;
-            charLayerPB.Image = Properties.Resources.phoenix_normal_a_;
+            //charLayerPB.Image = Properties.Resources.phoenix_normal_a_;
+            charLayerPB.Image = null;
             charLayerPB.Controls.Add(deskLayerPB);
             deskLayerPB.BackColor = Color.Transparent;
             deskLayerPB.Image = Properties.Resources.Defense_Bench_Overlay_resized;
@@ -113,7 +114,7 @@ namespace Client
             { }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message + ".\r\n" + ex.StackTrace.ToString(), "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -157,7 +158,7 @@ namespace Client
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unable to send message to the server.\r\n" + ex.Message, "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Unable to send message to the server.\r\n" + ex.Message + ".\r\n" + ex.StackTrace.ToString(), "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -171,7 +172,7 @@ namespace Client
             { }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message + ".\r\n" + ex.StackTrace.ToString(), "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -246,19 +247,14 @@ namespace Client
                 else
                     byteData = new byte[Convert.ToInt32(msgReceived.strMessage)];
 
-                clientSocket.BeginReceive(byteData,
-                                            0,
-                                            byteData.Length,
-                                            SocketFlags.None,
-                                            new AsyncCallback(OnReceive),
-                                            null);
+                clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), null);
 
             }
             catch (ObjectDisposedException)
             { }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message + ".\r\n" + ex.StackTrace.ToString(), "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 

@@ -200,6 +200,7 @@ namespace Client
             this.userCount.Size = new System.Drawing.Size(52, 16);
             this.userCount.TabIndex = 13;
             this.userCount.Text = "Offline";
+            this.userCount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // LoginForm
             // 
@@ -226,6 +227,7 @@ namespace Client
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Attorney Online Deluxe";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoginForm_FormClosing);
             this.Load += new System.EventHandler(this.LoginForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.btn_PublicServers)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.background)).EndInit();

@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Sockets;
 using System.Windows.Forms;
 
 namespace Client
@@ -12,6 +14,7 @@ namespace Client
 
         public static List<string> charList;
         public static List<string> musicList;
+        //public static Socket connection;
 
         [STAThread]
         static void Main()
@@ -29,6 +32,7 @@ namespace Client
 
                 CharForm CharSelect = new CharForm();
                 CharSelect.clientSocket = loginForm.clientSocket;
+                //CharSelect.clientSocket = connection;
                 CharSelect.charList = charList;
 
                 Application.Run(CharSelect);

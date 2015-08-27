@@ -19,7 +19,6 @@ namespace MasterServer
             public Socket socket;   //Socket of the server
             public string name;     //Name of the server
             public string desc;     //Server description
-            public int users;       //Number of users currently on server
         }
 
         byte[] byteData = new byte[1024];
@@ -41,9 +40,7 @@ namespace MasterServer
             try
             {
                 //We are using TCP sockets
-                masterSocket = new Socket(AddressFamily.InterNetwork,
-                                          SocketType.Stream,
-                                          ProtocolType.Tcp);
+                masterSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 //Assign the any IP of the machine and listen on port number 1000
                 IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, 1002);
@@ -57,8 +54,7 @@ namespace MasterServer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXMasterServer",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -72,13 +68,11 @@ namespace MasterServer
                 masterSocket.BeginAccept(new AsyncCallback(OnAccept), null);
 
                 //Once the client connects then start receiving the commands from her
-                connectingSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None,
-                    new AsyncCallback(OnReceive), connectingSocket);
+                connectingSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), connectingSocket);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXMasterServer",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -98,7 +92,6 @@ namespace MasterServer
                     string infoString = Encoding.UTF8.GetString(byteData, 5, len);
                     newServer.name = infoString.Split('|')[0];
                     newServer.desc = infoString.Split('|')[1];
-                    newServer.users = Convert.ToInt32(infoString.Split('|')[2]);
                     bool alreadyConnected = false;
                     foreach (ServerInfo server in serverList)
                     {
@@ -110,7 +103,7 @@ namespace MasterServer
                     if (alreadyConnected != true)
                         serverList.Add(newServer);
 
-                    appendServerListBox(infoString);
+                    appendServerListBox(newServer.name + " - " + newServer.socket.RemoteEndPoint.ToString());
 
                     connectingSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), connectingSocket);
                 }
@@ -122,7 +115,6 @@ namespace MasterServer
                     {
                         data += server.name + "|";
                         data += server.desc + "|";
-                        data += server.users + "|";
                         data += ((IPEndPoint)server.socket.RemoteEndPoint).Address.ToString() + ":";
                         data += ((IPEndPoint)server.socket.RemoteEndPoint).Port.ToString() + "/";
                     }
@@ -139,17 +131,17 @@ namespace MasterServer
                         if (server.socket == connectingSocket)
                         {
                             serverList.RemoveAt(nIndex);
-                            removeServerListBox(server.name + "|" + server.desc + "|" + server.users.ToString());
+                            removeServerListBox(server.name + " - " + server.socket.RemoteEndPoint.ToString());
                             break;
                         }
                         ++nIndex;
                     }
-                    connectingSocket.Close();
+                    //connectingSocket.Close();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -182,7 +174,7 @@ namespace MasterServer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -196,26 +188,40 @@ namespace MasterServer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void refreshStatsTimer_Tick(object sender, EventArgs e)
         {
-            if (serverList != null && serverList.Count > 0)
+            try
             {
-                int nIndex = 0;
-                foreach (ServerInfo server in serverList)
+                if (serverList != null && serverList.Count > 0)
                 {
-                    //serverList.RemoveAt(nIndex);
-                    removeServerListBox(server.name + "|" + server.desc + "|" + server.users.ToString());
-
-                    byte[] msg = new byte[1024];
-                    msg[0] = 101;
-                    server.socket.BeginSend(msg, 0, msg.Length, SocketFlags.None, new AsyncCallback(OnSend), server.socket);
-
-                    ++nIndex;
+                    int nIndex = 0;
+                    foreach (ServerInfo server in serverList)
+                    {
+                        Socket tempSocket = server.socket;
+                        removeServerListBox(server.name + " - " + server.socket.RemoteEndPoint.ToString());
+                        if (tempSocket != null)
+                        {
+                            byte[] msg = new byte[1024];
+                            msg[0] = 101;
+                            tempSocket.BeginSend(msg, 0, msg.Length, SocketFlags.None, new AsyncCallback(OnSend), tempSocket);
+                            //tempSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), tempSocket);
+                            ++nIndex;
+                        }
+                        else
+                        {
+                            serverList.RemoveAt(nIndex);
+                        }
+                        
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + ".\r\n" + ex.StackTrace.ToString(), "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

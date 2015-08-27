@@ -73,9 +73,7 @@ namespace Server
             try
             {
                 //We are using TCP sockets
-                masterSocket = new Socket(AddressFamily.InterNetwork,
-                                          SocketType.Stream,
-                                          ProtocolType.Tcp);
+                masterSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 //The masterserver is listening on port 1002
                 IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse("129.138.39.18"), 1002);
@@ -85,8 +83,7 @@ namespace Server
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXServer",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -102,9 +99,7 @@ namespace Server
 
                 //Start accepting client connections
                 //We are using TCP sockets
-                serverSocket = new Socket(AddressFamily.InterNetwork,
-                                          SocketType.Stream,
-                                          ProtocolType.Tcp);
+                serverSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 //Assign the any IP of the machine and listen on port number 1000
                 IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, 1000);
@@ -118,7 +113,7 @@ namespace Server
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -142,7 +137,7 @@ namespace Server
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -157,7 +152,10 @@ namespace Server
                 {
                     //If the masterserver is requesting our info (description, user count, etc.)
                     if (byteData[0] == 101)
+                    {
                         sendServerInfo(masterSocket);
+                        masterSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), masterSocket);
+                    }
                     else if (byteData[0] == 103)
                         receiveSocket.Close();
                     else
@@ -166,7 +164,7 @@ namespace Server
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ar.AsyncState, "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message + ".\r\n" + ((Socket)ar.AsyncState).RemoteEndPoint.ToString() + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -187,7 +185,7 @@ namespace Server
             { }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -246,7 +244,7 @@ namespace Server
                             message = msgToSend.ToByte();
 
                             //Send the name of the users in the chat room
-                            clientSocket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), clientSocket);
+                            //clientSocket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), clientSocket);
                             break;
 
                         case Command.Logout:
@@ -350,8 +348,7 @@ namespace Server
 
                             byte[] sizePacket = sizeMsg.ToByte();
 
-                            clientSocket.BeginSend(sizePacket, 0, sizePacket.Length, SocketFlags.None,
-                                                        new AsyncCallback(OnSend), clientSocket);
+                            clientSocket.BeginSend(sizePacket, 0, sizePacket.Length, SocketFlags.None, new AsyncCallback(OnSend), clientSocket);
                             break;
 
                         case Command.DataInfo:
@@ -361,7 +358,7 @@ namespace Server
 
                     if (msgToSend.cmdCommand != Command.List & msgToSend.cmdCommand != Command.DataInfo & msgToSend.cmdCommand != Command.PacketSize)   //List messages are not broadcasted
                     {
-                        message = msgToSend.ToByte();
+                        message = msgToSend.ToByte(); // TO DO: REMOVE THE OTHER CALLS TO THIS IN THE INDIVIDUAL SWITCH CASES, THEY ARE PROBABLY REDUNDANT
 
                         foreach (ClientInfo clientInfo in clientList)
                         {
@@ -377,7 +374,7 @@ namespace Server
                     //If the user is logging out then we need not listen from her
                     if (msgReceived.cmdCommand != Command.Logout)
                     {
-                        //Start listening to the message send by the user
+                        //Start listening to the messages sent by the user
                         clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), clientSocket);
                     }
                 }
@@ -388,7 +385,7 @@ namespace Server
             { }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -408,7 +405,7 @@ namespace Server
             { }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -451,7 +448,7 @@ namespace Server
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -476,7 +473,7 @@ namespace Server
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }
