@@ -1,0 +1,7 @@
+127.0.0.1:27016:default local server
+93.196.219.77:27017:Ashley´s Courtroom
+93.196.219.77:4000:Ashley´s Epic RP world
+99.105.13.27:27017:Woolwine's World
+46.188.16.205:27015:Public Vanilla Server
+127.0.0.1:27017:127.0.0.1:27017
+127.0.0.1:27015:127.0.0.1:27015

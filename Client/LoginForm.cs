@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
@@ -27,8 +28,12 @@ namespace Client
             background.Controls.Add(btn_Refresh);
             background.Controls.Add(btn_AddFav);
             background.Controls.Add(btn_Connect);
+            versionLabel.BackColor = Color.Transparent;
             background.Controls.Add(versionLabel);
+            userCount.BackColor = Color.Transparent;
             background.Controls.Add(userCount);
+            serverDescTextBox.BackColor = Color.Transparent;
+            background.Controls.Add(serverDescTextBox);
         }
 
         private void LoginForm_Load(object sender, EventArgs e)

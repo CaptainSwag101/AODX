@@ -54,6 +54,7 @@ namespace Client
             objectLayerPB.Controls.Add(displayMsg1);
             objectLayerPB.Controls.Add(displayMsg2);
             objectLayerPB.Controls.Add(displayMsg3);
+            nameLabel.BackColor = Color.Transparent;
             objectLayerPB.Controls.Add(nameLabel);
             displayMsg1.BackColor = Color.Transparent;
             displayMsg2.BackColor = Color.Transparent;

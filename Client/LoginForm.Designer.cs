@@ -37,12 +37,12 @@ namespace Client
             this.btn_Refresh = new System.Windows.Forms.PictureBox();
             this.btn_AddFav = new System.Windows.Forms.PictureBox();
             this.btn_Connect = new System.Windows.Forms.PictureBox();
-            this.serverDescTextBox = new System.Windows.Forms.TextBox();
             this.lobbyChat = new System.Windows.Forms.TextBox();
             this.lobbyName = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.versionLabel = new System.Windows.Forms.Label();
             this.userCount = new System.Windows.Forms.Label();
+            this.serverDescTextBox = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.btn_PublicServers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.background)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_FavoriteServers)).BeginInit();
@@ -73,7 +73,7 @@ namespace Client
             // 
             // background
             // 
-            this.background.Image = ((System.Drawing.Image)(resources.GetObject("background.Image")));
+            this.background.Image = global::Client.Properties.Resources.lobby2;
             this.background.Location = new System.Drawing.Point(0, 0);
             this.background.Name = "background";
             this.background.Size = new System.Drawing.Size(520, 720);
@@ -138,18 +138,6 @@ namespace Client
             this.btn_Connect.TabStop = false;
             this.btn_Connect.Click += new System.EventHandler(this.btn_Connect_Click);
             // 
-            // serverDescTextBox
-            // 
-            this.serverDescTextBox.BackColor = System.Drawing.Color.Black;
-            this.serverDescTextBox.Cursor = System.Windows.Forms.Cursors.Default;
-            this.serverDescTextBox.ForeColor = System.Drawing.Color.White;
-            this.serverDescTextBox.Location = new System.Drawing.Point(336, 129);
-            this.serverDescTextBox.Multiline = true;
-            this.serverDescTextBox.Name = "serverDescTextBox";
-            this.serverDescTextBox.ReadOnly = true;
-            this.serverDescTextBox.Size = new System.Drawing.Size(172, 248);
-            this.serverDescTextBox.TabIndex = 8;
-            // 
             // lobbyChat
             // 
             this.lobbyChat.BackColor = System.Drawing.Color.Gray;
@@ -182,7 +170,7 @@ namespace Client
             // versionLabel
             // 
             this.versionLabel.AutoSize = true;
-            this.versionLabel.BackColor = System.Drawing.Color.Transparent;
+            this.versionLabel.BackColor = System.Drawing.Color.Gainsboro;
             this.versionLabel.Location = new System.Drawing.Point(6, 6);
             this.versionLabel.Name = "versionLabel";
             this.versionLabel.Size = new System.Drawing.Size(60, 13);
@@ -192,27 +180,36 @@ namespace Client
             // userCount
             // 
             this.userCount.AutoSize = true;
-            this.userCount.BackColor = System.Drawing.Color.Transparent;
+            this.userCount.BackColor = System.Drawing.Color.DimGray;
             this.userCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.userCount.ForeColor = System.Drawing.Color.White;
-            this.userCount.Location = new System.Drawing.Point(396, 113);
+            this.userCount.Location = new System.Drawing.Point(396, 119);
             this.userCount.Name = "userCount";
             this.userCount.Size = new System.Drawing.Size(52, 16);
             this.userCount.TabIndex = 13;
             this.userCount.Text = "Offline";
             this.userCount.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
+            // serverDescTextBox
+            // 
+            this.serverDescTextBox.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.serverDescTextBox.Location = new System.Drawing.Point(340, 140);
+            this.serverDescTextBox.Name = "serverDescTextBox";
+            this.serverDescTextBox.Size = new System.Drawing.Size(164, 244);
+            this.serverDescTextBox.TabIndex = 14;
+            this.serverDescTextBox.Text = "serverDescTextBox";
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(520, 718);
+            this.Controls.Add(this.serverDescTextBox);
             this.Controls.Add(this.userCount);
             this.Controls.Add(this.versionLabel);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.lobbyName);
             this.Controls.Add(this.lobbyChat);
-            this.Controls.Add(this.serverDescTextBox);
             this.Controls.Add(this.btn_Connect);
             this.Controls.Add(this.btn_AddFav);
             this.Controls.Add(this.btn_Refresh);
@@ -250,11 +247,11 @@ namespace Client
         private System.Windows.Forms.PictureBox btn_Refresh;
         private System.Windows.Forms.PictureBox btn_AddFav;
         private System.Windows.Forms.PictureBox btn_Connect;
-        private System.Windows.Forms.TextBox serverDescTextBox;
         private System.Windows.Forms.TextBox lobbyChat;
         private System.Windows.Forms.TextBox lobbyName;
         private System.Windows.Forms.TextBox textBox2;
         private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.Label userCount;
+        private System.Windows.Forms.Label serverDescTextBox;
     }
 }

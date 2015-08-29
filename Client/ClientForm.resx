@@ -213,135 +213,6 @@
   <data name="&gt;&gt;txtMessage.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
-  <data name="&gt;&gt;nameLabel.Name" xml:space="preserve">
-    <value>nameLabel</value>
-  </data>
-  <data name="&gt;&gt;nameLabel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;nameLabel.Parent" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;nameLabel.ZOrder" xml:space="preserve">
-    <value>0</value>
-  </data>
-  <data name="&gt;&gt;displayMsg3.Name" xml:space="preserve">
-    <value>displayMsg3</value>
-  </data>
-  <data name="&gt;&gt;displayMsg3.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;displayMsg3.Parent" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;displayMsg3.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;displayMsg2.Name" xml:space="preserve">
-    <value>displayMsg2</value>
-  </data>
-  <data name="&gt;&gt;displayMsg2.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;displayMsg2.Parent" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;displayMsg2.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="&gt;&gt;displayMsg1.Name" xml:space="preserve">
-    <value>displayMsg1</value>
-  </data>
-  <data name="&gt;&gt;displayMsg1.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;displayMsg1.Parent" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;displayMsg1.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <data name="&gt;&gt;objectLayerPB.Name" xml:space="preserve">
-    <value>objectLayerPB</value>
-  </data>
-  <data name="&gt;&gt;objectLayerPB.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;objectLayerPB.Parent" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;objectLayerPB.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
-  <data name="&gt;&gt;chatBGLayerPB.Name" xml:space="preserve">
-    <value>chatBGLayerPB</value>
-  </data>
-  <data name="&gt;&gt;chatBGLayerPB.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;chatBGLayerPB.Parent" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;chatBGLayerPB.ZOrder" xml:space="preserve">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;deskLayerPB.Name" xml:space="preserve">
-    <value>deskLayerPB</value>
-  </data>
-  <data name="&gt;&gt;deskLayerPB.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;deskLayerPB.Parent" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;deskLayerPB.ZOrder" xml:space="preserve">
-    <value>6</value>
-  </data>
-  <data name="&gt;&gt;charLayerPB.Name" xml:space="preserve">
-    <value>charLayerPB</value>
-  </data>
-  <data name="&gt;&gt;charLayerPB.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;charLayerPB.Parent" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;charLayerPB.ZOrder" xml:space="preserve">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;backgroundPB.Name" xml:space="preserve">
-    <value>backgroundPB</value>
-  </data>
-  <data name="&gt;&gt;backgroundPB.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;backgroundPB.Parent" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;backgroundPB.ZOrder" xml:space="preserve">
-    <value>8</value>
-  </data>
-  <data name="GameDisplay.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 12</value>
-  </data>
-  <data name="GameDisplay.Size" type="System.Drawing.Size, System.Drawing">
-    <value>256, 192</value>
-  </data>
-  <data name="GameDisplay.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
-  <data name="&gt;&gt;GameDisplay.Name" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;GameDisplay.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GameDisplay.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;GameDisplay.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
   <data name="nameLabel.Font" type="System.Drawing.Font, System.Drawing">
     <value>Calibri, 8.25pt</value>
   </data>
@@ -349,10 +220,10 @@
     <value>NoControl</value>
   </data>
   <data name="nameLabel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>-1, 117</value>
+    <value>0, 117</value>
   </data>
   <data name="nameLabel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>74, 17</value>
+    <value>72, 14</value>
   </data>
   <data name="nameLabel.TabIndex" type="System.Int32, mscorlib">
     <value>9</value>
@@ -482,93 +353,6 @@
   </data>
   <data name="&gt;&gt;displayMsg1.ZOrder" xml:space="preserve">
     <value>3</value>
-  </data>
-  <data name="txtColorChanger.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="txtColorChanger.Location" type="System.Drawing.Point, System.Drawing">
-    <value>17, 273</value>
-  </data>
-  <data name="txtColorChanger.Size" type="System.Drawing.Size, System.Drawing">
-    <value>160, 23</value>
-  </data>
-  <data name="txtColorChanger.TabIndex" type="System.Int32, mscorlib">
-    <value>6</value>
-  </data>
-  <data name="txtColorChanger.Text" xml:space="preserve">
-    <value>Text Color: White</value>
-  </data>
-  <data name="&gt;&gt;txtColorChanger.Name" xml:space="preserve">
-    <value>txtColorChanger</value>
-  </data>
-  <data name="&gt;&gt;txtColorChanger.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;txtColorChanger.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;txtColorChanger.ZOrder" xml:space="preserve">
-    <value>3</value>
-  </data>
-  <metadata name="dispTextRedraw.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <data name="OOCChat.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
-  </data>
-  <data name="OOCChat.Location" type="System.Drawing.Point, System.Drawing">
-    <value>526, 12</value>
-  </data>
-  <data name="OOCChat.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>246, 258</value>
-  </data>
-  <data name="OOCChat.Multiline" type="System.Boolean, mscorlib">
-    <value>True</value>
-  </data>
-  <data name="OOCChat.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
-    <value>Vertical</value>
-  </data>
-  <data name="OOCChat.Size" type="System.Drawing.Size, System.Drawing">
-    <value>246, 258</value>
-  </data>
-  <data name="OOCChat.TabIndex" type="System.Int32, mscorlib">
-    <value>7</value>
-  </data>
-  <data name="&gt;&gt;OOCChat.Name" xml:space="preserve">
-    <value>OOCChat</value>
-  </data>
-  <data name="&gt;&gt;OOCChat.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;OOCChat.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;OOCChat.ZOrder" xml:space="preserve">
-    <value>2</value>
-  </data>
-  <data name="OOCInput.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Right</value>
-  </data>
-  <data name="OOCInput.Location" type="System.Drawing.Point, System.Drawing">
-    <value>526, 276</value>
-  </data>
-  <data name="OOCInput.Size" type="System.Drawing.Size, System.Drawing">
-    <value>246, 20</value>
-  </data>
-  <data name="OOCInput.TabIndex" type="System.Int32, mscorlib">
-    <value>8</value>
-  </data>
-  <data name="&gt;&gt;OOCInput.Name" xml:space="preserve">
-    <value>OOCInput</value>
-  </data>
-  <data name="&gt;&gt;OOCInput.Type" xml:space="preserve">
-    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;OOCInput.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;OOCInput.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="objectLayerPB.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -709,11 +493,119 @@
   <data name="&gt;&gt;backgroundPB.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
+  <data name="GameDisplay.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 12</value>
+  </data>
+  <data name="GameDisplay.Size" type="System.Drawing.Size, System.Drawing">
+    <value>256, 192</value>
+  </data>
+  <data name="GameDisplay.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;GameDisplay.Name" xml:space="preserve">
+    <value>GameDisplay</value>
+  </data>
+  <data name="&gt;&gt;GameDisplay.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GameDisplay.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GameDisplay.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="txtColorChanger.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="txtColorChanger.Location" type="System.Drawing.Point, System.Drawing">
+    <value>17, 273</value>
+  </data>
+  <data name="txtColorChanger.Size" type="System.Drawing.Size, System.Drawing">
+    <value>160, 23</value>
+  </data>
+  <data name="txtColorChanger.TabIndex" type="System.Int32, mscorlib">
+    <value>6</value>
+  </data>
+  <data name="txtColorChanger.Text" xml:space="preserve">
+    <value>Text Color: White</value>
+  </data>
+  <data name="&gt;&gt;txtColorChanger.Name" xml:space="preserve">
+    <value>txtColorChanger</value>
+  </data>
+  <data name="&gt;&gt;txtColorChanger.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Button, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;txtColorChanger.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;txtColorChanger.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <metadata name="dispTextRedraw.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>17, 17</value>
+  </metadata>
+  <data name="OOCChat.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
+  </data>
+  <data name="OOCChat.Location" type="System.Drawing.Point, System.Drawing">
+    <value>526, 12</value>
+  </data>
+  <data name="OOCChat.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>246, 258</value>
+  </data>
+  <data name="OOCChat.Multiline" type="System.Boolean, mscorlib">
+    <value>True</value>
+  </data>
+  <data name="OOCChat.ScrollBars" type="System.Windows.Forms.ScrollBars, System.Windows.Forms">
+    <value>Vertical</value>
+  </data>
+  <data name="OOCChat.Size" type="System.Drawing.Size, System.Drawing">
+    <value>246, 258</value>
+  </data>
+  <data name="OOCChat.TabIndex" type="System.Int32, mscorlib">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;OOCChat.Name" xml:space="preserve">
+    <value>OOCChat</value>
+  </data>
+  <data name="&gt;&gt;OOCChat.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OOCChat.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;OOCChat.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="OOCInput.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
+  <data name="OOCInput.Location" type="System.Drawing.Point, System.Drawing">
+    <value>526, 276</value>
+  </data>
+  <data name="OOCInput.Size" type="System.Drawing.Size, System.Drawing">
+    <value>246, 20</value>
+  </data>
+  <data name="OOCInput.TabIndex" type="System.Int32, mscorlib">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;OOCInput.Name" xml:space="preserve">
+    <value>OOCInput</value>
+  </data>
+  <data name="&gt;&gt;OOCInput.Type" xml:space="preserve">
+    <value>System.Windows.Forms.TextBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;OOCInput.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;OOCInput.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
   <data name="arrowRight.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="arrowRight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>248, 46</value>
+    <value>249, 46</value>
   </data>
   <data name="arrowRight.Size" type="System.Drawing.Size, System.Drawing">
     <value>20, 20</value>
@@ -736,8 +628,11 @@
   <data name="arrowLeft.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
   </data>
+  <data name="arrowLeft.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="arrowLeft.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 46</value>
+    <value>-1, 46</value>
   </data>
   <data name="arrowLeft.Size" type="System.Drawing.Size, System.Drawing">
     <value>20, 20</value>
@@ -976,6 +871,9 @@
   <data name="&gt;&gt;emoButton2.ZOrder" xml:space="preserve">
     <value>10</value>
   </data>
+  <data name="emoButton1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="emoButton1.Location" type="System.Drawing.Point, System.Drawing">
     <value>22, 13</value>
   </data>
@@ -1001,7 +899,7 @@
     <value>5, 303</value>
   </data>
   <data name="emotionPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>268, 112</value>
+    <value>270, 112</value>
   </data>
   <data name="emotionPanel.TabIndex" type="System.Int32, mscorlib">
     <value>10</value>
@@ -1029,9 +927,6 @@
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
     <value>785, 633</value>
-  </data>
-  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>801, 672</value>
