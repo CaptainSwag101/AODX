@@ -38,21 +38,47 @@ namespace Client
             this.displayMsg3 = new System.Windows.Forms.Label();
             this.displayMsg2 = new System.Windows.Forms.Label();
             this.displayMsg1 = new System.Windows.Forms.Label();
+            this.txtColorChanger = new System.Windows.Forms.Button();
+            this.dispTextRedraw = new System.Windows.Forms.Timer(this.components);
+            this.OOCChat = new System.Windows.Forms.TextBox();
+            this.OOCInput = new System.Windows.Forms.TextBox();
             this.objectLayerPB = new System.Windows.Forms.PictureBox();
             this.chatBGLayerPB = new System.Windows.Forms.PictureBox();
             this.deskLayerPB = new System.Windows.Forms.PictureBox();
             this.charLayerPB = new System.Windows.Forms.PictureBox();
             this.backgroundPB = new System.Windows.Forms.PictureBox();
-            this.txtColorChanger = new System.Windows.Forms.Button();
-            this.dispTextRedraw = new System.Windows.Forms.Timer(this.components);
-            this.OOCChat = new System.Windows.Forms.TextBox();
-            this.OOCInput = new System.Windows.Forms.TextBox();
+            this.emotionPanel = new System.Windows.Forms.Panel();
+            this.emoButton1 = new Client.EmoButton();
+            this.emoButton2 = new Client.EmoButton();
+            this.emoButton3 = new Client.EmoButton();
+            this.emoButton4 = new Client.EmoButton();
+            this.emoButton5 = new Client.EmoButton();
+            this.emoButton6 = new Client.EmoButton();
+            this.emoButton7 = new Client.EmoButton();
+            this.emoButton8 = new Client.EmoButton();
+            this.emoButton9 = new Client.EmoButton();
+            this.emoButton10 = new Client.EmoButton();
+            this.arrowLeft = new System.Windows.Forms.PictureBox();
+            this.arrowRight = new System.Windows.Forms.PictureBox();
             this.GameDisplay.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectLayerPB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chatBGLayerPB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.deskLayerPB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.charLayerPB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundPB)).BeginInit();
+            this.emotionPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.arrowLeft)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.arrowRight)).BeginInit();
             this.SuspendLayout();
             // 
             // btnSend
@@ -72,7 +98,7 @@ namespace Client
             // 
             // txtMessage
             // 
-            this.txtMessage.BackColor = System.Drawing.Color.Gray;
+            this.txtMessage.BackColor = System.Drawing.Color.DimGray;
             resources.ApplyResources(this.txtMessage, "txtMessage");
             this.txtMessage.Name = "txtMessage";
             this.txtMessage.TextChanged += new System.EventHandler(this.txtMessage_TextChanged);
@@ -120,6 +146,32 @@ namespace Client
             this.displayMsg1.ForeColor = System.Drawing.Color.White;
             this.displayMsg1.Name = "displayMsg1";
             // 
+            // txtColorChanger
+            // 
+            resources.ApplyResources(this.txtColorChanger, "txtColorChanger");
+            this.txtColorChanger.Name = "txtColorChanger";
+            this.txtColorChanger.UseVisualStyleBackColor = true;
+            this.txtColorChanger.Click += new System.EventHandler(this.txtColorChanger_Click);
+            // 
+            // dispTextRedraw
+            // 
+            this.dispTextRedraw.Enabled = true;
+            this.dispTextRedraw.Interval = 60;
+            this.dispTextRedraw.Tick += new System.EventHandler(this.dispTextRedraw_Tick);
+            // 
+            // OOCChat
+            // 
+            resources.ApplyResources(this.OOCChat, "OOCChat");
+            this.OOCChat.BackColor = System.Drawing.SystemColors.Window;
+            this.OOCChat.Name = "OOCChat";
+            this.OOCChat.ReadOnly = true;
+            this.OOCChat.ShortcutsEnabled = false;
+            // 
+            // OOCInput
+            // 
+            resources.ApplyResources(this.OOCInput, "OOCInput");
+            this.OOCInput.Name = "OOCInput";
+            // 
             // objectLayerPB
             // 
             this.objectLayerPB.BackColor = System.Drawing.Color.Transparent;
@@ -130,7 +182,6 @@ namespace Client
             // chatBGLayerPB
             // 
             this.chatBGLayerPB.BackColor = System.Drawing.Color.Transparent;
-            this.chatBGLayerPB.Image = global::Client.Properties.Resources.PW_Textbox_Trans;
             resources.ApplyResources(this.chatBGLayerPB, "chatBGLayerPB");
             this.chatBGLayerPB.Name = "chatBGLayerPB";
             this.chatBGLayerPB.TabStop = false;
@@ -158,37 +209,113 @@ namespace Client
             this.backgroundPB.Name = "backgroundPB";
             this.backgroundPB.TabStop = false;
             // 
-            // txtColorChanger
+            // emotionPanel
             // 
-            resources.ApplyResources(this.txtColorChanger, "txtColorChanger");
-            this.txtColorChanger.Name = "txtColorChanger";
-            this.txtColorChanger.UseVisualStyleBackColor = true;
-            this.txtColorChanger.Click += new System.EventHandler(this.txtColorChanger_Click);
+            this.emotionPanel.Controls.Add(this.arrowRight);
+            this.emotionPanel.Controls.Add(this.arrowLeft);
+            this.emotionPanel.Controls.Add(this.emoButton10);
+            this.emotionPanel.Controls.Add(this.emoButton9);
+            this.emotionPanel.Controls.Add(this.emoButton8);
+            this.emotionPanel.Controls.Add(this.emoButton7);
+            this.emotionPanel.Controls.Add(this.emoButton6);
+            this.emotionPanel.Controls.Add(this.emoButton5);
+            this.emotionPanel.Controls.Add(this.emoButton4);
+            this.emotionPanel.Controls.Add(this.emoButton3);
+            this.emotionPanel.Controls.Add(this.emoButton2);
+            this.emotionPanel.Controls.Add(this.emoButton1);
+            resources.ApplyResources(this.emotionPanel, "emotionPanel");
+            this.emotionPanel.Name = "emotionPanel";
             // 
-            // dispTextRedraw
+            // emoButton1
             // 
-            this.dispTextRedraw.Enabled = true;
-            this.dispTextRedraw.Interval = 60;
-            this.dispTextRedraw.Tick += new System.EventHandler(this.dispTextRedraw_Tick);
+            resources.ApplyResources(this.emoButton1, "emoButton1");
+            this.emoButton1.Name = "emoButton1";
+            this.emoButton1.TabStop = false;
+            this.emoButton1.Click += new System.EventHandler(this.emoButton1_Click);
             // 
-            // OOCChat
+            // emoButton2
             // 
-            resources.ApplyResources(this.OOCChat, "OOCChat");
-            this.OOCChat.BackColor = System.Drawing.SystemColors.Window;
-            this.OOCChat.Name = "OOCChat";
-            this.OOCChat.ReadOnly = true;
-            this.OOCChat.ShortcutsEnabled = false;
+            resources.ApplyResources(this.emoButton2, "emoButton2");
+            this.emoButton2.Name = "emoButton2";
+            this.emoButton2.TabStop = false;
+            this.emoButton2.Click += new System.EventHandler(this.emoButton2_Click);
             // 
-            // OOCInput
+            // emoButton3
             // 
-            resources.ApplyResources(this.OOCInput, "OOCInput");
-            this.OOCInput.Name = "OOCInput";
+            resources.ApplyResources(this.emoButton3, "emoButton3");
+            this.emoButton3.Name = "emoButton3";
+            this.emoButton3.TabStop = false;
+            this.emoButton3.Click += new System.EventHandler(this.emoButton3_Click);
+            // 
+            // emoButton4
+            // 
+            resources.ApplyResources(this.emoButton4, "emoButton4");
+            this.emoButton4.Name = "emoButton4";
+            this.emoButton4.TabStop = false;
+            this.emoButton4.Click += new System.EventHandler(this.emoButton4_Click);
+            // 
+            // emoButton5
+            // 
+            resources.ApplyResources(this.emoButton5, "emoButton5");
+            this.emoButton5.Name = "emoButton5";
+            this.emoButton5.TabStop = false;
+            this.emoButton5.Click += new System.EventHandler(this.emoButton5_Click);
+            // 
+            // emoButton6
+            // 
+            resources.ApplyResources(this.emoButton6, "emoButton6");
+            this.emoButton6.Name = "emoButton6";
+            this.emoButton6.TabStop = false;
+            this.emoButton6.Click += new System.EventHandler(this.emoButton6_Click);
+            // 
+            // emoButton7
+            // 
+            resources.ApplyResources(this.emoButton7, "emoButton7");
+            this.emoButton7.Name = "emoButton7";
+            this.emoButton7.TabStop = false;
+            this.emoButton7.Click += new System.EventHandler(this.emoButton7_Click);
+            // 
+            // emoButton8
+            // 
+            resources.ApplyResources(this.emoButton8, "emoButton8");
+            this.emoButton8.Name = "emoButton8";
+            this.emoButton8.TabStop = false;
+            this.emoButton8.Click += new System.EventHandler(this.emoButton8_Click);
+            // 
+            // emoButton9
+            // 
+            resources.ApplyResources(this.emoButton9, "emoButton9");
+            this.emoButton9.Name = "emoButton9";
+            this.emoButton9.TabStop = false;
+            this.emoButton9.Click += new System.EventHandler(this.emoButton9_Click);
+            // 
+            // emoButton10
+            // 
+            resources.ApplyResources(this.emoButton10, "emoButton10");
+            this.emoButton10.Name = "emoButton10";
+            this.emoButton10.TabStop = false;
+            this.emoButton10.Click += new System.EventHandler(this.emoButton10_Click);
+            // 
+            // arrowLeft
+            // 
+            resources.ApplyResources(this.arrowLeft, "arrowLeft");
+            this.arrowLeft.Name = "arrowLeft";
+            this.arrowLeft.TabStop = false;
+            this.arrowLeft.Click += new System.EventHandler(this.arrowLeft_Click);
+            // 
+            // arrowRight
+            // 
+            resources.ApplyResources(this.arrowRight, "arrowRight");
+            this.arrowRight.Name = "arrowRight";
+            this.arrowRight.TabStop = false;
+            this.arrowRight.Click += new System.EventHandler(this.arrowRight_Click);
             // 
             // ClientForm
             // 
             this.AcceptButton = this.btnSend;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.emotionPanel);
             this.Controls.Add(this.OOCInput);
             this.Controls.Add(this.OOCChat);
             this.Controls.Add(this.txtColorChanger);
@@ -206,6 +333,19 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.deskLayerPB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.charLayerPB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundPB)).EndInit();
+            this.emotionPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.emoButton10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.arrowLeft)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.arrowRight)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -230,6 +370,19 @@ namespace Client
         private System.Windows.Forms.Label nameLabel;
         private System.Windows.Forms.TextBox OOCChat;
         private System.Windows.Forms.TextBox OOCInput;
+        private System.Windows.Forms.Panel emotionPanel;
+        private EmoButton emoButton1;
+        private EmoButton emoButton5;
+        private EmoButton emoButton4;
+        private EmoButton emoButton3;
+        private EmoButton emoButton2;
+        private EmoButton emoButton10;
+        private EmoButton emoButton9;
+        private EmoButton emoButton8;
+        private EmoButton emoButton7;
+        private EmoButton emoButton6;
+        private System.Windows.Forms.PictureBox arrowLeft;
+        private System.Windows.Forms.PictureBox arrowRight;
     }
 }
 

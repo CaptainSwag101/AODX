@@ -273,26 +273,6 @@ namespace Client.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
-        internal static System.Drawing.Bitmap chatbig {
-            get {
-                object obj = ResourceManager.GetObject("chatbig", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap chatmed {
-            get {
-                object obj = ResourceManager.GetObject("chatmed", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
         internal static System.Drawing.Bitmap connectionmenu {
             get {
                 object obj = ResourceManager.GetObject("connectionmenu", resourceCulture);
@@ -666,16 +646,6 @@ namespace Client.Properties {
         internal static System.Drawing.Bitmap public_off {
             get {
                 object obj = ResourceManager.GetObject("public_off", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Bitmap.
-        /// </summary>
-        internal static System.Drawing.Bitmap PW_Textbox_Trans {
-            get {
-                object obj = ResourceManager.GetObject("PW_Textbox_Trans", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

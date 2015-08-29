@@ -24,7 +24,6 @@ namespace Client
     {
         public Socket clientSocket; //The main client socket
         public string strName;      //Character that the user is playing as
-        public int incomingSize;
         private int selectedAnim = 3;
         private int colorIndex = 0;
         private Color selectedColor = Color.White;
@@ -48,7 +47,7 @@ namespace Client
             deskLayerPB.BackColor = Color.Transparent;
             deskLayerPB.Image = Properties.Resources.Defense_Bench_Overlay_resized;
             deskLayerPB.Controls.Add(chatBGLayerPB);
-            chatBGLayerPB.Image = Properties.Resources.PW_Textbox_Trans;
+            chatBGLayerPB.Image = Properties.Resources.chat;
             chatBGLayerPB.BackColor = Color.Transparent;
             chatBGLayerPB.Controls.Add(objectLayerPB);
             objectLayerPB.BackColor = Color.Transparent;
@@ -180,23 +179,10 @@ namespace Client
         {
             try
             {
-                if (byteData[0] == 4)
-                {
-                    while (byteData.Length != incomingSize)
-                    {
-
-                    }
-                }
                 clientSocket.EndReceive(ar);
-                if (byteData.Length > 1024)
-                {
-                    if (byteData[0] == 4)
-                    {
-
-                    }
-                }
 
                 Data msgReceived = new Data(byteData);
+
                 //Accordingly process the message received
                 switch (msgReceived.cmdCommand)
                 {
@@ -462,6 +448,66 @@ namespace Client
                     txtColorChanger.Text = "Text Color: Orange";
                     break;
             }
+        }
+
+        private void emoButton1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void emoButton2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void emoButton3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void emoButton4_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void emoButton5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void emoButton6_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void emoButton7_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void emoButton8_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void emoButton9_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void emoButton10_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void arrowLeft_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void arrowRight_Click(object sender, EventArgs e)
+        {
+
         }
     }
 

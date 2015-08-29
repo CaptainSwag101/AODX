@@ -43,6 +43,8 @@ namespace Server
         //The main socket on which the server communicates with the masterserver
         Socket masterSocket;
 
+        private string masterserverIP;
+
         private bool isClosing = false;
 
         byte[] byteData = new byte[1024];
@@ -56,6 +58,13 @@ namespace Server
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            masterserverIP = iniParser.GetMasterIP();
+            if (masterserverIP == null)
+            {
+                MessageBox.Show("Failed to find masterserver IP in " + '"' + "masterserver.ini" + '"' + ". \r\n Assuming masterserver is locally hosted.", "AODXServer", MessageBoxButtons.OK);
+                masterserverIP = "127.0.0.1";
+            }
+
             userNumStat.Text = "Users Online: " + clientList.Count;
 
             var host = Dns.GetHostEntry(Dns.GetHostName());
@@ -76,7 +85,7 @@ namespace Server
                 masterSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
                 //The masterserver is listening on port 1002
-                IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse("129.138.39.18"), 1002);
+                IPEndPoint ipEndPoint = new IPEndPoint(IPAddress.Parse(masterserverIP), 1002);
 
                 //Connect to the masterserver
                 masterSocket.BeginConnect(ipEndPoint, new AsyncCallback(OnConnect), null);

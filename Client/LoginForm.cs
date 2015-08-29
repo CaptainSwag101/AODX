@@ -16,6 +16,7 @@ namespace Client
         private Dictionary<string, string> serverData = new Dictionary<string, string>(); // Address, Name
         private byte[] byteData = new byte[1024];
         private bool favorites = false;
+        private string masterserverIP;
         private int incomingSize;
 
         public LoginForm()
@@ -33,6 +34,12 @@ namespace Client
         private void LoginForm_Load(object sender, EventArgs e)
         {
             CheckForIllegalCrossThreadCalls = false;
+            masterserverIP = iniParser.GetMasterIP();
+            if (masterserverIP == null)
+            {
+                MessageBox.Show("Failed to find masterserver IP in " + '"' + "masterserver.ini" + '"' + ". \r\n Assuming masterserver is locally hosted.", "AODXClient", MessageBoxButtons.OK);
+                masterserverIP = "127.0.0.1";
+            }
             ConnectToMasterServer();
         }
 
@@ -52,7 +59,7 @@ namespace Client
         {
             masterSocket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
 
-            IPAddress ipAddress = IPAddress.Parse("129.138.39.18");
+            IPAddress ipAddress = IPAddress.Parse(masterserverIP);
 
             //Masterserver is listening on port 1002
             IPEndPoint ipEndPoint = new IPEndPoint(ipAddress, 1002);

@@ -136,9 +136,6 @@
   <data name="phoenix_normal_b_" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\phoenix-normal(b).gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="PW_Textbox_Trans" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\PW Textbox Trans.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="sfx_blipmale" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\sfx-blipmale.wav;System.IO.MemoryStream, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
@@ -184,17 +181,8 @@
   <data name="button_takethat_off" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\button_takethat_off.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="chat" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\chat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
   <data name="chat2" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\chat2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="chatbig" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\chatbig.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="chatmed" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\chatmed.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="connectionmenu" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\connectionmenu.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -342,5 +330,8 @@
   </data>
   <data name="b2_on" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\b2_on.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="chat" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\chat.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

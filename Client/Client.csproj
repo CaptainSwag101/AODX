@@ -75,6 +75,12 @@
     <Compile Include="ClientForm.Designer.cs">
       <DependentUpon>ClientForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="EmoButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="EmoButton.Designer.cs">
+      <DependentUpon>EmoButton.cs</DependentUpon>
+    </Compile>
     <Compile Include="iniParser.cs" />
     <Compile Include="LoginForm.cs">
       <SubType>Form</SubType>

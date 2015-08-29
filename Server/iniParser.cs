@@ -105,5 +105,31 @@ namespace Server
             evidence.Add(255);
             return evidence;
         }
+
+        public static string GetMasterIP()
+        {
+            if (File.Exists("base/masterserver.ini"))
+            {
+                using (var r = new StreamReader("base/masterserver.ini"))
+                {
+                    while (!r.EndOfStream)
+                    {
+                        string line = r.ReadLine();
+                        if (line.StartsWith("[list]", StringComparison.OrdinalIgnoreCase))
+                        {
+                            while (!r.EndOfStream)
+                            {
+                                string[] line2 = r.ReadLine().Split(new string[] { " = " }, StringSplitOptions.RemoveEmptyEntries);
+                                if (line2.Length > 1)
+                                {
+                                    return line2[1];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return null;
+        }
     }
 }
