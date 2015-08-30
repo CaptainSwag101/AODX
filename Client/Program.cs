@@ -14,11 +14,16 @@ namespace Client
 
         public static List<string> charList;
         public static List<string> musicList;
+        public static bool debug = false;
         //public static Socket connection;
 
         [STAThread]
         static void Main()
         {
+#if (DEBUG)
+            debug = true;
+#endif
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);            
 

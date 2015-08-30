@@ -54,7 +54,8 @@ namespace MasterServer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -72,7 +73,8 @@ namespace MasterServer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -141,7 +143,8 @@ namespace MasterServer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -174,7 +177,8 @@ namespace MasterServer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -188,7 +192,8 @@ namespace MasterServer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -221,7 +226,8 @@ namespace MasterServer
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + ".\r\n" + ex.StackTrace.ToString(), "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + ".\r\n" + ex.StackTrace.ToString(), "AODXMasterServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

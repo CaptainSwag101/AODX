@@ -24,15 +24,21 @@ namespace Client
     {
         public Socket clientSocket; //The main client socket
         public string strName;      //Character that the user is playing as
-        private int selectedAnim = 3;
+        private int selectedAnim = 1;
         private int colorIndex = 0;
         private Color selectedColor = Color.White;
         private string[] textToDisp = new string[3];
         private int textTicks = 1;
         private bool redraw = false;
+        private int emoCount;
+        private int emoPage;
+        private int emoMaxPages;
         private Data latestMsg;
         private System.Media.SoundPlayer blipPlayer = new System.Media.SoundPlayer(Properties.Resources.sfx_blipmale);
         private byte[] byteData;
+        private int preAnimTime;
+        private int curPreAnimTime;
+        private string curPreAnim;
 
         public ClientForm()
         {
@@ -41,16 +47,16 @@ namespace Client
             backgroundPB.Load("base/background/default/defenseempty.png");
             backgroundPB.Controls.Add(charLayerPB);
             charLayerPB.BackColor = Color.Transparent;
-            //charLayerPB.Image = Properties.Resources.phoenix_normal_a_;
             charLayerPB.Image = null;
             charLayerPB.Controls.Add(deskLayerPB);
             deskLayerPB.BackColor = Color.Transparent;
-            deskLayerPB.Image = Properties.Resources.Defense_Bench_Overlay_resized;
+            deskLayerPB.Load("base/background/default/defbench.png");
             deskLayerPB.Controls.Add(chatBGLayerPB);
-            chatBGLayerPB.Image = Properties.Resources.chat;
+            chatBGLayerPB.Load("base/misc/chat.png");
             chatBGLayerPB.BackColor = Color.Transparent;
             chatBGLayerPB.Controls.Add(objectLayerPB);
             objectLayerPB.BackColor = Color.Transparent;
+            objectLayerPB.Image = null;
             objectLayerPB.Controls.Add(displayMsg1);
             objectLayerPB.Controls.Add(displayMsg2);
             objectLayerPB.Controls.Add(displayMsg3);
@@ -59,6 +65,12 @@ namespace Client
             displayMsg1.BackColor = Color.Transparent;
             displayMsg2.BackColor = Color.Transparent;
             displayMsg3.BackColor = Color.Transparent;
+            arrowLeft.Load("base/misc/btn_arrowLeft.png");
+            arrowLeft.Enabled = false;
+            arrowLeft.Visible = false;
+            arrowRight.Load("base/misc/btn_arrowRight.png");
+            arrowRight.Enabled = false;
+            arrowRight.Visible = false;
             clearDispMsg();
             setDispMsgColor(Color.White);
 
@@ -70,6 +82,11 @@ namespace Client
         private void ClientForm_Load(object sender, EventArgs e)
         {
             Text = "AODXClient: " + strName;
+
+            emoCount = iniParser.GetEmoNum(strName);
+            emoMaxPages = (int)Math.Floor((decimal)(emoCount / 10));
+
+            loadEmoButtons();
 
             //byteData = new byte[incomingSize];
             byteData = new byte[1024];
@@ -114,7 +131,8 @@ namespace Client
             { }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + ".\r\n" + ex.StackTrace.ToString(), "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + ".\r\n" + ex.StackTrace.ToString(), "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -130,6 +148,163 @@ namespace Client
             displayMsg1.ForeColor = newColor;
             displayMsg2.ForeColor = newColor;
             displayMsg3.ForeColor = newColor;
+        }
+
+        private void loadEmoButtons(bool redraw = true)
+        {
+
+            if (emoCount < 10)
+            {
+                arrowRight.Enabled = false;
+                arrowRight.Visible = false;
+                arrowLeft.Enabled = false;
+                arrowLeft.Visible = false;
+            }
+            else if (emoPage == 0 & emoMaxPages > 0)
+            {
+                arrowRight.Enabled = true;
+                arrowRight.Visible = true;
+                arrowLeft.Enabled = false;
+                arrowLeft.Visible = false;
+            }
+            else if (emoPage > 0 & emoPage < emoMaxPages)
+            {
+                arrowRight.Enabled = true;
+                arrowRight.Visible = true;
+                arrowLeft.Enabled = true;
+                arrowLeft.Visible = true;
+            }
+            else if (emoPage >= emoMaxPages)
+            {
+                arrowRight.Enabled = false;
+                arrowRight.Visible = false;
+                arrowLeft.Enabled = true;
+                arrowLeft.Visible = true;
+            }
+            if (redraw)
+            {
+                emoButton1.Image = null;
+                emoButton1.Enabled = false;
+                emoButton1.Visible = false;
+                emoButton2.Image = null;
+                emoButton2.Enabled = false;
+                emoButton2.Visible = false;
+                emoButton3.Image = null;
+                emoButton3.Enabled = false;
+                emoButton3.Visible = false;
+                emoButton4.Image = null;
+                emoButton4.Enabled = false;
+                emoButton4.Visible = false;
+                emoButton5.Image = null;
+                emoButton5.Enabled = false;
+                emoButton5.Visible = false;
+                emoButton6.Image = null;
+                emoButton6.Enabled = false;
+                emoButton6.Visible = false;
+                emoButton7.Image = null;
+                emoButton7.Enabled = false;
+                emoButton7.Visible = false;
+                emoButton8.Image = null;
+                emoButton8.Enabled = false;
+                emoButton8.Visible = false;
+                emoButton9.Image = null;
+                emoButton9.Enabled = false;
+                emoButton9.Visible = false;
+                emoButton10.Image = null;
+                emoButton10.Enabled = false;
+                emoButton10.Visible = false;
+            }
+
+            if (emoCount - (0 + (10 * emoPage)) <= 0)
+                return;
+            emoButton1.Enabled = true;
+            emoButton1.Visible = true;
+            emoButton1.EmoNum = 1 + (10 * emoPage);
+            if (emoButton1.EmoNum == selectedAnim)
+                emoButton1.Load("base/characters/" + strName + "/emotions/button" + emoButton1.EmoNum + "_on.png");
+            else
+                emoButton1.Load("base/characters/" + strName + "/emotions/button" + emoButton1.EmoNum + "_off.png");
+            if (emoCount - (1 + (10 * emoPage)) <= 0)
+                return;
+            emoButton2.Enabled = true;
+            emoButton2.Visible = true;
+            emoButton2.EmoNum = 2 + (10 * emoPage);
+            if (emoButton2.EmoNum == selectedAnim)
+                emoButton2.Load("base/characters/" + strName + "/emotions/button" + emoButton2.EmoNum + "_on.png");
+            else
+                emoButton2.Load("base/characters/" + strName + "/emotions/button" + emoButton2.EmoNum + "_off.png");
+            if (emoCount - (2 + (10 * emoPage)) <= 0)
+                return;
+            emoButton3.Enabled = true;
+            emoButton3.Visible = true;
+            emoButton3.EmoNum = 3 + (10 * emoPage);
+            if (emoButton3.EmoNum == selectedAnim)
+                emoButton3.Load("base/characters/" + strName + "/emotions/button" + emoButton3.EmoNum + "_on.png");
+            else
+                emoButton3.Load("base/characters/" + strName + "/emotions/button" + emoButton3.EmoNum + "_off.png");
+            if (emoCount - (3 + (10 * emoPage)) <= 0)
+                return;
+            emoButton4.Enabled = true;
+            emoButton4.Visible = true;
+            emoButton4.EmoNum = 4 + (10 * emoPage);
+            if (emoButton4.EmoNum == selectedAnim)
+                emoButton4.Load("base/characters/" + strName + "/emotions/button" + emoButton4.EmoNum + "_on.png");
+            else
+                emoButton4.Load("base/characters/" + strName + "/emotions/button" + emoButton4.EmoNum + "_off.png");
+            if (emoCount - (5 + (10 * emoPage)) <= 0)
+                return;
+            emoButton5.Enabled = true;
+            emoButton5.Visible = true;
+            emoButton5.EmoNum = 5 + (10 * emoPage);
+            if (emoButton5.EmoNum == selectedAnim)
+                emoButton5.Load("base/characters/" + strName + "/emotions/button" + emoButton5.EmoNum + "_on.png");
+            else
+                emoButton5.Load("base/characters/" + strName + "/emotions/button" + emoButton5.EmoNum + "_off.png");
+            if (emoCount - (6 + (10 * emoPage)) <= 0)
+                return;
+            emoButton6.Enabled = true;
+            emoButton6.Visible = true;
+            emoButton6.EmoNum = 6 + (10 * emoPage);
+            if (emoButton6.EmoNum == selectedAnim)
+                emoButton6.Load("base/characters/" + strName + "/emotions/button" + emoButton6.EmoNum + "_on.png");
+            else
+                emoButton6.Load("base/characters/" + strName + "/emotions/button" + emoButton6.EmoNum + "_off.png");
+            if (emoCount - (7 + (10 * emoPage)) <= 0)
+                return;
+            emoButton7.Enabled = true;
+            emoButton7.Visible = true;
+            emoButton7.EmoNum = 7 + (10 * emoPage);
+            if (emoButton7.EmoNum == selectedAnim)
+                emoButton7.Load("base/characters/" + strName + "/emotions/button" + emoButton7.EmoNum + "_on.png");
+            else
+                emoButton7.Load("base/characters/" + strName + "/emotions/button" + emoButton7.EmoNum + "_off.png");
+            if (emoCount - (8 + (10 * emoPage)) <= 0)
+                return;
+            emoButton8.Enabled = true;
+            emoButton8.Visible = true;
+            emoButton8.EmoNum = 8 + (10 * emoPage);
+            if (emoButton8.EmoNum == selectedAnim)
+                emoButton8.Load("base/characters/" + strName + "/emotions/button" + emoButton8.EmoNum + "_on.png");
+            else
+                emoButton8.Load("base/characters/" + strName + "/emotions/button" + emoButton8.EmoNum + "_off.png");
+            if (emoCount - (9 + (10 * emoPage)) <= 0)
+                return;
+            emoButton9.Enabled = true;
+            emoButton9.Visible = true;
+            emoButton9.EmoNum = 9 + (10 * emoPage);
+            if (emoButton9.EmoNum == selectedAnim)
+                emoButton9.Load("base/characters/" + strName + "/emotions/button" + emoButton9.EmoNum + "_on.png");
+            else
+                emoButton9.Load("base/characters/" + strName + "/emotions/button" + emoButton9.EmoNum + "_off.png");
+            if (emoCount - (10 + (10 * emoPage)) <= 0)
+                return;
+            emoButton10.Enabled = true;
+            emoButton10.Visible = true;
+            emoButton10.EmoNum = 10 + (10 * emoPage);
+            if (emoButton10.EmoNum == selectedAnim)
+                emoButton10.Load("base/characters/" + strName + "/emotions/button" + emoButton10.EmoNum + "_on.png");
+            else
+                emoButton10.Load("base/characters/" + strName + "/emotions/button" + emoButton10.EmoNum + "_off.png");
         }
 
         //Broadcast the message typed by the user to everyone
@@ -158,7 +333,8 @@ namespace Client
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unable to send message to the server.\r\n" + ex.Message + ".\r\n" + ex.StackTrace.ToString(), "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show("Unable to send message to the server.\r\n" + ex.Message + ".\r\n" + ex.StackTrace.ToString(), "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -196,8 +372,22 @@ namespace Client
                     case Command.Message:
                         //blipPlayer.PlayLooping();
                         latestMsg = msgReceived;
-                        charLayerPB.Load("base/characters/" + msgReceived.strName + "/(b)" + msgReceived.anim + ".gif");
-                        prepWriteDispBoxes(msgReceived, msgReceived.textColor);
+
+                        curPreAnimTime = 0;
+                        curPreAnimTime = 0;
+                        curPreAnim = null;
+
+                        if (msgReceived.preAnim == null)
+                        {
+                            charLayerPB.Load("base/characters/" + msgReceived.strName + "/(b)" + msgReceived.anim + ".gif");
+                            prepWriteDispBoxes(msgReceived, msgReceived.textColor);
+                        }
+                        else
+                        {
+                            charLayerPB.Load("base/characters/" + msgReceived.strName + "/" + msgReceived.preAnim + ".gif");
+                            preAnimTime = iniParser.GetPreAnimTime(msgReceived.strName, msgReceived.preAnim);
+                            curPreAnim = msgReceived.preAnim;
+                        }
                         //dispTextRedraw.Enabled = true;
                         break;
 
@@ -241,7 +431,8 @@ namespace Client
             { }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + ".\r\n" + ex.StackTrace.ToString(), "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + ".\r\n" + ex.StackTrace.ToString(), "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -415,6 +606,38 @@ namespace Client
             }
         }
 
+        private void animTimer_Tick(object sender, EventArgs e)
+        {
+            if (preAnimTime > 0 && curPreAnim != null)
+            {
+                if (curPreAnimTime < preAnimTime)
+                    curPreAnimTime++;
+                else
+                {
+                    curPreAnimTime = 0;
+                    curPreAnimTime = 0;
+                    curPreAnim = null;
+                
+                    charLayerPB.Load("base/characters/" + latestMsg.strName + "/(b)" + latestMsg.anim + ".gif");
+                    prepWriteDispBoxes(latestMsg, latestMsg.textColor);
+                    return;
+                }
+            }
+            /* else
+            {
+                curPreAnimTime = 0;
+                curPreAnimTime = 0;
+                curPreAnim = null;
+
+                if (latestMsg != null)
+                {
+                    charLayerPB.Load("base/characters/" + latestMsg.strName + "/(b)" + latestMsg.anim + ".gif");
+                    prepWriteDispBoxes(latestMsg, latestMsg.textColor);
+                }
+            } */
+
+        }
+
         private void txtColorChanger_Click(object sender, EventArgs e)
         {
             if (colorIndex < 3)
@@ -453,62 +676,74 @@ namespace Client
 
         private void emoButton1_Click(object sender, EventArgs e)
         {
-
+            selectedAnim = emoButton1.EmoNum;
+            loadEmoButtons(false);
         }
 
         private void emoButton2_Click(object sender, EventArgs e)
         {
-
+            selectedAnim = emoButton2.EmoNum;
+            loadEmoButtons(false);
         }
 
         private void emoButton3_Click(object sender, EventArgs e)
         {
-
+            selectedAnim = emoButton3.EmoNum;
+            loadEmoButtons(false);
         }
 
         private void emoButton4_Click(object sender, EventArgs e)
         {
-
+            selectedAnim = emoButton4.EmoNum;
+            loadEmoButtons(false);
         }
 
         private void emoButton5_Click(object sender, EventArgs e)
         {
-
+            selectedAnim = emoButton5.EmoNum;
+            loadEmoButtons(false);
         }
 
         private void emoButton6_Click(object sender, EventArgs e)
         {
-
+            selectedAnim = emoButton6.EmoNum;
+            loadEmoButtons(false);
         }
 
         private void emoButton7_Click(object sender, EventArgs e)
         {
-
+            selectedAnim = emoButton7.EmoNum;
+            loadEmoButtons(false);
         }
 
         private void emoButton8_Click(object sender, EventArgs e)
         {
-
+            selectedAnim = emoButton8.EmoNum;
+            loadEmoButtons(false);
         }
 
         private void emoButton9_Click(object sender, EventArgs e)
         {
-
+            selectedAnim = emoButton9.EmoNum;
+            loadEmoButtons(false);
         }
 
         private void emoButton10_Click(object sender, EventArgs e)
         {
-
+            selectedAnim = emoButton10.EmoNum;
+            loadEmoButtons(false);
         }
 
         private void arrowLeft_Click(object sender, EventArgs e)
         {
-
+            emoPage--;
+            loadEmoButtons();
         }
 
         private void arrowRight_Click(object sender, EventArgs e)
         {
-
+            emoPage++;
+            loadEmoButtons();
         }
     }
 

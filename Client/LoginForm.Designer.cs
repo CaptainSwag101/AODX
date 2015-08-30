@@ -179,13 +179,12 @@ namespace Client
             // 
             // userCount
             // 
-            this.userCount.AutoSize = true;
-            this.userCount.BackColor = System.Drawing.Color.DimGray;
+            this.userCount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
             this.userCount.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.userCount.ForeColor = System.Drawing.Color.White;
-            this.userCount.Location = new System.Drawing.Point(396, 119);
+            this.userCount.Location = new System.Drawing.Point(343, 119);
             this.userCount.Name = "userCount";
-            this.userCount.Size = new System.Drawing.Size(52, 16);
+            this.userCount.Size = new System.Drawing.Size(157, 16);
             this.userCount.TabIndex = 13;
             this.userCount.Text = "Offline";
             this.userCount.TextAlign = System.Drawing.ContentAlignment.TopCenter;

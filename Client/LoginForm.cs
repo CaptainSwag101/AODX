@@ -23,10 +23,15 @@ namespace Client
         public LoginForm()
         {
             InitializeComponent();
+            btn_PublicServers.Load("base/misc/btn_public_on.png");
             background.Controls.Add(btn_PublicServers);
+            btn_FavoriteServers.Load("base/misc/btn_fav_off.png");
             background.Controls.Add(btn_FavoriteServers);
+            btn_Refresh.Load("base/misc/btn_refresh.png");
             background.Controls.Add(btn_Refresh);
+            btn_AddFav.Load("base/misc/btn_addFav.png");
             background.Controls.Add(btn_AddFav);
+            btn_Connect.Load("base/misc/btn_connect.png");
             background.Controls.Add(btn_Connect);
             versionLabel.BackColor = Color.Transparent;
             background.Controls.Add(versionLabel);
@@ -39,6 +44,7 @@ namespace Client
         private void LoginForm_Load(object sender, EventArgs e)
         {
             CheckForIllegalCrossThreadCalls = false;
+            serverDescTextBox.Text = "";
             masterserverIP = iniParser.GetMasterIP();
             if (masterserverIP == null)
             {
@@ -100,7 +106,8 @@ namespace Client
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -109,6 +116,7 @@ namespace Client
             try
             {
                 masterSocket.EndConnect(ar);
+                btn_Refresh.Load("base/misc/btn_refresh.png");
                 //btnOK.Enabled = false;
 
                 byte[] b = new byte[1];
@@ -121,7 +129,8 @@ namespace Client
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Unable to connect to the masterserver:\r\n" + ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show("Unable to connect to the masterserver:\r\n" + ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -133,7 +142,8 @@ namespace Client
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -145,7 +155,8 @@ namespace Client
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -224,7 +235,8 @@ namespace Client
             { }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -249,7 +261,8 @@ namespace Client
             { }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -288,7 +301,8 @@ namespace Client
             { }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -307,8 +321,8 @@ namespace Client
             if (favorites == true)
             {
                 favorites = false;
-                btn_PublicServers.Image = Properties.Resources.b1_on;
-                btn_FavoriteServers.Image = Properties.Resources.b2_off;
+                btn_PublicServers.Load("base/misc/btn_public_on.png");
+                btn_FavoriteServers.Load("base/misc/btn_fav_off.png");
             }
         }
 
@@ -317,13 +331,14 @@ namespace Client
             if (favorites == false)
             {
                 favorites = true;
-                btn_FavoriteServers.Image = Properties.Resources.b2_on;
-                btn_PublicServers.Image = Properties.Resources.b1_off;
+                btn_PublicServers.Load("base/misc/btn_public_off.png");
+                btn_FavoriteServers.Load("base/misc/btn_fav_on.png");
             }
         }
 
         private void btn_Refresh_Click(object sender, EventArgs e)
         {
+            btn_Refresh.Load("base/misc/btn_refresh_pressed.png");
             if (clientSocket != null && clientSocket.Connected == true)
             {
                 //clientSocket.BeginDisconnect(true, new AsyncCallback(OnDisconnect), null);
@@ -339,7 +354,7 @@ namespace Client
 
         private void btn_Connect_Click(object sender, EventArgs e)
         {
-            btn_Connect.Image = Properties.Resources.b3_off;
+            btn_Connect.Load("base/misc/btn_connect_pressed.png");
             try
             {
                 if (serverList.Items.Count > 0 && serverList.SelectedItem != null && clientSocket != null)
@@ -356,7 +371,8 @@ namespace Client
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -378,18 +394,6 @@ namespace Client
             {
                 if (((KeyValuePair<string, string>)serverList.SelectedItem).Key.ToString().Split(':')[0] != clientSocket?.RemoteEndPoint.ToString().Split(':')[0])
                     ConnectToServer(((KeyValuePair<string, string>)serverList.SelectedItem).Key.ToString().Split(',')[0]);
-            }
-        }
-
-        public void OnDisconnect(IAsyncResult ar)
-        {
-            try
-            {
-                clientSocket.EndDisconnect(ar);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

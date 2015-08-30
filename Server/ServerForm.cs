@@ -92,7 +92,8 @@ namespace Server
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -122,7 +123,8 @@ namespace Server
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -146,7 +148,8 @@ namespace Server
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -173,7 +176,8 @@ namespace Server
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + ".\r\n" + ((Socket)ar.AsyncState).RemoteEndPoint.ToString() + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + ".\r\n" + ((Socket)ar.AsyncState).RemoteEndPoint.ToString() + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -194,7 +198,8 @@ namespace Server
             { }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -394,7 +399,8 @@ namespace Server
             { }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -408,13 +414,10 @@ namespace Server
                 masterSocket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSendClose), null);
                 masterSocket.Close();
             }
-            catch (ObjectDisposedException)
-            { }
-            catch (SocketException)
-            { }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -457,7 +460,8 @@ namespace Server
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -482,7 +486,8 @@ namespace Server
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

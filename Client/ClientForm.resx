@@ -581,7 +581,7 @@
     <value>Top, Right</value>
   </data>
   <data name="OOCInput.Location" type="System.Drawing.Point, System.Drawing">
-    <value>526, 276</value>
+    <value>525, 276</value>
   </data>
   <data name="OOCInput.Size" type="System.Drawing.Size, System.Drawing">
     <value>246, 20</value>
@@ -916,6 +916,9 @@
   <data name="&gt;&gt;emotionPanel.ZOrder" xml:space="preserve">
     <value>0</value>
   </data>
+  <metadata name="animTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
+    <value>155, 17</value>
+  </metadata>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -926,10 +929,10 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>785, 633</value>
+    <value>784, 633</value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>801, 672</value>
+    <value>800, 672</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Attorney Online Deluxe Client</value>
@@ -938,6 +941,12 @@
     <value>dispTextRedraw</value>
   </data>
   <data name="&gt;&gt;dispTextRedraw.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;animTimer.Name" xml:space="preserve">
+    <value>animTimer</value>
+  </data>
+  <data name="&gt;&gt;animTimer.Type" xml:space="preserve">
     <value>System.Windows.Forms.Timer, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="&gt;&gt;$this.Name" xml:space="preserve">

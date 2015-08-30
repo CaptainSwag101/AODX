@@ -49,6 +49,32 @@ namespace Client
             }
         }
 
+        public static int GetPreAnimTime(string charName, string anim)
+        {
+            string dirName = "base/characters/" + charName + "/";
+            if (charName != null && Directory.Exists(dirName) && File.Exists(dirName + "char.ini") & anim != null)
+            {
+                using (var r = new StreamReader(dirName + "char.ini"))
+                {
+                    int length = 0;
+                    while (!r.EndOfStream)
+                    {
+                        string line = r.ReadLine();
+                        if (length <= 0 && line.StartsWith(anim, StringComparison.OrdinalIgnoreCase))
+                        {
+                            length = Convert.ToInt32(line.Split(new string[] { " = " }, StringSplitOptions.None)[1]);
+                            return length;
+                        }
+                    }
+                }
+                return 0;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
         public static string GetAnim(string charName, int anim)
         {
             string dirName = "base/characters/" + charName + "/";

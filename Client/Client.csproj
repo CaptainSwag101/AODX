@@ -382,27 +382,45 @@
     <None Include="Resources\zettaslow.gif" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="base\background\default\bancoacusacion.gif" />
-    <Content Include="base\background\default\bancoacusacion.png" />
-    <Content Include="base\background\default\bancodefensa.gif" />
-    <Content Include="base\background\default\bancodefensa.png">
+    <Content Include="base\background\default\defbench.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="base\background\default\bancodefensa2.png" />
-    <Content Include="base\background\default\defenseempty.png" />
-    <Content Include="base\background\default\estrado.gif" />
-    <Content Include="base\background\default\estrado.png" />
-    <Content Include="base\background\default\gallery.gif" />
-    <Content Include="base\background\default\gavel.gif" />
-    <Content Include="base\background\default\helperstand.png" />
-    <Content Include="base\background\default\judgestand.png" />
-    <Content Include="base\background\default\objection.gif" />
-    <Content Include="base\background\default\prohelperstand.png" />
-    <Content Include="base\background\default\prosecutorempty.png" />
-    <Content Include="base\background\default\speedlineupclose.png" />
-    <Content Include="base\background\default\super anim.png" />
-    <Content Include="base\background\default\tribunal.gif" />
-    <Content Include="base\background\default\witnessempty.png" />
+    <Content Include="base\background\default\defenseempty.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="base\background\default\gallery.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="base\background\default\gavel.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="base\background\default\helperstand.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="base\background\default\judgestand.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="base\background\default\probench.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="base\background\default\prohelperstand.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="base\background\default\prosecutorempty.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="base\background\default\speedlineupclose.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="base\background\default\super anim.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="base\background\default\witnessempty.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="base\background\default\witstand.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="base\misc\ani_crossexamination.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

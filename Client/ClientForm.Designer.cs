@@ -60,6 +60,7 @@ namespace Client
             this.emoButton3 = new Client.EmoButton();
             this.emoButton2 = new Client.EmoButton();
             this.emoButton1 = new Client.EmoButton();
+            this.animTimer = new System.Windows.Forms.Timer(this.components);
             this.GameDisplay.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectLayerPB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chatBGLayerPB)).BeginInit();
@@ -311,6 +312,12 @@ namespace Client
             this.emoButton1.TabStop = false;
             this.emoButton1.Click += new System.EventHandler(this.emoButton1_Click);
             // 
+            // animTimer
+            // 
+            this.animTimer.Enabled = true;
+            this.animTimer.Interval = 60;
+            this.animTimer.Tick += new System.EventHandler(this.animTimer_Tick);
+            // 
             // ClientForm
             // 
             this.AcceptButton = this.btnSend;
@@ -384,6 +391,7 @@ namespace Client
         private EmoButton emoButton6;
         private System.Windows.Forms.PictureBox arrowLeft;
         private System.Windows.Forms.PictureBox arrowRight;
+        private System.Windows.Forms.Timer animTimer;
     }
 }
 
