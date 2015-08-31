@@ -164,7 +164,6 @@ namespace Client
             // deskLayerPB
             // 
             this.deskLayerPB.BackColor = System.Drawing.Color.Transparent;
-            this.deskLayerPB.Image = null;
             resources.ApplyResources(this.deskLayerPB, "deskLayerPB");
             this.deskLayerPB.Name = "deskLayerPB";
             this.deskLayerPB.TabStop = false;
@@ -172,7 +171,6 @@ namespace Client
             // charLayerPB
             // 
             this.charLayerPB.BackColor = System.Drawing.Color.Transparent;
-            this.charLayerPB.Image = null;
             resources.ApplyResources(this.charLayerPB, "charLayerPB");
             this.charLayerPB.Name = "charLayerPB";
             this.charLayerPB.TabStop = false;

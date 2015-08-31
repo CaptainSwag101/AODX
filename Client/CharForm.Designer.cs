@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CharForm));
             this.lb_CharList = new System.Windows.Forms.ListBox();
             this.btn_Login = new System.Windows.Forms.Button();
             this.SuspendLayout();
@@ -58,6 +59,7 @@
             this.ClientSize = new System.Drawing.Size(284, 261);
             this.Controls.Add(this.btn_Login);
             this.Controls.Add(this.lb_CharList);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CharForm";
             this.Text = "CharForm";
             this.Load += new System.EventHandler(this.CharForm_Load);

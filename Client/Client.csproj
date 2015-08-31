@@ -9,7 +9,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Client</RootNamespace>
-    <AssemblyName>Client</AssemblyName>
+    <AssemblyName>AODXClient</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -54,6 +54,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>AttorneyOnline_0000.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSCore">
       <HintPath>..\CSCore.dll</HintPath>
@@ -66,6 +69,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutBox.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutBox.Designer.cs">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </Compile>
     <Compile Include="CharForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -93,6 +102,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AboutBox.resx">
+      <DependentUpon>AboutBox.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CharForm.resx">
       <DependentUpon>CharForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -136,111 +148,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\b1_off.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\b1_on.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\b2_off.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\b2_on.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\b3_off.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\b3_on.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\b4_off.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\b4_on.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\b5_off.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\b5_on.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\button_holdit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\button_holdit_off.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\button_takethat.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\button_takethat_off.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\chat.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\crossex.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\defminus.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\defplus.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\interface122.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\invent2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\invent3.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\inventory.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\lobby2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\OBJ!.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\OBJ!off.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\page1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\page2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\panel.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\placeholder.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\placeholder.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\prominus.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ProPlus.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\testimony.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\toogle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\zdoh.png" />
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include="AttorneyOnline_0000.ico" />
     <Content Include="base\background\default\defbench.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

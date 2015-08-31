@@ -19,6 +19,7 @@ namespace Client
         private bool favorites = false;
         private string masterserverIP;
         private int incomingSize;
+        private AboutBox AboutForm = new AboutBox();
 
         public LoginForm()
         {
@@ -33,8 +34,6 @@ namespace Client
             background.Controls.Add(btn_AddFav);
             btn_Connect.Load("base/misc/btn_connect.png");
             background.Controls.Add(btn_Connect);
-            versionLabel.BackColor = Color.Transparent;
-            background.Controls.Add(versionLabel);
             userCount.BackColor = Color.Transparent;
             background.Controls.Add(userCount);
             serverDescTextBox.BackColor = Color.Transparent;
@@ -395,6 +394,11 @@ namespace Client
                 if (((KeyValuePair<string, string>)serverList.SelectedItem).Key.ToString().Split(':')[0] != clientSocket?.RemoteEndPoint.ToString().Split(':')[0])
                     ConnectToServer(((KeyValuePair<string, string>)serverList.SelectedItem).Key.ToString().Split(',')[0]);
             }
+        }
+
+        private void aboutMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutForm.Show();
         }
     }
 }

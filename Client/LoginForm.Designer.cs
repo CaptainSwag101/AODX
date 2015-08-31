@@ -29,7 +29,6 @@ namespace Client
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
-            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.btn_PublicServers = new System.Windows.Forms.PictureBox();
             this.background = new System.Windows.Forms.PictureBox();
             this.btn_FavoriteServers = new System.Windows.Forms.PictureBox();
@@ -40,25 +39,24 @@ namespace Client
             this.lobbyChat = new System.Windows.Forms.TextBox();
             this.lobbyName = new System.Windows.Forms.TextBox();
             this.textBox2 = new System.Windows.Forms.TextBox();
-            this.versionLabel = new System.Windows.Forms.Label();
             this.userCount = new System.Windows.Forms.Label();
             this.serverDescTextBox = new System.Windows.Forms.Label();
+            this.versionLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.menuStrip = new System.Windows.Forms.MenuStrip();
+            this.fileMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpMenu = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.btn_PublicServers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.background)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_FavoriteServers)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_Refresh)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_AddFav)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_Connect)).BeginInit();
+            this.statusStrip1.SuspendLayout();
+            this.menuStrip.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // statusStrip1
-            // 
-            this.statusStrip1.Location = new System.Drawing.Point(0, 696);
-            this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(520, 22);
-            this.statusStrip1.SizingGrip = false;
-            this.statusStrip1.TabIndex = 1;
-            this.statusStrip1.Text = "statusStrip1";
             // 
             // btn_PublicServers
             // 
@@ -73,7 +71,7 @@ namespace Client
             // 
             // background
             // 
-            this.background.Image = global::Client.Properties.Resources.lobby2;
+            this.background.Image = ((System.Drawing.Image)(resources.GetObject("background.Image")));
             this.background.Location = new System.Drawing.Point(0, 0);
             this.background.Name = "background";
             this.background.Size = new System.Drawing.Size(520, 720);
@@ -167,16 +165,6 @@ namespace Client
             this.textBox2.Size = new System.Drawing.Size(420, 20);
             this.textBox2.TabIndex = 11;
             // 
-            // versionLabel
-            // 
-            this.versionLabel.AutoSize = true;
-            this.versionLabel.BackColor = System.Drawing.Color.Gainsboro;
-            this.versionLabel.Location = new System.Drawing.Point(6, 6);
-            this.versionLabel.Name = "versionLabel";
-            this.versionLabel.Size = new System.Drawing.Size(60, 13);
-            this.versionLabel.TabIndex = 12;
-            this.versionLabel.Text = "Version 1.0";
-            // 
             // userCount
             // 
             this.userCount.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(75)))), ((int)(((byte)(75)))), ((int)(((byte)(75)))));
@@ -198,6 +186,66 @@ namespace Client
             this.serverDescTextBox.TabIndex = 14;
             this.serverDescTextBox.Text = "serverDescTextBox";
             // 
+            // versionLabel
+            // 
+            this.versionLabel.Name = "versionLabel";
+            this.versionLabel.Size = new System.Drawing.Size(63, 17);
+            this.versionLabel.Text = "Version 1.0";
+            // 
+            // statusStrip1
+            // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.versionLabel});
+            this.statusStrip1.Location = new System.Drawing.Point(0, 696);
+            this.statusStrip1.Name = "statusStrip1";
+            this.statusStrip1.Size = new System.Drawing.Size(520, 22);
+            this.statusStrip1.SizingGrip = false;
+            this.statusStrip1.TabIndex = 1;
+            this.statusStrip1.Text = "statusStrip1";
+            // 
+            // menuStrip
+            // 
+            this.menuStrip.BackColor = System.Drawing.Color.Gainsboro;
+            this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileMenu,
+            this.helpMenu});
+            this.menuStrip.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip.Name = "menuStrip";
+            this.menuStrip.Size = new System.Drawing.Size(520, 24);
+            this.menuStrip.TabIndex = 15;
+            this.menuStrip.Text = "menuStrip1";
+            // 
+            // fileMenu
+            // 
+            this.fileMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.exitMenuItem});
+            this.fileMenu.Name = "fileMenu";
+            this.fileMenu.Size = new System.Drawing.Size(37, 20);
+            this.fileMenu.Text = "&File";
+            // 
+            // helpMenu
+            // 
+            this.helpMenu.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutMenuItem});
+            this.helpMenu.Name = "helpMenu";
+            this.helpMenu.Size = new System.Drawing.Size(44, 20);
+            this.helpMenu.Text = "&Help";
+            // 
+            // aboutMenuItem
+            // 
+            this.aboutMenuItem.Name = "aboutMenuItem";
+            this.aboutMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.B)));
+            this.aboutMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.aboutMenuItem.Text = "&About...";
+            this.aboutMenuItem.Click += new System.EventHandler(this.aboutMenuItem_Click);
+            // 
+            // exitMenuItem
+            // 
+            this.exitMenuItem.Name = "exitMenuItem";
+            this.exitMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.exitMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitMenuItem.Text = "&Exit";
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -205,7 +253,6 @@ namespace Client
             this.ClientSize = new System.Drawing.Size(520, 718);
             this.Controls.Add(this.serverDescTextBox);
             this.Controls.Add(this.userCount);
-            this.Controls.Add(this.versionLabel);
             this.Controls.Add(this.textBox2);
             this.Controls.Add(this.lobbyName);
             this.Controls.Add(this.lobbyChat);
@@ -216,13 +263,16 @@ namespace Client
             this.Controls.Add(this.btn_FavoriteServers);
             this.Controls.Add(this.btn_PublicServers);
             this.Controls.Add(this.statusStrip1);
+            this.Controls.Add(this.menuStrip);
             this.Controls.Add(this.background);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "LoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Attorney Online Deluxe";
+            this.Text = "Attorney Online Deluxe Client";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.LoginForm_FormClosing);
             this.Load += new System.EventHandler(this.LoginForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.btn_PublicServers)).EndInit();
@@ -231,6 +281,10 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.btn_Refresh)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_AddFav)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_Connect)).EndInit();
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
+            this.menuStrip.ResumeLayout(false);
+            this.menuStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -239,7 +293,6 @@ namespace Client
         #endregion
 
         private System.Windows.Forms.PictureBox background;
-        private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.PictureBox btn_PublicServers;
         private System.Windows.Forms.PictureBox btn_FavoriteServers;
         private System.Windows.Forms.ListBox serverList;
@@ -249,8 +302,14 @@ namespace Client
         private System.Windows.Forms.TextBox lobbyChat;
         private System.Windows.Forms.TextBox lobbyName;
         private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Label versionLabel;
         private System.Windows.Forms.Label userCount;
         private System.Windows.Forms.Label serverDescTextBox;
+        private System.Windows.Forms.ToolStripStatusLabel versionLabel;
+        private System.Windows.Forms.StatusStrip statusStrip1;
+        private System.Windows.Forms.MenuStrip menuStrip;
+        private System.Windows.Forms.ToolStripMenuItem fileMenu;
+        private System.Windows.Forms.ToolStripMenuItem helpMenu;
+        private System.Windows.Forms.ToolStripMenuItem aboutMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
     }
 }

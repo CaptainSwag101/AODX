@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("AODXClient")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Attorney Online Deluxe Client")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Swag Industries")]
-[assembly: AssemblyProduct("AODXClient")]
-[assembly: AssemblyCopyright("Copyright © Swag Industries 2015")]
+[assembly: AssemblyProduct("Attorney Online Deluxe Client")]
+[assembly: AssemblyCopyright("Copyright © 2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
