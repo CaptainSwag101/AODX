@@ -164,7 +164,7 @@ namespace Client
             // deskLayerPB
             // 
             this.deskLayerPB.BackColor = System.Drawing.Color.Transparent;
-            this.deskLayerPB.Image = global::Client.Properties.Resources.Defense_Bench_Overlay_resized;
+            this.deskLayerPB.Image = null;
             resources.ApplyResources(this.deskLayerPB, "deskLayerPB");
             this.deskLayerPB.Name = "deskLayerPB";
             this.deskLayerPB.TabStop = false;
@@ -172,7 +172,7 @@ namespace Client
             // charLayerPB
             // 
             this.charLayerPB.BackColor = System.Drawing.Color.Transparent;
-            this.charLayerPB.Image = global::Client.Properties.Resources.phoenix_normal_a_;
+            this.charLayerPB.Image = null;
             resources.ApplyResources(this.charLayerPB, "charLayerPB");
             this.charLayerPB.Name = "charLayerPB";
             this.charLayerPB.TabStop = false;

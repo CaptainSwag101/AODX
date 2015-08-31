@@ -564,7 +564,7 @@ namespace Client
                         if (!zoom)
                         {
                             backgroundPB.Image = Image.FromFile("base/background/default/defenseempty.png");
-                            deskLayerPB.Image = Properties.Resources.Defense_Bench_Overlay_resized;
+                            deskLayerPB.Image = Image.FromFile("base/background/default/defbench.png");
                         }
                         else
                         {
@@ -576,7 +576,7 @@ namespace Client
                         if (!zoom)
                         {
                             backgroundPB.Image = Image.FromFile("base/background/default/prosecutorempty.png");
-                            deskLayerPB.Image = Properties.Resources.Prosecutor_Bench_Overlay_resized;
+                            deskLayerPB.Image = Image.FromFile("base/background/default/probench.png");
                         }
                         else
                         {
@@ -600,7 +600,7 @@ namespace Client
                         if (!zoom)
                         {
                             backgroundPB.Image = Image.FromFile("base/background/default/witnessempty.png");
-                            deskLayerPB.Image = Properties.Resources.PW_Witness_Stand_Overlay;
+                            deskLayerPB.Image = Image.FromFile("base/background/default/witstand.png");
                         }
                         else
                         {

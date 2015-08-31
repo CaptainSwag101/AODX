@@ -106,14 +106,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="app.config" />
     <None Include="base\masterserver.ini">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -122,6 +117,11 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Settings.settings</DependentUpon>
@@ -134,54 +134,6 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\phoenix-normal%28a%29.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\phoenix-normal%28b%29.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\bubble-%28ani%29holdit.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\bubble-%28ani%29objection.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\bubble-%28ani%29takethat.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\chataai.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Defense Bench Overlay resized.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PW Textbox Trans.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\sfx-blipfemale.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\sfx-typwriter.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\sfx-blipmale.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\sfx-blipmale2.wav" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Prosecutor Bench Overlay resized.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\PW Witness Stand Overlay.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\addfav button.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\advocat.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\b1_off.png" />
@@ -214,12 +166,6 @@
     <None Include="Resources\b5_on.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\btn_centr_show.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\btn_centr_show_off.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\button_holdit.png" />
   </ItemGroup>
   <ItemGroup>
@@ -235,55 +181,13 @@
     <None Include="Resources\chat.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\chat2.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\chatbig.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\chatmed.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\connect button.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\connectionmenu.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\crossex.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\crossexamination.gif" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\defminus.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\defplus.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\derp.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\favorites.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\favorites_chosen.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\fond_defilant_accusation.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\fond_defilant_defense.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\frame.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\helperstand.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\holdit.gif" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\interface122.png" />
@@ -298,18 +202,6 @@
     <None Include="Resources\inventory.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\inventory_dis.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\Leet.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\leet2.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\lobby.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\lobby2.png" />
   </ItemGroup>
   <ItemGroup>
@@ -317,9 +209,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\OBJ!off.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\objection.gif" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\page1.png" />
@@ -337,31 +226,10 @@
     <None Include="Resources\placeholder.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\procuror.png" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\prominus.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\ProPlus.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\public.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\public_off.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\refresh button.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\svidetel.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\takethat.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\testimony.gif" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\testimony.png" />
@@ -370,19 +238,7 @@
     <None Include="Resources\toogle.png" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\whitish.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\witnessTestimony.gif" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\witnessTestimony2.gif" />
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Resources\zdoh.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\zettaslow.gif" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="base\background\default\defbench.png">
