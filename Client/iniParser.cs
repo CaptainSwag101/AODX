@@ -49,10 +49,10 @@ namespace Client
             }
         }
 
-        public static int GetPreAnimTime(string charName, string anim)
+        public static int GetPreAnimTime(string charName, int anim)
         {
             string dirName = "base/characters/" + charName + "/";
-            if (charName != null && Directory.Exists(dirName) && File.Exists(dirName + "char.ini") & anim != null)
+            if (charName != null && Directory.Exists(dirName) && File.Exists(dirName + "char.ini") & anim > 0)
             {
                 using (var r = new StreamReader(dirName + "char.ini"))
                 {
@@ -60,7 +60,7 @@ namespace Client
                     while (!r.EndOfStream)
                     {
                         string line = r.ReadLine();
-                        if (length <= 0 && line.StartsWith(anim, StringComparison.OrdinalIgnoreCase))
+                        if (length <= 0 && line.StartsWith(GetPreAnim(charName, anim), StringComparison.OrdinalIgnoreCase))
                         {
                             length = Convert.ToInt32(line.Split(new string[] { " = " }, StringSplitOptions.None)[1]);
                             return length;
@@ -72,6 +72,70 @@ namespace Client
             else
             {
                 return 0;
+            }
+        }
+
+        public static int GetSoundTime(string charName, int anim)
+        {
+            string dirName = "base/characters/" + charName + "/";
+            if (charName != null && Directory.Exists(dirName) && File.Exists(dirName + "char.ini") & anim > 0)
+            {
+                using (var r = new StreamReader(dirName + "char.ini"))
+                {
+                    while (!r.EndOfStream)
+                    {
+                        string line = r.ReadLine();
+                        if (line.StartsWith("[SoundT]", StringComparison.OrdinalIgnoreCase))
+                        {
+                            while (!r.EndOfStream)
+                            {
+                                string line2 = r.ReadLine();
+                                if (line2.StartsWith(anim.ToString(), StringComparison.OrdinalIgnoreCase))
+                                {
+                                    return Convert.ToInt32(line2.Split(new string[] { " = " }, StringSplitOptions.None)[1]);
+
+                                }
+                            }
+                        }
+                    }
+                }
+                return 0;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+
+        public static string GetSoundName(string charName, int anim)
+        {
+            string dirName = "base/characters/" + charName + "/";
+            if (charName != null && Directory.Exists(dirName) && File.Exists(dirName + "char.ini") & anim > 0)
+            {
+                using (var r = new StreamReader(dirName + "char.ini"))
+                {
+                    while (!r.EndOfStream)
+                    {
+                        string line = r.ReadLine();
+                        if (line.StartsWith("[SoundN]", StringComparison.OrdinalIgnoreCase))
+                        {
+                            while (!r.EndOfStream)
+                            {
+                                string line2 = r.ReadLine();
+                                if (line2.StartsWith(anim.ToString(), StringComparison.OrdinalIgnoreCase))
+                                {
+                                    return line2.Split(new string[] { " = " }, StringSplitOptions.None)[1];
+                                    
+                                }
+                            }
+                        }
+                    }
+                }
+                return "1";
+            }
+            else
+            {
+                return "1";
             }
         }
 
@@ -100,9 +164,9 @@ namespace Client
                             {
                                 return animData[2];
                             }
-                            else
+                            else if (animData[3] == "5")
                             {
-                                return null;
+                                return animData[2];
                             }
                         }
                     }
@@ -112,6 +176,39 @@ namespace Client
             else
             {
                 return null;
+            }
+        }
+
+        public static int GetAnimType(string charName, int anim)
+        {
+            string dirName = "base/characters/" + charName + "/";
+            if(charName != null && Directory.Exists(dirName) && File.Exists(dirName + "char.ini") & anim >= 0)
+            {
+                using (var r = new StreamReader(dirName + "char.ini"))
+                {
+                    int count = 0;
+                    while (!r.EndOfStream)
+                    {
+                        string line = r.ReadLine();
+                        if (count <= 0 && line.StartsWith("number", StringComparison.OrdinalIgnoreCase))
+                        {
+                            count = Convert.ToInt32(line.Split(new string[] { " = " }, StringSplitOptions.None)[1]);
+                            continue;
+                        }
+
+                        if (count > 0 && line.StartsWith(anim.ToString(), StringComparison.OrdinalIgnoreCase))
+                        {
+                            string parseThis = line.Split(new string[] { " = " }, StringSplitOptions.None)[1];
+                            string[] animData = parseThis.Split('#');
+                            return Convert.ToInt32(animData[3]);
+                        }
+                    }
+                }
+                return 0;
+            }
+            else
+            {
+                return 0;
             }
         }
 

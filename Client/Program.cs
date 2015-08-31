@@ -46,7 +46,15 @@ namespace Client
                     ClientForm AODXClientForm = new ClientForm();
                     AODXClientForm.clientSocket = CharSelect.clientSocket;
                     AODXClientForm.strName = CharSelect.strName;
-                    AODXClientForm.ShowDialog();
+                    try
+                    {
+                        AODXClientForm.ShowDialog();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (debug)
+                            MessageBox.Show(ex.Message + ".\r\n" + ex.StackTrace.ToString(), "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }

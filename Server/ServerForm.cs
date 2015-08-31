@@ -502,56 +502,40 @@ namespace Server
             cmdCommand = Command.Null;
             strMessage = null;
             strName = null;
-            preAnim = null;
+            anim = 1;
             textColor = Color.PeachPuff;
-            anim = null;
         }
 
         //Converts the bytes into an object of type Data
         public Data(byte[] data)
         {
-            if (data[0] == 4)
-                cmdCommand = Command.DataInfo;
-
             //The first four bytes are for the Command
             cmdCommand = (Command)BitConverter.ToInt32(data, 0);
 
             //The next four store the length of the name
             int nameLen = BitConverter.ToInt32(data, 4);
 
-            int preAnimLen = BitConverter.ToInt32(data, 8);
+            anim = BitConverter.ToInt32(data, 8);
 
-            int animLen = BitConverter.ToInt32(data, 12);
-
-            int textColorLen = BitConverter.ToInt32(data, 16);
+            int textColorLen = BitConverter.ToInt32(data, 12);
 
             //The next four store the length of the message
-            int msgLen = BitConverter.ToInt32(data, 20);
+            int msgLen = BitConverter.ToInt32(data, 16);
 
             //This check makes sure that strName has been passed in the array of bytes
             if (nameLen > 0)
-                strName = Encoding.UTF8.GetString(data, 24, nameLen);
+                strName = Encoding.UTF8.GetString(data, 20, nameLen);
             else
                 strName = null;
 
-            if (preAnimLen > 0)
-                preAnim = Encoding.UTF8.GetString(data, 24 + nameLen, preAnimLen);
-            else
-                preAnim = null;
-
-            if (animLen > 0)
-                anim = Encoding.UTF8.GetString(data, 24 + nameLen + preAnimLen, animLen);
-            else
-                anim = null;
-
             if (textColorLen > 0)
-                textColor = Color.FromArgb(BitConverter.ToInt32(data, 24 + nameLen + preAnimLen + animLen));
+                textColor = Color.FromArgb(BitConverter.ToInt32(data, 20 + nameLen));
             else
                 textColor = Color.White;
 
             //This checks for a null message field
             if (msgLen > 0)
-                strMessage = Encoding.UTF8.GetString(data, 24 + nameLen + preAnimLen + animLen + textColorLen, msgLen);
+                strMessage = Encoding.UTF8.GetString(data, 20 + nameLen + textColorLen, msgLen);
             else
                 strMessage = null;
         }
@@ -570,15 +554,7 @@ namespace Server
             else
                 result.AddRange(BitConverter.GetBytes(0));
 
-            if (preAnim != null)
-                result.AddRange(BitConverter.GetBytes(preAnim.Length));
-            else
-                result.AddRange(BitConverter.GetBytes(0));
-
-            if (anim != null)
-                result.AddRange(BitConverter.GetBytes(anim.Length));
-            else
-                result.AddRange(BitConverter.GetBytes(0));
+            result.AddRange(BitConverter.GetBytes(anim));
 
             //Add the color length
             result.AddRange(BitConverter.GetBytes(4));
@@ -589,16 +565,9 @@ namespace Server
             else
                 result.AddRange(BitConverter.GetBytes(0));
 
-
             //Add the name
             if (strName != null)
                 result.AddRange(Encoding.UTF8.GetBytes(strName));
-
-            if (preAnim != null)
-                result.AddRange(Encoding.UTF8.GetBytes(preAnim));
-
-            if (anim != null)
-                result.AddRange(Encoding.UTF8.GetBytes(anim));
 
             //if (textColor != Color.PeachPuff)
             result.AddRange(BitConverter.GetBytes(textColor.ToArgb()));
@@ -624,8 +593,7 @@ namespace Server
         }
 
         public string strName;      //Name by which the client logs into the room
-        public string preAnim;
-        public string anim;
+        public int anim;
         public Color textColor;
         public string strMessage;   //Message text
         public Command cmdCommand;  //Command type (login, logout, send message, etcetera)

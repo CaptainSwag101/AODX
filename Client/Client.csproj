@@ -55,6 +55,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CSCore">
+      <HintPath>..\CSCore.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Deployment" />
@@ -1034,9 +1037,7 @@
     <Content Include="base\sounds\general\sfx-tong.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="base\sounds\general\sfx-triplegavel.WAV">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="base\sounds\general\sfx-triplegavel.wav" />
     <Content Include="base\sounds\general\sfx-typwriter.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
