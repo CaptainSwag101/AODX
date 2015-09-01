@@ -15,13 +15,14 @@ namespace Server
     //The commands for interaction between the server and the client
     enum Command
     {
-        Login,      //Log into the server
-        Logout,     //Logout of the server
-        Message,    //Send a text message to all the chat clients
-        List,       //Get a list of users in the chat room from the server
-        DataInfo,   //Get a list of music filenames, evidence, and currently unused characters that the server has loaded
-        PacketSize, //Get the size in bytes of the next incoming packet so we can size our receiving packet accordingly. Used for receiving the DataInfo packets.
-        Null        //No command
+        Login,          //Log into the server
+        Logout,         //Logout of the server
+        Message,        //Send a text message to all the chat clients
+        List,           //Get a list of users in the chat room from the server
+        DataInfo,       //Get a list of music filenames, evidence, and currently unused characters that the server has loaded
+        PacketSize,     //Get the size in bytes of the next incoming packet so we can size our receiving packet accordingly. Used for receiving the DataInfo packets.
+        ChangeMusic,    //Tells all clients to start playing the selected audio file
+        Null            //No command
     }
 
     public partial class ServerForm : Form
@@ -59,7 +60,7 @@ namespace Server
 
         private void ServerForm_Load(object sender, EventArgs e)
         {
-            updateCheck();
+            updateCheck(true);
             masterserverIP = iniParser.GetMasterIP();
             if (masterserverIP == null)
             {
@@ -178,7 +179,7 @@ namespace Server
             }
             catch (Exception ex)
             {
-                if (Program.debug)
+                if (Program.debug & !isClosing)
                     MessageBox.Show(ex.Message + ".\r\n" + ((Socket)ar.AsyncState).RemoteEndPoint.ToString() + "\r\n" + ex.StackTrace.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -287,6 +288,15 @@ namespace Server
                             userNumStat.Text = "Users Online: " + clientList.Count;
                             break;
 
+                        case Command.ChangeMusic:
+                            if (msgReceived.strMessage != null & msgReceived.strName != null)
+                            {
+                                msgToSend.cmdCommand = Command.ChangeMusic;
+                                msgToSend = msgReceived;
+                                appendTxtLogSafe("<<<" + msgReceived.strName + " changed the music to " + msgReceived.strMessage + ">>>\r\n");
+                            }
+                            break;
+
                         case Command.Message:
 
                             //Set the text of the message that we will broadcast to all users
@@ -378,13 +388,14 @@ namespace Server
 
                         foreach (ClientInfo clientInfo in clientList)
                         {
-                            if (clientInfo.socket != clientSocket || msgToSend.cmdCommand != Command.Login)
+                            if ((clientInfo.socket != clientSocket || msgToSend.cmdCommand != Command.Login) | msgToSend.cmdCommand == Command.ChangeMusic)
                             {
                                 //Send the message to all users
                                 clientInfo.socket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), clientInfo.socket);
                             }
                         }
-                        appendTxtLogSafe(msgToSend.strMessage + "\r\n");
+                        if (msgToSend.cmdCommand != Command.ChangeMusic)
+                            appendTxtLogSafe(msgToSend.strMessage + "\r\n");
                     }
 
                     //If the user is logging out then we need not listen from her
@@ -499,7 +510,7 @@ namespace Server
             updateCheck();
         }
 
-        private void updateCheck()
+        private void updateCheck(bool silent = false)
         {
             // in newVersion variable we will store the  
             // version info from xml file  
@@ -529,7 +540,8 @@ namespace Server
                 // "AODX" element node  
                 if ((reader.NodeType == XmlNodeType.Element) && (reader.Name == "AODX"))
                 {
-                    while (reader.Read())
+                    bool done = false;
+                    while (reader.Read() && !done)
                     {
                         // when we find an element node,  
                         // we remember its name  
@@ -539,24 +551,33 @@ namespace Server
                         {
                             if (elementName == "Server")
                             {
-                                // for text nodes...  
-                                if ((reader.NodeType == XmlNodeType.Text) && (reader.HasValue))
+                                bool done2 = false;
+                                while (reader.Read() && !done2)
                                 {
-                                    // we check what the name of the node was  
-                                    switch (elementName)
+                                    if (reader.NodeType == XmlNodeType.Element)
+                                        elementName = reader.Name;
+                                    // for text nodes...  
+                                    else if ((reader.NodeType == XmlNodeType.Text) && (reader.HasValue))
                                     {
-                                        case "version":
-                                            // thats why we keep the version info  
-                                            // in xxx.xxx.xxx.xxx format  
-                                            // the Version class does the  
-                                            // parsing for us  
-                                            newVersion = new Version(reader.Value);
-                                            break;
-                                        case "url":
-                                            url = reader.Value;
-                                            break;
+                                        // we check what the name of the node was  
+                                        switch (elementName)
+                                        {
+                                            case "version":
+                                                // thats why we keep the version info  
+                                                // in xxx.xxx.xxx.xxx format  
+                                                // the Version class does the  
+                                                // parsing for us  
+                                                newVersion = new Version(reader.Value);
+                                                break;
+                                            case "url":
+                                                url = reader.Value;
+                                                done2 = true;
+                                                done = true;
+                                                break;
+                                        }
                                     }
                                 }
+                                break;
                             }
                         }
                     }
@@ -576,8 +597,8 @@ namespace Server
             {
                 // ask the user if he would like  
                 // to download the new version  
-                string title = "New server version available.";
-                string question = "Download the new version?";
+                string title = "Update Check";
+                string question = "New server version available: " + newVersion.ToString() + ".\r\n (You have version " + curVersion.ToString() + "). \r\n Download the new version?";
                 if (MessageBox.Show(this, question, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     // navigate the default web  
@@ -587,6 +608,8 @@ namespace Server
                     System.Diagnostics.Process.Start(url);
                 }
             }
+            else if (!silent)
+                MessageBox.Show(this, "You have the latest version: " + curVersion.ToString(), "Update Check", MessageBoxButtons.OK);
         }
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)

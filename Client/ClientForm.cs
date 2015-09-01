@@ -1,6 +1,7 @@
 using System;
 using CSCore;
 using CSCore.Codecs.WAV;
+using CSCore.Codecs.MP3;
 using CSCore.SoundOut;
 using System.IO;
 using System.Media;
@@ -16,19 +17,21 @@ namespace Client
     //The commands for interaction between the server and the client
     enum Command
     {
-        Login,      //Log into the server
-        Logout,     //Logout of the server
-        Message,    //Send a text message to all the chat clients
-        List,       //Get a list of users in the chat room from the server
-        DataInfo,   //Get a list of music filenames, evidence, and currently unused characters that the server has loaded
-        PacketSize, //Get the size in bytes of the next incoming packet so we can size our receiving packet accordingly. Used for receiving the DataInfo packets.
-        Null        //No command
+        Login,          //Log into the server
+        Logout,         //Logout of the server
+        Message,        //Send a text message to all the chat clients
+        List,           //Get a list of users in the chat room from the server
+        DataInfo,       //Get a list of music filenames, evidence, and currently unused characters that the server has loaded
+        PacketSize,     //Get the size in bytes of the next incoming packet so we can size our receiving packet accordingly. Used for receiving the DataInfo packets.
+        ChangeMusic,    //Makes the server tell all clients to start playing the selected audio file
+        Null            //No command
     }
 
     public partial class ClientForm : Form
     {
         public Socket clientSocket; //The main client socket
         public string strName;      //Character that the user is playing as
+        public List<string> songs; // = new List<string>();
         private int selectedAnim = 1;
         private int colorIndex = 0;
         private Color selectedColor = Color.White;
@@ -43,19 +46,26 @@ namespace Client
         private DirectSoundOut blipPlayer = new DirectSoundOut();
         private WaveFileReader wr;
         private DirectSoundOut sfxPlayer = new DirectSoundOut();
+        private DmoMp3Decoder musicReader;
+        private DirectSoundOut musicPlayer = new DirectSoundOut();
         private byte[] byteData;
         private int preAnimTime;
         private int soundTime;
         private int curPreAnimTime;
         private int curSoundTime;
         private string curPreAnim;
+        //global brushes with ordinary/selected colors
+        private SolidBrush reportsForegroundBrushSelected = new SolidBrush(Color.White);
+        private SolidBrush reportsForegroundBrush = new SolidBrush(Color.Black);
+        private SolidBrush reportsBackgroundBrushSelected = new SolidBrush(Color.FromKnownColor(KnownColor.Highlight));
+        private SolidBrush reportsBackgroundBrushGreen = new SolidBrush(Color.LightGreen);
+        private SolidBrush reportsBackgroundBrushRed = new SolidBrush(Color.Red);
+        private AboutBox AboutForm = new AboutBox();
 
         public ClientForm()
         {
             InitializeComponent();
             blipReader = new WaveFileReader("base/sounds/general/sfx-blipmale.wav");
-            //blipReader = new WaveFileReader(Properties.Resources.sfx_blipmale);
-            //blipPlayer.Latency = 200;
             blipPlayer.Initialize(FluentExtensions.Loop(blipReader));
             backgroundPB.BackColor = Color.Transparent;
             backgroundPB.Load("base/background/default/defenseempty.png");
@@ -94,6 +104,11 @@ namespace Client
 
         private void ClientForm_Load(object sender, EventArgs e)
         {
+            musicList.Items.Clear();
+
+            foreach (string song in songs)
+                musicList.Items.Add(song);
+
             Text = "AODXClient: " + strName;
 
             emoCount = iniParser.GetEmoNum(strName);
@@ -169,6 +184,36 @@ namespace Client
             displayMsg1.ForeColor = newColor;
             displayMsg2.ForeColor = newColor;
             displayMsg3.ForeColor = newColor;
+        }
+
+        //custom method to draw the items, don't forget to set DrawMode of the ListBox to OwnerDrawFixed
+        private void musicList_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            e.DrawBackground();
+            bool selected = ((e.State & DrawItemState.Selected) == DrawItemState.Selected);
+
+            int index = e.Index;
+            if (index >= 0 && index < musicList.Items.Count)
+            {
+                string text = musicList.Items[index].ToString();
+                Graphics g = e.Graphics;
+
+                //background:
+                SolidBrush backgroundBrush;
+                if (selected)
+                    backgroundBrush = reportsBackgroundBrushSelected;
+                else if (!File.Exists("base/sounds/music/" + musicList.Items[index]))
+                    backgroundBrush = reportsBackgroundBrushRed;
+                else
+                    backgroundBrush = reportsBackgroundBrushGreen;
+                g.FillRectangle(backgroundBrush, e.Bounds);
+
+                //text:
+                SolidBrush foregroundBrush = (selected) ? reportsForegroundBrushSelected : reportsForegroundBrush;
+                g.DrawString(text, e.Font, foregroundBrush, musicList.GetItemRectangle(index).Location);
+            }
+
+            e.DrawFocusRectangle();
         }
 
         private void loadEmoButtons(bool redraw = true)
@@ -389,6 +434,19 @@ namespace Client
                     case Command.Logout:
                         break;
 
+                    case Command.ChangeMusic:
+                        if (msgReceived.strMessage != null && msgReceived.strMessage != "" & msgReceived.strName != null)
+                        {
+                            appendTxtLogSafe("<<<" + msgReceived.strName + " changed the music to " + msgReceived.strMessage + ">>>\r\n");
+                            musicReader = new DmoMp3Decoder("base/sounds/music/" + msgReceived.strMessage);
+
+                            if (musicPlayer.PlaybackState != PlaybackState.Stopped)
+                                musicPlayer.Stop();
+                            musicPlayer.Initialize(musicReader);
+                            musicPlayer.Play();
+                        }
+                        break;
+
                     case Command.Message:
                         //blipPlayer.PlayLooping();
                         latestMsg = msgReceived;
@@ -451,7 +509,7 @@ namespace Client
                         break;
                 }
 
-                if (msgReceived.strMessage != null && msgReceived.cmdCommand != Command.List && msgReceived.cmdCommand != Command.DataInfo && msgReceived.cmdCommand != Command.PacketSize)
+                if (msgReceived.strMessage != null && msgReceived.cmdCommand != Command.List && msgReceived.cmdCommand != Command.DataInfo && msgReceived.cmdCommand != Command.PacketSize & msgReceived.cmdCommand == Command.ChangeMusic)
                 {
                     appendTxtLogSafe(msgReceived.strMessage + "\r\n");
                 }
@@ -894,7 +952,8 @@ namespace Client
                 // "AODX" element node  
                 if ((reader.NodeType == XmlNodeType.Element) && (reader.Name == "AODX"))
                 {
-                    while (reader.Read())
+                    bool done = false;
+                    while (reader.Read() && !done)
                     {
                         // when we find an element node,  
                         // we remember its name  
@@ -904,24 +963,33 @@ namespace Client
                         {
                             if (elementName == "Client")
                             {
-                                // for text nodes...  
-                                if ((reader.NodeType == XmlNodeType.Text) && (reader.HasValue))
+                                bool done2 = false;
+                                while (reader.Read() && !done2)
                                 {
-                                    // we check what the name of the node was  
-                                    switch (elementName)
+                                    if (reader.NodeType == XmlNodeType.Element)
+                                        elementName = reader.Name;
+                                    // for text nodes...  
+                                    else if ((reader.NodeType == XmlNodeType.Text) && (reader.HasValue))
                                     {
-                                        case "version":
-                                            // thats why we keep the version info  
-                                            // in xxx.xxx.xxx.xxx format  
-                                            // the Version class does the  
-                                            // parsing for us  
-                                            newVersion = new Version(reader.Value);
-                                            break;
-                                        case "url":
-                                            url = reader.Value;
-                                            break;
+                                        // we check what the name of the node was  
+                                        switch (elementName)
+                                        {
+                                            case "version":
+                                                // thats why we keep the version info  
+                                                // in xxx.xxx.xxx.xxx format  
+                                                // the Version class does the  
+                                                // parsing for us  
+                                                newVersion = new Version(reader.Value);
+                                                break;
+                                            case "url":
+                                                url = reader.Value;
+                                                done2 = true;
+                                                done = true;
+                                                break;
+                                        }
                                     }
                                 }
+                                break;
                             }
                         }
                     }
@@ -941,8 +1009,8 @@ namespace Client
             {
                 // ask the user if he would like  
                 // to download the new version  
-                string title = "New client version available.";
-                string question = "Download the new version?";
+                string title = "Update Check";
+                string question = "New client version available: " + newVersion.ToString() + ".\r\n (You have version " + curVersion.ToString() + "). \r\n Download the new version?";
                 if (MessageBox.Show(this, question, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     // navigate the default web  
@@ -951,12 +1019,36 @@ namespace Client
                     // comes from the xml content)  
                     System.Diagnostics.Process.Start(url);
                 }
+                else
+                    MessageBox.Show(this, "You have the latest version: " + curVersion.ToString(), "Update Check", MessageBoxButtons.OK);
             }
         }
 
         private void exitMenuItem_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void aboutMenuItem_Click(object sender, EventArgs e)
+        {
+            AboutForm.Show();
+        }
+
+        private void musicList_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (musicList.Items.Count > 0 && musicList.SelectedItem != null && (string)musicList.SelectedItem != "")
+            {
+                Data msgToSend = new Data();
+                msgToSend.cmdCommand = Command.ChangeMusic;
+                msgToSend.strName = strName;
+                msgToSend.strMessage = (string)musicList.Items[musicList.SelectedIndex];
+                byte[] msg = msgToSend.ToByte();
+
+                clientSocket.BeginSend(msg, 0, msg.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+                //byteData = new byte[1024];
+
+                //clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), null);
+            }
         }
     }
 

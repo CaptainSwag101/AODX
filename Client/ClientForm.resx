@@ -126,7 +126,7 @@
   </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="exitMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>152, 22</value>
+    <value>134, 22</value>
   </data>
   <data name="exitMenuItem.Text" xml:space="preserve">
     <value>E&amp;xit</value>
@@ -178,16 +178,19 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;menuStrip.ZOrder" xml:space="preserve">
-    <value>8</value>
+    <value>9</value>
   </data>
   <metadata name="animTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>264, 17</value>
   </metadata>
+  <data name="arrowRight.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
   <data name="arrowRight.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="arrowRight.Location" type="System.Drawing.Point, System.Drawing">
-    <value>249, 46</value>
+    <value>241, 46</value>
   </data>
   <data name="arrowRight.Size" type="System.Drawing.Size, System.Drawing">
     <value>20, 20</value>
@@ -206,6 +209,9 @@
   </data>
   <data name="&gt;&gt;arrowRight.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="arrowLeft.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
   </data>
   <data name="arrowLeft.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -237,11 +243,14 @@
   <data name="&gt;&gt;arrowLeft.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="emoButton10.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
   <data name="emoButton10.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="emoButton10.Location" type="System.Drawing.Point, System.Drawing">
-    <value>206, 59</value>
+    <value>199, 59</value>
   </data>
   <data name="emoButton10.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 40</value>
@@ -261,11 +270,14 @@
   <data name="&gt;&gt;emoButton10.ZOrder" xml:space="preserve">
     <value>2</value>
   </data>
+  <data name="emoButton9.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
   <data name="emoButton9.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="emoButton9.Location" type="System.Drawing.Point, System.Drawing">
-    <value>160, 59</value>
+    <value>154, 59</value>
   </data>
   <data name="emoButton9.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 40</value>
@@ -285,11 +297,14 @@
   <data name="&gt;&gt;emoButton9.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
+  <data name="emoButton8.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
   <data name="emoButton8.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="emoButton8.Location" type="System.Drawing.Point, System.Drawing">
-    <value>114, 59</value>
+    <value>110, 59</value>
   </data>
   <data name="emoButton8.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 40</value>
@@ -309,11 +324,14 @@
   <data name="&gt;&gt;emoButton8.ZOrder" xml:space="preserve">
     <value>4</value>
   </data>
+  <data name="emoButton7.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
   <data name="emoButton7.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="emoButton7.Location" type="System.Drawing.Point, System.Drawing">
-    <value>68, 59</value>
+    <value>65, 59</value>
   </data>
   <data name="emoButton7.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 40</value>
@@ -333,11 +351,14 @@
   <data name="&gt;&gt;emoButton7.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="emoButton6.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
   <data name="emoButton6.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="emoButton6.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 59</value>
+    <value>20, 59</value>
   </data>
   <data name="emoButton6.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 40</value>
@@ -357,11 +378,14 @@
   <data name="&gt;&gt;emoButton6.ZOrder" xml:space="preserve">
     <value>6</value>
   </data>
+  <data name="emoButton5.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
   <data name="emoButton5.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="emoButton5.Location" type="System.Drawing.Point, System.Drawing">
-    <value>206, 13</value>
+    <value>199, 13</value>
   </data>
   <data name="emoButton5.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 40</value>
@@ -381,11 +405,14 @@
   <data name="&gt;&gt;emoButton5.ZOrder" xml:space="preserve">
     <value>7</value>
   </data>
+  <data name="emoButton4.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
   <data name="emoButton4.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="emoButton4.Location" type="System.Drawing.Point, System.Drawing">
-    <value>160, 13</value>
+    <value>154, 13</value>
   </data>
   <data name="emoButton4.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 40</value>
@@ -405,11 +432,14 @@
   <data name="&gt;&gt;emoButton4.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
+  <data name="emoButton3.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
   <data name="emoButton3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="emoButton3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>114, 13</value>
+    <value>110, 13</value>
   </data>
   <data name="emoButton3.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 40</value>
@@ -429,11 +459,14 @@
   <data name="&gt;&gt;emoButton3.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
+  <data name="emoButton2.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
   <data name="emoButton2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="emoButton2.Location" type="System.Drawing.Point, System.Drawing">
-    <value>68, 13</value>
+    <value>65, 13</value>
   </data>
   <data name="emoButton2.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 40</value>
@@ -453,11 +486,14 @@
   <data name="&gt;&gt;emoButton2.ZOrder" xml:space="preserve">
     <value>10</value>
   </data>
+  <data name="emoButton1.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Bottom</value>
+  </data>
   <data name="emoButton1.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
   <data name="emoButton1.Location" type="System.Drawing.Point, System.Drawing">
-    <value>22, 13</value>
+    <value>20, 13</value>
   </data>
   <data name="emoButton1.Size" type="System.Drawing.Size, System.Drawing">
     <value>40, 40</value>
@@ -478,10 +514,10 @@
     <value>11</value>
   </data>
   <data name="emotionPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>5, 318</value>
+    <value>8, 318</value>
   </data>
   <data name="emotionPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>270, 112</value>
+    <value>262, 112</value>
   </data>
   <data name="emotionPanel.TabIndex" type="System.Int32, mscorlib">
     <value>18</value>
@@ -496,7 +532,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;emotionPanel.ZOrder" xml:space="preserve">
-    <value>0</value>
+    <value>1</value>
   </data>
   <data name="OOCInput.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
@@ -520,7 +556,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;OOCInput.ZOrder" xml:space="preserve">
-    <value>1</value>
+    <value>2</value>
   </data>
   <data name="OOCChat.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
@@ -553,7 +589,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;OOCChat.ZOrder" xml:space="preserve">
-    <value>2</value>
+    <value>3</value>
   </data>
   <data name="txtColorChanger.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -580,7 +616,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtColorChanger.ZOrder" xml:space="preserve">
-    <value>3</value>
+    <value>4</value>
   </data>
   <data name="nameLabel.Font" type="System.Drawing.Font, System.Drawing">
     <value>Calibri, 8.25pt</value>
@@ -881,7 +917,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;GameDisplay.ZOrder" xml:space="preserve">
-    <value>4</value>
+    <value>5</value>
   </data>
   <data name="txtMessage.Font" type="System.Drawing.Font, System.Drawing">
     <value>Ace Attorney 2, 12pt</value>
@@ -914,7 +950,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtMessage.ZOrder" xml:space="preserve">
-    <value>5</value>
+    <value>6</value>
   </data>
   <data name="txtLog.Location" type="System.Drawing.Point, System.Drawing">
     <value>274, 27</value>
@@ -944,7 +980,7 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;txtLog.ZOrder" xml:space="preserve">
-    <value>6</value>
+    <value>7</value>
   </data>
   <data name="btnSend.Enabled" type="System.Boolean, mscorlib">
     <value>False</value>
@@ -974,11 +1010,32 @@
     <value>$this</value>
   </data>
   <data name="&gt;&gt;btnSend.ZOrder" xml:space="preserve">
-    <value>7</value>
+    <value>8</value>
   </data>
   <metadata name="dispTextRedraw.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>373, 17</value>
   </metadata>
+  <data name="musicList.Location" type="System.Drawing.Point, System.Drawing">
+    <value>525, 318</value>
+  </data>
+  <data name="musicList.Size" type="System.Drawing.Size, System.Drawing">
+    <value>247, 251</value>
+  </data>
+  <data name="musicList.TabIndex" type="System.Int32, mscorlib">
+    <value>19</value>
+  </data>
+  <data name="&gt;&gt;musicList.Name" xml:space="preserve">
+    <value>musicList</value>
+  </data>
+  <data name="&gt;&gt;musicList.Type" xml:space="preserve">
+    <value>System.Windows.Forms.ListBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;musicList.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;musicList.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
   <metadata name="$this.Localizable" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
@@ -986,7 +1043,7 @@
     <value>6, 13</value>
   </data>
   <data name="$this.ClientSize" type="System.Drawing.Size, System.Drawing">
-    <value>784, 633</value>
+    <value>784, 589</value>
   </data>
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -1527,7 +1584,7 @@
 </value>
   </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>800, 672</value>
+    <value>800, 550</value>
   </data>
   <data name="$this.Text" xml:space="preserve">
     <value>Attorney Online Deluxe Client</value>

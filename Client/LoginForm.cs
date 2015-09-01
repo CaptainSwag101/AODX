@@ -43,7 +43,7 @@ namespace Client
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
-            
+            updateCheck(true);
             CheckForIllegalCrossThreadCalls = false;
             serverDescTextBox.Text = "";
             masterserverIP = iniParser.GetMasterIP();
@@ -208,7 +208,7 @@ namespace Client
                         int songCount = Convert.ToInt32(data[charCount + 1]);
                         if (songCount > 0)
                         {
-                            for (int x = charCount + 2; x < charCount + 1 + songCount; x++)
+                            for (int x = charCount + 2; x < charCount + 2 + songCount; x++)
                             {
                                 musicList.Add(data[x]);
                             }
@@ -408,7 +408,7 @@ namespace Client
             updateCheck();
         }
 
-        private void updateCheck()
+        private void updateCheck(bool silent = false)
         {
             // in newVersion variable we will store the  
             // version info from xml file  
@@ -438,7 +438,8 @@ namespace Client
                 // "AODX" element node  
                 if ((reader.NodeType == XmlNodeType.Element) && (reader.Name == "AODX"))
                 {
-                    while (reader.Read())
+                    bool done = false;
+                    while (reader.Read() && !done)
                     {
                         // when we find an element node,  
                         // we remember its name  
@@ -448,24 +449,33 @@ namespace Client
                         {
                             if (elementName == "Client")
                             {
-                                // for text nodes...  
-                                if ((reader.NodeType == XmlNodeType.Text) && (reader.HasValue))
+                                bool done2 = false;
+                                while (reader.Read() && !done2)
                                 {
-                                    // we check what the name of the node was  
-                                    switch (elementName)
+                                    if (reader.NodeType == XmlNodeType.Element)
+                                        elementName = reader.Name;
+                                    // for text nodes...  
+                                    else if ((reader.NodeType == XmlNodeType.Text) && (reader.HasValue))
                                     {
-                                        case "version":
-                                            // thats why we keep the version info  
-                                            // in xxx.xxx.xxx.xxx format  
-                                            // the Version class does the  
-                                            // parsing for us  
-                                            newVersion = new Version(reader.Value);
-                                            break;
-                                        case "url":
-                                            url = reader.Value;
-                                            break;
+                                        // we check what the name of the node was  
+                                        switch (elementName)
+                                        {
+                                            case "version":
+                                                // thats why we keep the version info  
+                                                // in xxx.xxx.xxx.xxx format  
+                                                // the Version class does the  
+                                                // parsing for us  
+                                                newVersion = new Version(reader.Value);
+                                                break;
+                                            case "url":
+                                                url = reader.Value;
+                                                done2 = true;
+                                                done = true;
+                                                break;
+                                        }
                                     }
                                 }
+                                break;
                             }
                         }
                     }
@@ -485,8 +495,8 @@ namespace Client
             {
                 // ask the user if he would like  
                 // to download the new version  
-                string title = "New client version available.";
-                string question = "Download the new version?";
+                string title = "Update Check";
+                string question = "New client version available: " + newVersion.ToString() + ".\r\n (You have version " + curVersion.ToString() + "). \r\n Download the new version?";
                 if (MessageBox.Show(this, question, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     // navigate the default web  
@@ -496,6 +506,8 @@ namespace Client
                     System.Diagnostics.Process.Start(url);
                 }
             }
+            else if (!silent)
+                MessageBox.Show(this, "You have the latest version: " + curVersion.ToString(), "Update Check", MessageBoxButtons.OK);
         }
 
         private void exitMenuItem_Click(object sender, EventArgs e)

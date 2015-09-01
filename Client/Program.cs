@@ -45,10 +45,11 @@ namespace Client
                 {
                     ClientForm AODXClientForm = new ClientForm();
                     AODXClientForm.clientSocket = CharSelect.clientSocket;
+                    AODXClientForm.songs = musicList;
                     AODXClientForm.strName = CharSelect.strName;
                     try
                     {
-                        AODXClientForm.ShowDialog();
+                        Application.Run(AODXClientForm);
                     }
                     catch (Exception ex)
                     {
