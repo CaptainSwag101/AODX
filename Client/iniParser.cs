@@ -52,7 +52,7 @@ namespace Client
         public static int GetPreAnimTime(string charName, int anim)
         {
             string dirName = "base/characters/" + charName + "/";
-            if (charName != null && Directory.Exists(dirName) && File.Exists(dirName + "char.ini") & anim > 0)
+            if (charName != null && Directory.Exists(dirName) && File.Exists(dirName + "char.ini") & anim > 0 & GetPreAnim(charName, anim) != null)
             {
                 using (var r = new StreamReader(dirName + "char.ini"))
                 {
@@ -125,7 +125,6 @@ namespace Client
                                 if (line2.StartsWith(anim.ToString(), StringComparison.OrdinalIgnoreCase))
                                 {
                                     return line2.Split(new string[] { " = " }, StringSplitOptions.None)[1];
-                                    
                                 }
                             }
                         }
@@ -257,6 +256,26 @@ namespace Client
             {
                 return "def"; ;
             }
+        }
+
+        public static string GetDispName(string charName)
+        {
+            string dirName = "base/characters/" + charName + "/";
+            if (charName != null && Directory.Exists(dirName) && File.Exists(dirName + "char.ini"))
+            {
+                using (var r = new StreamReader(dirName + "char.ini"))
+                {
+                    while (!r.EndOfStream)
+                    {
+                        string line = r.ReadLine();
+                        if (line.StartsWith("showname", StringComparison.OrdinalIgnoreCase))
+                        {
+                            return line.Split(new string[] { " = " },StringSplitOptions.None)[1];
+                        }
+                    }
+                }
+            }
+            return null;
         }
 
         public static string GetMasterIP()

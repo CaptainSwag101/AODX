@@ -348,17 +348,17 @@ namespace Server
                                 allChars.Remove(cName);
                             }
 
-                            msgToSend.strMessage += allChars.Count + ",";
+                            msgToSend.strMessage += allChars.Count + "|";
                             foreach (string cName in allChars)
                             {
-                                msgToSend.strMessage += cName + ",";
+                                msgToSend.strMessage += cName + "|";
                             }
 
                             List<string> songs = iniParser.GetMusicList();
-                            msgToSend.strMessage += songs.Count + ",";
+                            msgToSend.strMessage += songs.Count + "|";
                             foreach (string song in songs)
                             {
-                                msgToSend.strMessage += song + ",";
+                                msgToSend.strMessage += song + "|";
                             }
 
                             message = msgToSend.ToByte(true);
@@ -443,6 +443,13 @@ namespace Server
                 return;
             }
             txtLog.Text += txt;
+
+            if (txtLog.InvokeRequired)
+            {
+                txtLog.Invoke(new Action(() => txtLog.ScrollToCaret()));
+                return;
+            }
+            txtLog.ScrollToCaret();
         }
 
         private void appendLstUsersSafe(string txt)

@@ -120,41 +120,7 @@
   <metadata name="menuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="exitMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Alt+F4</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="exitMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 22</value>
-  </data>
-  <data name="exitMenuItem.Text" xml:space="preserve">
-    <value>E&amp;xit</value>
-  </data>
-  <data name="fileMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
-  </data>
-  <data name="fileMenu.Text" xml:space="preserve">
-    <value>&amp;File</value>
-  </data>
-  <data name="updateMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 22</value>
-  </data>
-  <data name="updateMenuItem.Text" xml:space="preserve">
-    <value>Check for &amp;Updates</value>
-  </data>
-  <data name="aboutMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 22</value>
-  </data>
-  <data name="aboutMenuItem.Text" xml:space="preserve">
-    <value>About...</value>
-  </data>
-  <data name="helpMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
-  </data>
-  <data name="helpMenu.Text" xml:space="preserve">
-    <value>&amp;Help</value>
-  </data>
   <data name="menuStrip.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -179,6 +145,40 @@
   </data>
   <data name="&gt;&gt;menuStrip.ZOrder" xml:space="preserve">
     <value>9</value>
+  </data>
+  <data name="fileMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
+  </data>
+  <data name="fileMenu.Text" xml:space="preserve">
+    <value>&amp;File</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="exitMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Alt+F4</value>
+  </data>
+  <data name="exitMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 22</value>
+  </data>
+  <data name="exitMenuItem.Text" xml:space="preserve">
+    <value>E&amp;xit</value>
+  </data>
+  <data name="helpMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
+  </data>
+  <data name="helpMenu.Text" xml:space="preserve">
+    <value>&amp;Help</value>
+  </data>
+  <data name="updateMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 22</value>
+  </data>
+  <data name="updateMenuItem.Text" xml:space="preserve">
+    <value>Check for &amp;Updates</value>
+  </data>
+  <data name="aboutMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 22</value>
+  </data>
+  <data name="aboutMenuItem.Text" xml:space="preserve">
+    <value>About...</value>
   </data>
   <metadata name="animTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>264, 17</value>
@@ -241,6 +241,147 @@
     <value>emotionPanel</value>
   </data>
   <data name="&gt;&gt;arrowLeft.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;emoButton10.Name" xml:space="preserve">
+    <value>emoButton10</value>
+  </data>
+  <data name="&gt;&gt;emoButton10.Type" xml:space="preserve">
+    <value>Client.EmoButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton10.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton10.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;emoButton9.Name" xml:space="preserve">
+    <value>emoButton9</value>
+  </data>
+  <data name="&gt;&gt;emoButton9.Type" xml:space="preserve">
+    <value>Client.EmoButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton9.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton9.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;emoButton8.Name" xml:space="preserve">
+    <value>emoButton8</value>
+  </data>
+  <data name="&gt;&gt;emoButton8.Type" xml:space="preserve">
+    <value>Client.EmoButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton8.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton8.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;emoButton7.Name" xml:space="preserve">
+    <value>emoButton7</value>
+  </data>
+  <data name="&gt;&gt;emoButton7.Type" xml:space="preserve">
+    <value>Client.EmoButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton7.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton7.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;emoButton6.Name" xml:space="preserve">
+    <value>emoButton6</value>
+  </data>
+  <data name="&gt;&gt;emoButton6.Type" xml:space="preserve">
+    <value>Client.EmoButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton6.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton6.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;emoButton5.Name" xml:space="preserve">
+    <value>emoButton5</value>
+  </data>
+  <data name="&gt;&gt;emoButton5.Type" xml:space="preserve">
+    <value>Client.EmoButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton5.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton5.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;emoButton4.Name" xml:space="preserve">
+    <value>emoButton4</value>
+  </data>
+  <data name="&gt;&gt;emoButton4.Type" xml:space="preserve">
+    <value>Client.EmoButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton4.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton4.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;emoButton3.Name" xml:space="preserve">
+    <value>emoButton3</value>
+  </data>
+  <data name="&gt;&gt;emoButton3.Type" xml:space="preserve">
+    <value>Client.EmoButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton3.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton3.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;emoButton2.Name" xml:space="preserve">
+    <value>emoButton2</value>
+  </data>
+  <data name="&gt;&gt;emoButton2.Type" xml:space="preserve">
+    <value>Client.EmoButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton2.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton2.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;emoButton1.Name" xml:space="preserve">
+    <value>emoButton1</value>
+  </data>
+  <data name="&gt;&gt;emoButton1.Type" xml:space="preserve">
+    <value>Client.EmoButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton1.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton1.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="emotionPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>8, 318</value>
+  </data>
+  <data name="emotionPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>262, 112</value>
+  </data>
+  <data name="emotionPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="&gt;&gt;emotionPanel.Name" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emotionPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;emotionPanel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;emotionPanel.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
   <data name="emoButton10.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
@@ -513,27 +654,6 @@
   <data name="&gt;&gt;emoButton1.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
-  <data name="emotionPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>8, 318</value>
-  </data>
-  <data name="emotionPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>262, 112</value>
-  </data>
-  <data name="emotionPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
-  <data name="&gt;&gt;emotionPanel.Name" xml:space="preserve">
-    <value>emotionPanel</value>
-  </data>
-  <data name="&gt;&gt;emotionPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;emotionPanel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;emotionPanel.ZOrder" xml:space="preserve">
-    <value>1</value>
-  </data>
   <data name="OOCInput.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Right</value>
   </data>
@@ -559,7 +679,7 @@
     <value>2</value>
   </data>
   <data name="OOCChat.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
-    <value>Top, Left, Right</value>
+    <value>Top, Right</value>
   </data>
   <data name="OOCChat.Location" type="System.Drawing.Point, System.Drawing">
     <value>526, 27</value>
@@ -874,18 +994,6 @@
   <data name="&gt;&gt;backgroundPB.ZOrder" xml:space="preserve">
     <value>8</value>
   </data>
-  <data name="objectLayerPB.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="objectLayerPB.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="objectLayerPB.Size" type="System.Drawing.Size, System.Drawing">
-    <value>256, 192</value>
-  </data>
-  <data name="objectLayerPB.TabIndex" type="System.Int32, mscorlib">
-    <value>5</value>
-  </data>
   <data name="&gt;&gt;objectLayerPB.Name" xml:space="preserve">
     <value>objectLayerPB</value>
   </data>
@@ -919,6 +1027,30 @@
   <data name="&gt;&gt;GameDisplay.ZOrder" xml:space="preserve">
     <value>5</value>
   </data>
+  <data name="objectLayerPB.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
+  <data name="objectLayerPB.Location" type="System.Drawing.Point, System.Drawing">
+    <value>0, 0</value>
+  </data>
+  <data name="objectLayerPB.Size" type="System.Drawing.Size, System.Drawing">
+    <value>256, 192</value>
+  </data>
+  <data name="objectLayerPB.TabIndex" type="System.Int32, mscorlib">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;objectLayerPB.Name" xml:space="preserve">
+    <value>objectLayerPB</value>
+  </data>
+  <data name="&gt;&gt;objectLayerPB.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;objectLayerPB.Parent" xml:space="preserve">
+    <value>GameDisplay</value>
+  </data>
+  <data name="&gt;&gt;objectLayerPB.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
   <data name="txtMessage.Font" type="System.Drawing.Font, System.Drawing">
     <value>Ace Attorney 2, 12pt</value>
   </data>
@@ -938,7 +1070,7 @@
     <value>246, 57</value>
   </data>
   <data name="txtMessage.TabIndex" type="System.Int32, mscorlib">
-    <value>11</value>
+    <value>1</value>
   </data>
   <data name="&gt;&gt;txtMessage.Name" xml:space="preserve">
     <value>txtMessage</value>
@@ -951,6 +1083,9 @@
   </data>
   <data name="&gt;&gt;txtMessage.ZOrder" xml:space="preserve">
     <value>6</value>
+  </data>
+  <data name="txtLog.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Left, Right</value>
   </data>
   <data name="txtLog.Location" type="System.Drawing.Point, System.Drawing">
     <value>274, 27</value>
@@ -1015,6 +1150,9 @@
   <metadata name="dispTextRedraw.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>373, 17</value>
   </metadata>
+  <data name="musicList.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
+    <value>Top, Right</value>
+  </data>
   <data name="musicList.Location" type="System.Drawing.Point, System.Drawing">
     <value>525, 318</value>
   </data>

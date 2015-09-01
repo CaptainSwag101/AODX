@@ -73,5 +73,17 @@ namespace Client
                 MessageBox.Show(ex.Message, "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void CharForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (DialogResult != DialogResult.OK)
+            {
+                byte[] b = new byte[1];
+                b[0] = 103;
+
+                //Send the message to the server
+                clientSocket.BeginSend(b, 0, b.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+            }
+        }
     }
 }

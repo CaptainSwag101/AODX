@@ -111,12 +111,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="base\sounds\music\01 Give Life Back to Music.m4a">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="base\sounds\music\08 Get Lucky %28feat. Pharrell Williams%29.m4a">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <Content Include="base\sounds\music\01. Give Life Back To Music.mp3" />
+    <Content Include="base\sounds\music\08. Get Lucky %28Feat. Pharrell Williams%29.mp3" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

@@ -57,14 +57,14 @@ namespace Client
 
         private void LoginForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            /*if (DialogResult != DialogResult.OK)
+            if (DialogResult != DialogResult.OK)
             {
                 byte[] b = new byte[1];
                 b[0] = 103;
 
                 //Send the message to the server
                 clientSocket.BeginSend(b, 0, b.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
-            } */
+            }
         }
 
         private void ConnectToMasterServer()
@@ -195,7 +195,7 @@ namespace Client
                 {
                     if (msgReceived.strMessage != null && msgReceived.strMessage != "")
                     {
-                        string[] data = msgReceived.strMessage.Split(',');
+                        string[] data = msgReceived.strMessage.Split('|');
                         int charCount = Convert.ToInt32(data[0]);
                         if (charCount > 0)
                         {

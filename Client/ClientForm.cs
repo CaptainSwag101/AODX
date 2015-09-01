@@ -104,6 +104,7 @@ namespace Client
 
         private void ClientForm_Load(object sender, EventArgs e)
         {
+            nameLabel.Text = "";
             musicList.Items.Clear();
 
             foreach (string song in songs)
@@ -162,6 +163,10 @@ namespace Client
                     blipPlayer.Dispose();
                 if (blipReader != null)
                     blipReader.Dispose();
+                if (musicPlayer != null)
+                    musicPlayer.Dispose();
+                if (musicReader != null)
+                    musicReader.Dispose();
             }
             catch (ObjectDisposedException)
             { }
@@ -465,21 +470,32 @@ namespace Client
                             soundTime = iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim);
                         }
 
+                        /*  if (iniParser.GetSoundName(msgReceived.strName, msgReceived.anim) != "1" && iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim) > 0 & (File.Exists("base/sounds/general/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav") | File.Exists("base/characters/" + latestMsg.strName + "/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav")))
+                        {
+                            sfxPlayer.Stop();
+                            if (File.Exists("base/characters/" + latestMsg.strName + "/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav"))
+                                wr = new WaveFileReader("base/characters/" + latestMsg.strName + "/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav");
+                            else
+                                wr = new WaveFileReader("base/sounds/general/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav");
+                            sfxPlayer.Initialize(wr);
+                            soundTime = iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim);
+                        } */
+
                         if (iniParser.GetAnimType(msgReceived.strName, msgReceived.anim) == 5)
                             ChangeSides(true);
                         else
                             ChangeSides();
 
-                        if (iniParser.GetAnimType(msgReceived.strName, msgReceived.anim) == 5 | iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim) == null)
+                        if (iniParser.GetAnimType(msgReceived.strName, msgReceived.anim) == 5 | iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim) == null | iniParser.GetPreAnimTime(msgReceived.strName, msgReceived.anim) <= 0)
                         {
                             charLayerPB.Enabled = true;
-                            charLayerPB.Image = Image.FromFile("base/characters/" + msgReceived.strName + "/(b)" + iniParser.GetAnim(msgReceived.strName, msgReceived.anim) + ".gif");
+                            setCharSprite("base/characters/" + msgReceived.strName + "/(b)" + iniParser.GetAnim(msgReceived.strName, msgReceived.anim) + ".gif");
                             prepWriteDispBoxes(msgReceived, msgReceived.textColor);
                         }
                         else
                         {
                             //charLayerPB.Enabled = false;
-                            charLayerPB.Image = Image.FromFile("base/characters/" + msgReceived.strName + "/" + iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim) + ".gif");
+                            setCharSprite("base/characters/" + msgReceived.strName + "/" + iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim) + ".gif");
                             preAnimTime = iniParser.GetPreAnimTime(msgReceived.strName, msgReceived.anim);
                             curPreAnim = iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim);
                         }
@@ -509,7 +525,7 @@ namespace Client
                         break;
                 }
 
-                if (msgReceived.strMessage != null && msgReceived.cmdCommand != Command.List && msgReceived.cmdCommand != Command.DataInfo && msgReceived.cmdCommand != Command.PacketSize & msgReceived.cmdCommand == Command.ChangeMusic)
+                if (msgReceived.strMessage != null & msgReceived.cmdCommand == Command.Message | msgReceived.cmdCommand == Command.Login | msgReceived.cmdCommand == Command.Logout)
                 {
                     appendTxtLogSafe(msgReceived.strMessage + "\r\n");
                 }
@@ -531,6 +547,14 @@ namespace Client
             }
         }
 
+        private void setCharSprite(string file)
+        {
+            if (File.Exists(file))
+                charLayerPB.Image = Image.FromFile(file);
+            else
+                charLayerPB.Image = Image.FromFile("base/misc/placeholder.gif");
+        }
+
         private void appendTxtLogSafe(string txt)
         {
             if (txtLog.InvokeRequired)
@@ -539,6 +563,13 @@ namespace Client
                 return;
             }
             txtLog.Text += txt;
+
+            if (txtLog.InvokeRequired)
+            {
+                txtLog.Invoke(new Action(() => txtLog.ScrollToCaret()));
+                return;
+            }
+            txtLog.ScrollToCaret();
         }
 
         private void prepWriteDispBoxes(Data msg, Color newColor)
@@ -606,7 +637,10 @@ namespace Client
                 }
             }
             //dispTextRedraw.Enabled = true;
-            nameLabel.Text = latestMsg.strName;
+            if (iniParser.GetDispName(latestMsg.strName) != null)
+                nameLabel.Text = iniParser.GetDispName(latestMsg.strName);
+            else
+                nameLabel.Text = latestMsg.strName;
             //blipPlayer.Initialize(blipReader);
             blipPlayer.Stop();
             blipPlayer.Play();
@@ -751,7 +785,7 @@ namespace Client
                 else
                 {
                     blipPlayer.Stop();
-                    charLayerPB.Image = Image.FromFile("base/characters/" + latestMsg.strName + "/(a)" + iniParser.GetAnim(latestMsg.strName, latestMsg.anim) + ".gif");
+                    setCharSprite("base/characters/" + latestMsg.strName + "/(a)" + iniParser.GetAnim(latestMsg.strName, latestMsg.anim) + ".gif");
                     redraw = false;
                 }
             }
@@ -761,9 +795,9 @@ namespace Client
         {
             try
             {
-                if (soundTime > 0 && curSoundTime < (soundTime - 4))
+                if ((soundTime > 4 && curSoundTime < (soundTime - 4)) | (soundTime > 0 & soundTime < 4 & curSoundTime < soundTime))
                     curSoundTime++;
-                else if (soundTime > 0 && curSoundTime == (soundTime - 4))
+                else if ((soundTime > 0 && curSoundTime == (soundTime - 4)) | (soundTime > 0 & soundTime < 4 & curSoundTime == soundTime))
                 {
                     soundTime = 0; // This prevents the song from playing repeatedly every 60 ms
                     sfxPlayer.Play();
@@ -783,7 +817,7 @@ namespace Client
                         curPreAnimTime = 0;
                         curPreAnim = null;
 
-                        charLayerPB.Image = Image.FromFile("base/characters/" + latestMsg.strName + "/(b)" + iniParser.GetAnim(latestMsg.strName, latestMsg.anim) + ".gif");
+                        setCharSprite("base/characters/" + latestMsg.strName + "/(b)" + iniParser.GetAnim(latestMsg.strName, latestMsg.anim) + ".gif");
                         charLayerPB.Enabled = true;
                         prepWriteDispBoxes(latestMsg, latestMsg.textColor);
                         return;

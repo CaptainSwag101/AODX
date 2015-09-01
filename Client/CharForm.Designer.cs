@@ -62,6 +62,7 @@
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CharForm";
             this.Text = "CharForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CharForm_FormClosing);
             this.Load += new System.EventHandler(this.CharForm_Load);
             this.ResumeLayout(false);
 
