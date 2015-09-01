@@ -8,6 +8,7 @@ using System.Windows.Forms;
 using System.Net;
 using System.Net.Sockets;
 using System.IO;
+using System.Xml;
 
 namespace Server
 {
@@ -56,8 +57,9 @@ namespace Server
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void ServerForm_Load(object sender, EventArgs e)
         {
+            updateCheck();
             masterserverIP = iniParser.GetMasterIP();
             if (masterserverIP == null)
             {
@@ -93,7 +95,7 @@ namespace Server
             catch (Exception ex)
             {
                 if (Program.debug)
-                    MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -124,7 +126,7 @@ namespace Server
             catch (Exception ex)
             {
                 if (Program.debug)
-                    MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -149,7 +151,7 @@ namespace Server
             catch (Exception ex)
             {
                 if (Program.debug)
-                    MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -177,7 +179,7 @@ namespace Server
             catch (Exception ex)
             {
                 if (Program.debug)
-                    MessageBox.Show(ex.Message + ".\r\n" + ((Socket)ar.AsyncState).RemoteEndPoint.ToString() + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message + ".\r\n" + ((Socket)ar.AsyncState).RemoteEndPoint.ToString() + "\r\n" + ex.StackTrace.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -199,7 +201,7 @@ namespace Server
             catch (Exception ex)
             {
                 if (Program.debug)
-                    MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -400,7 +402,7 @@ namespace Server
             catch (Exception ex)
             {
                 if (Program.debug)
-                    MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -411,13 +413,14 @@ namespace Server
                 List<byte> msgToSend = new List<byte>();
                 msgToSend.Add(103);
                 byte[] message = msgToSend.ToArray();
-                masterSocket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSendClose), null);
+                if (masterSocket.Connected)
+                    masterSocket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSendClose), null);
                 masterSocket.Close();
             }
             catch (Exception ex)
             {
                 if (Program.debug)
-                    MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -461,7 +464,7 @@ namespace Server
             catch (Exception ex)
             {
                 if (Program.debug)
-                    MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -487,8 +490,108 @@ namespace Server
             catch (Exception ex)
             {
                 if (Program.debug)
-                    MessageBox.Show(ex.Message + "\r\n" + ex.TargetSite.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void updateMenuItem_Click(object sender, EventArgs e)
+        {
+            updateCheck();
+        }
+
+        private void updateCheck()
+        {
+            // in newVersion variable we will store the  
+            // version info from xml file  
+            Version newVersion = null;
+            // and in this variable we will put the url we  
+            // would like to open so that the user can  
+            // download the new version  
+            // it can be a homepage or a direct  
+            // link to zip/exe file  
+            string url = "";
+            XmlTextReader reader;
+            try
+            {
+                // provide the XmlTextReader with the URL of  
+                // our xml document  
+                string xmlURL = "https://raw.githubusercontent.com/jpmac26/AODX/master/version.xml";
+                reader = new XmlTextReader(xmlURL);
+                // simply (and easily) skip the junk at the beginning  
+                reader.MoveToContent();
+                // internal - as the XmlTextReader moves only  
+                // forward, we save current xml element name  
+                // in elementName variable. When we parse a  
+                // text node, we refer to elementName to check  
+                // what was the node name  
+                string elementName = "";
+                // we check if the xml starts with a proper  
+                // "AODX" element node  
+                if ((reader.NodeType == XmlNodeType.Element) && (reader.Name == "AODX"))
+                {
+                    while (reader.Read())
+                    {
+                        // when we find an element node,  
+                        // we remember its name  
+                        if (reader.NodeType == XmlNodeType.Element)
+                            elementName = reader.Name;
+                        else
+                        {
+                            if (elementName == "Server")
+                            {
+                                // for text nodes...  
+                                if ((reader.NodeType == XmlNodeType.Text) && (reader.HasValue))
+                                {
+                                    // we check what the name of the node was  
+                                    switch (elementName)
+                                    {
+                                        case "version":
+                                            // thats why we keep the version info  
+                                            // in xxx.xxx.xxx.xxx format  
+                                            // the Version class does the  
+                                            // parsing for us  
+                                            newVersion = new Version(reader.Value);
+                                            break;
+                                        case "url":
+                                            url = reader.Value;
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                if (reader != null)
+                    reader.Close();
+            }
+            catch (Exception)
+            {
+
+            }
+
+            // get the running version  
+            Version curVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
+            // compare the versions  
+            if (curVersion.CompareTo(newVersion) < 0)
+            {
+                // ask the user if he would like  
+                // to download the new version  
+                string title = "New server version available.";
+                string question = "Download the new version?";
+                if (MessageBox.Show(this, question, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    // navigate the default web  
+                    // browser to our app  
+                    // homepage (the url  
+                    // comes from the xml content)  
+                    System.Diagnostics.Process.Start(url);
+                }
+            }
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
         }
     }
 

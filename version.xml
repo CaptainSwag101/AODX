@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>  
+<AODX>
+	<Client>  
+	  <version>1.0.0.0</version>  
+	  <url>https://github.com/jpmac26/AODX/releases/</url>  
+	</Client> 
+	<Server>  
+	  <version>1.0.0.0</version>  
+	  <url>https://github.com/jpmac26/AODX/releases/</url>  
+	</Server> 
+	<Masterserver>  
+	  <version>1.0.0.0</version>  
+	  <url>https://github.com/jpmac26/AODX/releases/</url>  
+	</Masterserver> 
+</AODX>
