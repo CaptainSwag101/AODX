@@ -54,6 +54,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>AODX Server.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -111,6 +114,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AODX Server.ico" />
     <Content Include="base\sounds\music\01. Give Life Back To Music.mp3" />
     <Content Include="base\sounds\music\08. Get Lucky %28Feat. Pharrell Williams%29.mp3" />
   </ItemGroup>

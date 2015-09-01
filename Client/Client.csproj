@@ -55,7 +55,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>AttorneyOnline_0000.ico</ApplicationIcon>
+    <ApplicationIcon>AODX Client.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="CSCore">
@@ -148,7 +148,7 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AttorneyOnline_0000.ico" />
+    <Content Include="AODX Client.ico" />
     <Content Include="base\background\default\defbench.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

@@ -63,7 +63,8 @@ namespace Client
                 b[0] = 103;
 
                 //Send the message to the server
-                clientSocket.BeginSend(b, 0, b.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+                if (clientSocket != null && clientSocket.Connected)
+                    clientSocket.BeginSend(b, 0, b.Length, SocketFlags.None, new AsyncCallback(OnSendClose), null);
             }
         }
 
@@ -140,6 +141,20 @@ namespace Client
             try
             {
                 clientSocket.EndSend(ar);
+            }
+            catch (Exception ex)
+            {
+                if (Program.debug)
+                    MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void OnSendClose(IAsyncResult ar)
+        {
+            try
+            {
+                clientSocket.EndSend(ar);
+                clientSocket.Close();
             }
             catch (Exception ex)
             {

@@ -29,6 +29,7 @@ namespace Server
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ServerForm));
             this.txtLog = new System.Windows.Forms.TextBox();
             this.lstUsers = new System.Windows.Forms.ListBox();
             this.userListRCMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -188,7 +189,7 @@ namespace Server
             // 
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
             this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
@@ -249,6 +250,7 @@ namespace Server
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.lstUsers);
             this.Controls.Add(this.txtLog);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(430, 200);
             this.Name = "ServerForm";
