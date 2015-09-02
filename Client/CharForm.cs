@@ -68,6 +68,13 @@ namespace Client
             {
                 clientSocket.EndSend(ar);
             }
+            catch (SocketException)
+            {
+                if (MessageBox.Show("You have been kicked from the server.", "AODXClient", MessageBoxButtons.OK) == DialogResult.OK | MessageBox.Show("You have been kicked from the server.", "AODXClient", MessageBoxButtons.OK) == DialogResult.Cancel)
+                    Close();
+            }
+            catch (ObjectDisposedException)
+            { }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message, "AODXClient", MessageBoxButtons.OK, MessageBoxIcon.Error);

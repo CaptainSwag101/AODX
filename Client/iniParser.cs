@@ -304,4 +304,19 @@ namespace Client
             return null;
         }
     }
+
+    public class Animation
+    {
+        public int index;
+        public string anim;
+        public string preAnim;
+        public int preAnimTime;
+        public string soundName;
+        public int soundTime;
+
+        public Animation()
+        {
+
+        }
+    }
 }

@@ -142,6 +142,13 @@ namespace Client
             {
                 clientSocket.EndSend(ar);
             }
+            catch (SocketException)
+            {
+                if (MessageBox.Show("You have been kicked from the server.", "AODXClient", MessageBoxButtons.OK) == DialogResult.OK | MessageBox.Show("You have been kicked from the server.", "AODXClient", MessageBoxButtons.OK) == DialogResult.Cancel)
+                    Close();
+            }
+            catch (ObjectDisposedException)
+            { }
             catch (Exception ex)
             {
                 if (Program.debug)
@@ -156,6 +163,10 @@ namespace Client
                 clientSocket.EndSend(ar);
                 clientSocket.Close();
             }
+            catch (SocketException)
+            { }
+            catch (ObjectDisposedException)
+            { }
             catch (Exception ex)
             {
                 if (Program.debug)
@@ -246,6 +257,11 @@ namespace Client
                     Close();
                 }
 
+            }
+            catch (SocketException)
+            {
+                if (MessageBox.Show("You have been kicked from the server.", "AODXClient", MessageBoxButtons.OK) == DialogResult.OK | MessageBox.Show("You have been kicked from the server.", "AODXClient", MessageBoxButtons.OK) == DialogResult.Cancel)
+                    Close();
             }
             catch (ObjectDisposedException)
             { }

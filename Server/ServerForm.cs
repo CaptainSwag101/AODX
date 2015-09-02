@@ -124,6 +124,10 @@ namespace Server
                 //Accept the incoming clients
                 serverSocket.BeginAccept(new AsyncCallback(OnAccept), null);
             }
+            catch (SocketException)
+            { }
+            catch (ObjectDisposedException)
+            { }
             catch (Exception ex)
             {
                 if (Program.debug)
@@ -149,6 +153,10 @@ namespace Server
                     clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), clientSocket);
                 }
             }
+            catch (SocketException)
+            { }
+            catch (ObjectDisposedException)
+            { }
             catch (Exception ex)
             {
                 if (Program.debug)
@@ -163,7 +171,7 @@ namespace Server
                 Socket receiveSocket = (Socket)ar.AsyncState;
                 receiveSocket.EndReceive(ar);
 
-                if (!isClosing)
+                if (!isClosing & receiveSocket.Connected)
                 {
                     //If the masterserver is requesting our info (description, user count, etc.)
                     if (byteData[0] == 101)
@@ -177,10 +185,14 @@ namespace Server
                         parseMessage(receiveSocket);
                 }
             }
+            catch (SocketException)
+            { }
+            catch (ObjectDisposedException)
+            { }
             catch (Exception ex)
             {
                 if (Program.debug & !isClosing)
-                    MessageBox.Show(ex.Message + ".\r\n" + ((Socket)ar.AsyncState).RemoteEndPoint.ToString() + "\r\n" + ex.StackTrace.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message + ".\r\n" + ((Socket)ar.AsyncState)?.RemoteEndPoint?.ToString() + "\r\n" + ex.StackTrace.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -197,6 +209,8 @@ namespace Server
 
                 socketToUse.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), socketToUse);
             }
+            catch (SocketException)
+            { }
             catch (ObjectDisposedException)
             { }
             catch (Exception ex)
@@ -428,6 +442,10 @@ namespace Server
                     masterSocket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSendClose), null);
                 masterSocket.Close();
             }
+            catch (SocketException)
+            { }
+            catch (ObjectDisposedException)
+            { }
             catch (Exception ex)
             {
                 if (Program.debug)
@@ -479,6 +497,10 @@ namespace Server
                 Socket client = (Socket)ar.AsyncState;
                 client.EndSend(ar);
             }
+            catch (SocketException)
+            { }
+            catch (ObjectDisposedException)
+            { }
             catch (Exception ex)
             {
                 if (Program.debug)
@@ -505,6 +527,10 @@ namespace Server
                 serverSocket.Close();
                 isClosing = true;
             }
+            catch (SocketException)
+            { }
+            catch (ObjectDisposedException)
+            { }
             catch (Exception ex)
             {
                 if (Program.debug)
@@ -622,6 +648,55 @@ namespace Server
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void settingsMenuItem_Click(object sender, EventArgs e)
+        {
+            var SettingsWindow = new SettingsForm();
+            SettingsWindow.Show();
+        }
+
+        private void kickToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            kickUser();
+        }
+
+        private void kickUser()
+        {
+            if (lstUsers.SelectedItem != null)
+            {
+                string username = ((string)lstUsers.SelectedItem).Split(new string[] { " - " }, StringSplitOptions.None)[0];
+                int nIndex = 0;
+                foreach (ClientInfo client in clientList)
+                {
+                    if (client.strName == username)
+                    {
+                        clientList.RemoveAt(nIndex);
+                        //removeLstUsersSafe(client.strName + " - " + client.character);
+                        removeLstUsersSafe(client.strName + " - " + ((IPEndPoint)client.socket.RemoteEndPoint).Address.ToString());
+                        client.socket.Close();
+                        break;
+                    }
+                    ++nIndex;
+                }
+
+                Data msgToSend = new Data();
+                msgToSend.cmdCommand = Command.Logout;
+                msgToSend.strMessage = "<<<" + username + " has been kicked from the courtroom>>>";
+                byte[] msg = msgToSend.ToByte();
+
+                if (clientList.Count > 0)
+                {
+                    foreach (ClientInfo clientInfo in clientList)
+                    {
+                        //Send the message to all users
+                        clientInfo.socket.BeginSend(msg, 0, msg.Length, SocketFlags.None, new AsyncCallback(OnSend), clientInfo.socket);
+                    }
+                }
+
+                appendTxtLogSafe(msgToSend.strMessage + "\r\n");
+                userNumStat.Text = "Users Online: " + clientList.Count;
+            }
         }
     }
 

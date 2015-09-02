@@ -155,6 +155,10 @@ namespace MasterServer
                     //connectingSocket.Close();
                 }
             }
+            catch (SocketException)
+            { }
+            catch (ObjectDisposedException)
+            { }
             catch (Exception ex)
             {
                 if (Program.debug)

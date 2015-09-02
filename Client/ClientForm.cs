@@ -153,7 +153,8 @@ namespace Client
                 msgToSend.strMessage = null;
 
                 byte[] b = msgToSend.ToByte();
-                clientSocket.Send(b, 0, b.Length, SocketFlags.None);
+                if (clientSocket.Connected)
+                    clientSocket.Send(b, 0, b.Length, SocketFlags.None);
                 clientSocket.Close();
                 if (sfxPlayer != null)
                     sfxPlayer.Dispose();
@@ -168,6 +169,8 @@ namespace Client
                 if (musicReader != null)
                     musicReader.Dispose();
             }
+            catch (SocketException)
+            { }
             catch (ObjectDisposedException)
             { }
             catch (Exception ex)
@@ -414,6 +417,8 @@ namespace Client
             {
                 clientSocket.EndSend(ar);
             }
+            catch (SocketException)
+            { }
             catch (ObjectDisposedException)
             { }
             catch (Exception ex)
@@ -537,6 +542,13 @@ namespace Client
 
                 clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), null);
 
+            }
+            catch (SocketException)
+            {
+                if (MessageBox.Show("You have been kicked from the server.", "AODXClient", MessageBoxButtons.OK) == DialogResult.OK)
+                {
+                    Close();
+                }
             }
             catch (ObjectDisposedException)
             { }

@@ -44,13 +44,13 @@ namespace Server
             this.label2 = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.adminModControlsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.configureServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.adminMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.settingsMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.updateMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.userListRCMenu.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -81,7 +81,6 @@ namespace Server
             this.lstUsers.IntegralHeight = false;
             this.lstUsers.Location = new System.Drawing.Point(372, 40);
             this.lstUsers.Name = "lstUsers";
-            this.lstUsers.SelectionMode = System.Windows.Forms.SelectionMode.None;
             this.lstUsers.Size = new System.Drawing.Size(164, 314);
             this.lstUsers.TabIndex = 1;
             // 
@@ -106,6 +105,7 @@ namespace Server
             this.kickToolStripMenuItem.Name = "kickToolStripMenuItem";
             this.kickToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
             this.kickToolStripMenuItem.Text = "Kick";
+            this.kickToolStripMenuItem.Click += new System.EventHandler(this.kickToolStripMenuItem_Click);
             // 
             // banToolStripMenuItem
             // 
@@ -180,47 +180,48 @@ namespace Server
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.exitToolStripMenuItem});
+            this.exitMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // exitToolStripMenuItem
+            // exitMenuItem
             // 
-            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(134, 22);
-            this.exitToolStripMenuItem.Text = "Exit";
-            this.exitToolStripMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
+            this.exitMenuItem.Name = "exitMenuItem";
+            this.exitMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.exitMenuItem.Size = new System.Drawing.Size(134, 22);
+            this.exitMenuItem.Text = "Exit";
+            this.exitMenuItem.Click += new System.EventHandler(this.exitToolStripMenuItem_Click);
             // 
             // toolsToolStripMenuItem
             // 
             this.toolsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.adminModControlsToolStripMenuItem,
-            this.configureServerToolStripMenuItem});
+            this.adminMenuItem,
+            this.settingsMenuItem});
             this.toolsToolStripMenuItem.Name = "toolsToolStripMenuItem";
             this.toolsToolStripMenuItem.Size = new System.Drawing.Size(47, 20);
             this.toolsToolStripMenuItem.Text = "Tools";
             // 
-            // adminModControlsToolStripMenuItem
+            // adminMenuItem
             // 
-            this.adminModControlsToolStripMenuItem.Name = "adminModControlsToolStripMenuItem";
-            this.adminModControlsToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
-            this.adminModControlsToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.adminModControlsToolStripMenuItem.Text = "Admin Controls...";
+            this.adminMenuItem.Name = "adminMenuItem";
+            this.adminMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.M)));
+            this.adminMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.adminMenuItem.Text = "Admin Controls...";
             // 
-            // configureServerToolStripMenuItem
+            // settingsMenuItem
             // 
-            this.configureServerToolStripMenuItem.Name = "configureServerToolStripMenuItem";
-            this.configureServerToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
-            this.configureServerToolStripMenuItem.Size = new System.Drawing.Size(212, 22);
-            this.configureServerToolStripMenuItem.Text = "Server Options...";
+            this.settingsMenuItem.Name = "settingsMenuItem";
+            this.settingsMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.settingsMenuItem.Size = new System.Drawing.Size(212, 22);
+            this.settingsMenuItem.Text = "Server Options...";
+            this.settingsMenuItem.Click += new System.EventHandler(this.settingsMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.updateMenuItem,
-            this.aboutToolStripMenuItem});
+            this.aboutMenuItem});
             this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
             this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
             this.helpToolStripMenuItem.Text = "Help";
@@ -232,12 +233,12 @@ namespace Server
             this.updateMenuItem.Text = "Check for &Updates";
             this.updateMenuItem.Click += new System.EventHandler(this.updateMenuItem_Click);
             // 
-            // aboutToolStripMenuItem
+            // aboutMenuItem
             // 
-            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
-            this.aboutToolStripMenuItem.Text = "&About...";
+            this.aboutMenuItem.Name = "aboutMenuItem";
+            this.aboutMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.aboutMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.aboutMenuItem.Text = "&About...";
             // 
             // ServerForm
             // 
@@ -284,10 +285,10 @@ namespace Server
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem adminModControlsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem configureServerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem adminMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem aboutMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem settingsMenuItem;
         private System.Windows.Forms.ToolStripStatusLabel localIPLabel;
         private System.Windows.Forms.ToolStripMenuItem updateMenuItem;
     }
