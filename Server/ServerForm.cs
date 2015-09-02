@@ -814,6 +814,7 @@ namespace Server
             strMessage = null;
             strName = null;
             anim = 1;
+            callout = 0;
             textColor = Color.PeachPuff;
         }
 
@@ -828,25 +829,27 @@ namespace Server
 
             anim = BitConverter.ToInt32(data, 8);
 
-            int textColorLen = BitConverter.ToInt32(data, 12);
+            callout = data[12];
+
+            int textColorLen = BitConverter.ToInt32(data, 13);
 
             //The next four store the length of the message
-            int msgLen = BitConverter.ToInt32(data, 16);
+            int msgLen = BitConverter.ToInt32(data, 17);
 
             //This check makes sure that strName has been passed in the array of bytes
             if (nameLen > 0)
-                strName = Encoding.UTF8.GetString(data, 20, nameLen);
+                strName = Encoding.UTF8.GetString(data, 21, nameLen);
             else
                 strName = null;
 
             if (textColorLen > 0)
-                textColor = Color.FromArgb(BitConverter.ToInt32(data, 20 + nameLen));
+                textColor = Color.FromArgb(BitConverter.ToInt32(data, 21 + nameLen));
             else
                 textColor = Color.White;
 
             //This checks for a null message field
             if (msgLen > 0)
-                strMessage = Encoding.UTF8.GetString(data, 20 + nameLen + textColorLen, msgLen);
+                strMessage = Encoding.UTF8.GetString(data, 21 + nameLen + textColorLen, msgLen);
             else
                 strMessage = null;
         }
@@ -866,6 +869,8 @@ namespace Server
                 result.AddRange(BitConverter.GetBytes(0));
 
             result.AddRange(BitConverter.GetBytes(anim));
+
+            result.Add(callout);
 
             //Add the color length
             result.AddRange(BitConverter.GetBytes(4));
@@ -905,6 +910,7 @@ namespace Server
 
         public string strName;      //Name by which the client logs into the room
         public int anim;
+        public byte callout;
         public Color textColor;
         public string strMessage;   //Message text
         public Command cmdCommand;  //Command type (login, logout, send message, etcetera)

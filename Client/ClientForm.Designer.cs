@@ -68,6 +68,10 @@ namespace Client
             this.btnSend = new System.Windows.Forms.Button();
             this.dispTextRedraw = new System.Windows.Forms.Timer(this.components);
             this.musicList = new System.Windows.Forms.ListBox();
+            this.btn_objection = new System.Windows.Forms.PictureBox();
+            this.btn_holdit = new System.Windows.Forms.PictureBox();
+            this.btn_takethat = new System.Windows.Forms.PictureBox();
+            this.calloutPanel = new System.Windows.Forms.Panel();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arrowRight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.arrowLeft)).BeginInit();
@@ -88,6 +92,9 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.backgroundPB)).BeginInit();
             this.GameDisplay.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.objectLayerPB)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_objection)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_holdit)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_takethat)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -140,6 +147,7 @@ namespace Client
             // arrowRight
             // 
             resources.ApplyResources(this.arrowRight, "arrowRight");
+            this.arrowRight.Cursor = System.Windows.Forms.Cursors.Hand;
             this.arrowRight.Name = "arrowRight";
             this.arrowRight.TabStop = false;
             this.arrowRight.Click += new System.EventHandler(this.arrowRight_Click);
@@ -147,6 +155,7 @@ namespace Client
             // arrowLeft
             // 
             resources.ApplyResources(this.arrowLeft, "arrowLeft");
+            this.arrowLeft.Cursor = System.Windows.Forms.Cursors.Hand;
             this.arrowLeft.Name = "arrowLeft";
             this.arrowLeft.TabStop = false;
             this.arrowLeft.Click += new System.EventHandler(this.arrowLeft_Click);
@@ -172,6 +181,7 @@ namespace Client
             // emoButton10
             // 
             resources.ApplyResources(this.emoButton10, "emoButton10");
+            this.emoButton10.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton10.Name = "emoButton10";
             this.emoButton10.TabStop = false;
             this.emoButton10.Click += new System.EventHandler(this.emoButton10_Click);
@@ -179,6 +189,7 @@ namespace Client
             // emoButton9
             // 
             resources.ApplyResources(this.emoButton9, "emoButton9");
+            this.emoButton9.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton9.Name = "emoButton9";
             this.emoButton9.TabStop = false;
             this.emoButton9.Click += new System.EventHandler(this.emoButton9_Click);
@@ -186,6 +197,7 @@ namespace Client
             // emoButton8
             // 
             resources.ApplyResources(this.emoButton8, "emoButton8");
+            this.emoButton8.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton8.Name = "emoButton8";
             this.emoButton8.TabStop = false;
             this.emoButton8.Click += new System.EventHandler(this.emoButton8_Click);
@@ -193,6 +205,7 @@ namespace Client
             // emoButton7
             // 
             resources.ApplyResources(this.emoButton7, "emoButton7");
+            this.emoButton7.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton7.Name = "emoButton7";
             this.emoButton7.TabStop = false;
             this.emoButton7.Click += new System.EventHandler(this.emoButton7_Click);
@@ -200,6 +213,7 @@ namespace Client
             // emoButton6
             // 
             resources.ApplyResources(this.emoButton6, "emoButton6");
+            this.emoButton6.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton6.Name = "emoButton6";
             this.emoButton6.TabStop = false;
             this.emoButton6.Click += new System.EventHandler(this.emoButton6_Click);
@@ -207,6 +221,7 @@ namespace Client
             // emoButton5
             // 
             resources.ApplyResources(this.emoButton5, "emoButton5");
+            this.emoButton5.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton5.Name = "emoButton5";
             this.emoButton5.TabStop = false;
             this.emoButton5.Click += new System.EventHandler(this.emoButton5_Click);
@@ -214,6 +229,7 @@ namespace Client
             // emoButton4
             // 
             resources.ApplyResources(this.emoButton4, "emoButton4");
+            this.emoButton4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton4.Name = "emoButton4";
             this.emoButton4.TabStop = false;
             this.emoButton4.Click += new System.EventHandler(this.emoButton4_Click);
@@ -221,6 +237,7 @@ namespace Client
             // emoButton3
             // 
             resources.ApplyResources(this.emoButton3, "emoButton3");
+            this.emoButton3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton3.Name = "emoButton3";
             this.emoButton3.TabStop = false;
             this.emoButton3.Click += new System.EventHandler(this.emoButton3_Click);
@@ -228,6 +245,7 @@ namespace Client
             // emoButton2
             // 
             resources.ApplyResources(this.emoButton2, "emoButton2");
+            this.emoButton2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton2.Name = "emoButton2";
             this.emoButton2.TabStop = false;
             this.emoButton2.Click += new System.EventHandler(this.emoButton2_Click);
@@ -235,6 +253,7 @@ namespace Client
             // emoButton1
             // 
             resources.ApplyResources(this.emoButton1, "emoButton1");
+            this.emoButton1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton1.Name = "emoButton1";
             this.emoButton1.TabStop = false;
             this.emoButton1.Click += new System.EventHandler(this.emoButton1_Click);
@@ -374,21 +393,57 @@ namespace Client
             this.musicList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.musicList_DrawItem);
             this.musicList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.musicList_MouseDoubleClick);
             // 
+            // btn_objection
+            // 
+            this.btn_objection.BackColor = System.Drawing.Color.Transparent;
+            this.btn_objection.Cursor = System.Windows.Forms.Cursors.Hand;
+            resources.ApplyResources(this.btn_objection, "btn_objection");
+            this.btn_objection.Name = "btn_objection";
+            this.btn_objection.TabStop = false;
+            this.btn_objection.Click += new System.EventHandler(this.btn_objection_Click);
+            // 
+            // btn_holdit
+            // 
+            this.btn_holdit.BackColor = System.Drawing.Color.Transparent;
+            this.btn_holdit.Cursor = System.Windows.Forms.Cursors.Hand;
+            resources.ApplyResources(this.btn_holdit, "btn_holdit");
+            this.btn_holdit.Name = "btn_holdit";
+            this.btn_holdit.TabStop = false;
+            this.btn_holdit.Click += new System.EventHandler(this.btn_holdit_Click);
+            // 
+            // btn_takethat
+            // 
+            this.btn_takethat.BackColor = System.Drawing.Color.Transparent;
+            this.btn_takethat.Cursor = System.Windows.Forms.Cursors.Hand;
+            resources.ApplyResources(this.btn_takethat, "btn_takethat");
+            this.btn_takethat.Name = "btn_takethat";
+            this.btn_takethat.TabStop = false;
+            this.btn_takethat.Click += new System.EventHandler(this.btn_takethat_Click);
+            // 
+            // calloutPanel
+            // 
+            resources.ApplyResources(this.calloutPanel, "calloutPanel");
+            this.calloutPanel.Name = "calloutPanel";
+            // 
             // ClientForm
             // 
             this.AcceptButton = this.btnSend;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.txtMessage);
+            this.Controls.Add(this.txtColorChanger);
+            this.Controls.Add(this.btnSend);
+            this.Controls.Add(this.btn_objection);
+            this.Controls.Add(this.btn_holdit);
+            this.Controls.Add(this.btn_takethat);
             this.Controls.Add(this.musicList);
             this.Controls.Add(this.emotionPanel);
             this.Controls.Add(this.OOCInput);
             this.Controls.Add(this.OOCChat);
-            this.Controls.Add(this.txtColorChanger);
             this.Controls.Add(this.GameDisplay);
-            this.Controls.Add(this.txtMessage);
             this.Controls.Add(this.txtLog);
-            this.Controls.Add(this.btnSend);
             this.Controls.Add(this.menuStrip);
+            this.Controls.Add(this.calloutPanel);
             this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.Name = "ClientForm";
@@ -415,6 +470,9 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.backgroundPB)).EndInit();
             this.GameDisplay.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.objectLayerPB)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_objection)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_holdit)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_takethat)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -460,6 +518,10 @@ namespace Client
         private System.Windows.Forms.ToolStripMenuItem updateMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutMenuItem;
         private System.Windows.Forms.ListBox musicList;
+        private System.Windows.Forms.PictureBox btn_objection;
+        private System.Windows.Forms.PictureBox btn_holdit;
+        private System.Windows.Forms.PictureBox btn_takethat;
+        private System.Windows.Forms.Panel calloutPanel;
     }
 }
 

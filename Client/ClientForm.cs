@@ -34,6 +34,7 @@ namespace Client
         public string strName;      //Character that the user is playing as
         public List<string> songs; // = new List<string>();
         private int selectedAnim = 1;
+        private byte callout = 0;
         private int colorIndex = 0;
         private Color selectedColor = Color.White;
         private string[] textToDisp = new string[3];
@@ -96,6 +97,12 @@ namespace Client
             arrowRight.Load("base/misc/btn_arrowRight.png");
             arrowRight.Enabled = false;
             arrowRight.Visible = false;
+            btn_objection.Image = Image.FromFile("base/misc/btn_objection_off.png");
+            btn_objection.Visible = true;
+            btn_holdit.Image = Image.FromFile("base/misc/btn_holdit_off.png");
+            btn_holdit.Visible = true;
+            btn_takethat.Image = Image.FromFile("base/misc/btn_takethat_off.png");
+            btn_takethat.Visible = true;
             clearDispMsg();
             setDispMsgColor(Color.White);
 
@@ -394,6 +401,7 @@ namespace Client
                 msgToSend.anim = selectedAnim;
                 msgToSend.textColor = selectedColor;
                 msgToSend.strMessage = txtMessage.Text;
+                msgToSend.callout = callout;
                 msgToSend.cmdCommand = Command.Message;
 
                 byte[] byteData = msgToSend.ToByte();
@@ -468,6 +476,9 @@ namespace Client
                         curPreAnim = null;
                         soundTime = 0;
                         curSoundTime = 0;
+
+                        if (msgReceived.callout > 0)
+                            performCallout();
 
                         if (iniParser.GetSoundName(msgReceived.strName, msgReceived.anim) != "1" && iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim) > 0 & File.Exists("base/sounds/general/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav"))
                         {
@@ -559,6 +570,76 @@ namespace Client
                 if (Program.debug)
                     MessageBox.Show(ex.Message + ".\r\n" + ex.StackTrace.ToString(), "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void performCallout()
+        {
+            switch (latestMsg.callout)
+            {
+                case 0:
+
+                    break;
+
+                case 1:
+
+                    nameLabel.Visible = false;
+                    displayMsg1.Visible = false;
+                    displayMsg2.Visible = false;
+                    displayMsg3.Visible = false;
+                    objectLayerPB.Image = Image.FromFile("base/misc/ani_objection.gif");
+                    if (File.Exists("base/characters/" + latestMsg.strName + "/objection.wav"))
+                        wr = new WaveFileReader("base/characters/" + latestMsg.strName + "/objection.wav");
+                    else
+                        wr = new WaveFileReader("base/sounds/general/sfx_objection.wav");
+
+                    sfxPlayer.Initialize(wr);
+                    sfxPlayer.Play();
+
+                    System.Threading.Thread.Sleep(1000);
+                    break;
+
+                case 2:
+
+                    nameLabel.Visible = false;
+                    displayMsg1.Visible = false;
+                    displayMsg2.Visible = false;
+                    displayMsg3.Visible = false;
+                    objectLayerPB.Image = Image.FromFile("base/misc/ani_holdit.gif");
+                    if (File.Exists("base/characters/" + latestMsg.strName + "/holdit.wav"))
+                        wr = new WaveFileReader("base/characters/" + latestMsg.strName + "/holdit.wav");
+                    else
+                        wr = new WaveFileReader("base/sounds/general/sfx_objection.wav");
+
+                    sfxPlayer.Initialize(wr);
+                    sfxPlayer.Play();
+
+                    System.Threading.Thread.Sleep(1000);
+                    break;
+
+                case 3:
+
+                    nameLabel.Visible = false;
+                    displayMsg1.Visible = false;
+                    displayMsg2.Visible = false;
+                    displayMsg3.Visible = false;
+                    objectLayerPB.Image = Image.FromFile("base/misc/ani_takethat.gif");
+                    if (File.Exists("base/characters/" + latestMsg.strName + "/takethat.wav"))
+                        wr = new WaveFileReader("base/characters/" + latestMsg.strName + "/takethat.wav");
+                    else
+                        wr = new WaveFileReader("base/sounds/general/sfx_objection.wav");
+
+                    sfxPlayer.Initialize(wr);
+                    sfxPlayer.Play();
+
+                    System.Threading.Thread.Sleep(1000);
+                    break;
+            }
+
+            nameLabel.Visible = true;
+            displayMsg1.Visible = true;
+            displayMsg2.Visible = true;
+            displayMsg3.Visible = true;
+            objectLayerPB.Image = null;
         }
 
         private void setCharSprite(string file)
@@ -973,7 +1054,7 @@ namespace Client
             updateCheck();
         }
 
-        private void updateCheck()
+        private void updateCheck(bool silent = false)
         {
             // in newVersion variable we will store the  
             // version info from xml file  
@@ -1070,9 +1151,9 @@ namespace Client
                     // comes from the xml content)  
                     System.Diagnostics.Process.Start(url);
                 }
-                else
-                    MessageBox.Show(this, "You have the latest version: " + curVersion.ToString(), "Update Check", MessageBoxButtons.OK);
             }
+            else if (!silent)
+                MessageBox.Show(this, "You have the latest version: " + curVersion.ToString(), "Update Check", MessageBoxButtons.OK);
         }
 
         private void exitMenuItem_Click(object sender, EventArgs e)
@@ -1101,6 +1182,60 @@ namespace Client
                 //clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), null);
             }
         }
+
+        private void btn_objection_Click(object sender, EventArgs e)
+        {
+            if (callout != 1)
+            {
+                btn_objection.Load("base/misc/btn_objection_on.png");
+                btn_holdit.Load("base/misc/btn_holdit_off.png");
+                btn_takethat.Load("base/misc/btn_takethat_off.png");
+                callout = 1;
+            }
+            else
+            {
+                btn_objection.Load("base/misc/btn_objection_off.png");
+                btn_holdit.Load("base/misc/btn_holdit_off.png");
+                btn_takethat.Load("base/misc/btn_takethat_off.png");
+                callout = 0;
+            }
+        }
+
+        private void btn_holdit_Click(object sender, EventArgs e)
+        {
+            if (callout != 2)
+            {
+                btn_objection.Load("base/misc/btn_objection_off.png");
+                btn_holdit.Load("base/misc/btn_holdit_on.png");
+                btn_takethat.Load("base/misc/btn_takethat_off.png");
+                callout = 2;
+            }
+            else
+            {
+                btn_objection.Load("base/misc/btn_objection_off.png");
+                btn_holdit.Load("base/misc/btn_holdit_off.png");
+                btn_takethat.Load("base/misc/btn_takethat_off.png");
+                callout = 0;
+            }
+        }
+
+        private void btn_takethat_Click(object sender, EventArgs e)
+        {
+            if (callout != 3)
+            {
+                btn_objection.Load("base/misc/btn_objection_off.png");
+                btn_holdit.Load("base/misc/btn_holdit_off.png");
+                btn_takethat.Load("base/misc/btn_takethat_on.png");
+                callout = 3;
+            }
+            else
+            {
+                btn_objection.Load("base/misc/btn_objection_off.png");
+                btn_holdit.Load("base/misc/btn_holdit_off.png");
+                btn_takethat.Load("base/misc/btn_takethat_off.png");
+                callout = 0;
+            }
+        }
     }
 
     //The data structure by which the server and the client interact with 
@@ -1114,6 +1249,7 @@ namespace Client
             strMessage = null;
             strName = null;
             anim = 1;
+            callout = 0;
             textColor = Color.PeachPuff;
             extraData = null;
         }
@@ -1129,25 +1265,27 @@ namespace Client
 
             anim = BitConverter.ToInt32(data, 8);
 
-            int textColorLen = BitConverter.ToInt32(data, 12);
+            callout = data[12];
+
+            int textColorLen = BitConverter.ToInt32(data, 13);
 
             //The next four store the length of the message
-            int msgLen = BitConverter.ToInt32(data, 16);
+            int msgLen = BitConverter.ToInt32(data, 17);
 
             //This check makes sure that strName has been passed in the array of bytes
             if (nameLen > 0)
-                strName = Encoding.UTF8.GetString(data, 20, nameLen);
+                strName = Encoding.UTF8.GetString(data, 21, nameLen);
             else
                 strName = null;
 
             if (textColorLen > 0)
-                textColor = Color.FromArgb(BitConverter.ToInt32(data, 20 + nameLen));
+                textColor = Color.FromArgb(BitConverter.ToInt32(data, 21 + nameLen));
             else
                 textColor = Color.White;
 
             //This checks for a null message field
             if (msgLen > 0)
-                strMessage = Encoding.UTF8.GetString(data, 20 + nameLen + textColorLen, msgLen);
+                strMessage = Encoding.UTF8.GetString(data, 21 + nameLen + textColorLen, msgLen);
             else
                 strMessage = null;
         }
@@ -1167,6 +1305,8 @@ namespace Client
                 result.AddRange(BitConverter.GetBytes(0));
 
             result.AddRange(BitConverter.GetBytes(anim));
+
+            result.Add(callout);
 
             //Add the color length
             result.AddRange(BitConverter.GetBytes(4));
@@ -1193,6 +1333,7 @@ namespace Client
 
         public string strName;      //Name by which the client logs into the room
         public int anim;
+        public byte callout;
         public byte[] extraData;
         public Color textColor;
         public string strMessage;   //Message text
