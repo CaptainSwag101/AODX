@@ -458,6 +458,7 @@ namespace Client
                         break;
 
                     case Command.Message:
+                        btnSend.Enabled = false;
                         //blipPlayer.PlayLooping();
                         latestMsg = msgReceived;
 
@@ -726,13 +727,13 @@ namespace Client
         {
             if (txtMessage.Text.Length == 0)
                 btnSend.Enabled = false;
-            else
+            else if (redraw == false)
                 btnSend.Enabled = true;
         }
 
         private void txtMessage_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            if (e.KeyCode == Keys.Enter & btnSend.Enabled & redraw == false)
             {
                 btnSend_Click(sender, null);
             }
@@ -799,6 +800,9 @@ namespace Client
                     blipPlayer.Stop();
                     setCharSprite("base/characters/" + latestMsg.strName + "/(a)" + iniParser.GetAnim(latestMsg.strName, latestMsg.anim) + ".gif");
                     redraw = false;
+
+                    if (txtMessage.Text.Length > 0)
+                        btnSend.Enabled = true;
                 }
             }
         }
