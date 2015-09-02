@@ -237,16 +237,18 @@ namespace Server
                     byte[] message;
 
                     bool found = false;
-                    using (StreamReader r = new StreamReader("base/banlist.ini"))
+                    if (File.Exists("base/banlist.ini"))
                     {
-                        while (!r.EndOfStream)
+                        using (StreamReader r = new StreamReader("base/banlist.ini"))
                         {
-                            if (r.ReadLine().StartsWith(clientSocket.RemoteEndPoint.ToString().Split(':')[0]))
+                            while (!r.EndOfStream)
                             {
-                                found = true;
-                                break;
+                                if (r.ReadLine().StartsWith(clientSocket.RemoteEndPoint.ToString().Split(':')[0]))
+                                {
+                                    found = true;
+                                    break;
+                                }
                             }
-
                         }
                     }
 
