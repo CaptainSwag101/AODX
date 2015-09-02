@@ -92,31 +92,32 @@ namespace Server
             this.banToolStripMenuItem,
             this.messageToolStripMenuItem});
             this.userListRCMenu.Name = "userListRCMenu";
-            this.userListRCMenu.Size = new System.Drawing.Size(121, 92);
+            this.userListRCMenu.Size = new System.Drawing.Size(153, 114);
             // 
             // whoisToolStripMenuItem
             // 
             this.whoisToolStripMenuItem.Name = "whoisToolStripMenuItem";
-            this.whoisToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.whoisToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.whoisToolStripMenuItem.Text = "Whois";
             // 
             // kickToolStripMenuItem
             // 
             this.kickToolStripMenuItem.Name = "kickToolStripMenuItem";
-            this.kickToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.kickToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.kickToolStripMenuItem.Text = "Kick";
             this.kickToolStripMenuItem.Click += new System.EventHandler(this.kickToolStripMenuItem_Click);
             // 
             // banToolStripMenuItem
             // 
             this.banToolStripMenuItem.Name = "banToolStripMenuItem";
-            this.banToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.banToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.banToolStripMenuItem.Text = "Ban";
+            this.banToolStripMenuItem.Click += new System.EventHandler(this.banToolStripMenuItem_Click);
             // 
             // messageToolStripMenuItem
             // 
             this.messageToolStripMenuItem.Name = "messageToolStripMenuItem";
-            this.messageToolStripMenuItem.Size = new System.Drawing.Size(120, 22);
+            this.messageToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.messageToolStripMenuItem.Text = "Message";
             // 
             // userNumStat

@@ -661,7 +661,13 @@ namespace Server
             kickUser();
         }
 
-        private void kickUser()
+        private void banToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            banUser(); //This needs to happen first, because lstUsers.SelectedItem will be null after we kick the user
+            kickUser(true);
+        }
+
+        private void kickUser(bool silent = false)
         {
             if (lstUsers.SelectedItem != null)
             {
@@ -680,17 +686,82 @@ namespace Server
                     ++nIndex;
                 }
 
+                if (!silent)
+                {
+                    Data msgToSend = new Data();
+                    msgToSend.cmdCommand = Command.Logout;
+                    msgToSend.strMessage = "<<<" + username + " has been kicked from the courtroom>>>";
+                    byte[] msg = msgToSend.ToByte();
+
+                    if (clientList.Count > 0)
+                    {
+                        foreach (ClientInfo clientInfo in clientList)
+                        {
+                            //Send the message to all users
+                            clientInfo.socket.BeginSend(msg, 0, msg.Length, SocketFlags.None, new AsyncCallback(OnSend), clientInfo.socket);
+                        }
+                    }
+
+                    appendTxtLogSafe(msgToSend.strMessage + "\r\n");
+                }
+
+                userNumStat.Text = "Users Online: " + clientList.Count;
+            }
+        }
+
+        private void banUser()
+        {
+            if (lstUsers.SelectedItem != null)
+            {
+                string IP = ((string)lstUsers.SelectedItem).Split(new string[] { " - " }, StringSplitOptions.None)[1];
+                int nIndex = 0;
+                foreach (ClientInfo client in clientList)
+                {
+                    if (client.socket.RemoteEndPoint.ToString().Split(':')[0] == IP)
+                    {
+                        if (!File.Exists("base/banlist.ini"))
+                            File.CreateText("base/banlist.ini");
+
+                        bool found = false;
+                        using (StreamReader r = new StreamReader("base/banlist.ini"))
+                        {
+                            while (!r.EndOfStream)
+                            {
+                                if (r.ReadLine().StartsWith(IP))
+                                {
+                                    found = true;
+                                    break;
+                                }
+
+                            }
+                        }
+
+                        if (found == false)
+                        {
+                            using (StreamWriter file = new StreamWriter("base/banlist.ini", true))
+                            {
+                                file.WriteLine(IP);
+                            }
+                        }
+                        break;
+                    }
+                    ++nIndex;
+                }
+
                 Data msgToSend = new Data();
                 msgToSend.cmdCommand = Command.Logout;
-                msgToSend.strMessage = "<<<" + username + " has been kicked from the courtroom>>>";
+                msgToSend.strMessage = "<<<" + ((string)lstUsers.SelectedItem).Split(new string[] { " - " }, StringSplitOptions.None)[0] + " has been banned from the courtroom>>>";
                 byte[] msg = msgToSend.ToByte();
 
                 if (clientList.Count > 0)
                 {
                     foreach (ClientInfo clientInfo in clientList)
                     {
-                        //Send the message to all users
-                        clientInfo.socket.BeginSend(msg, 0, msg.Length, SocketFlags.None, new AsyncCallback(OnSend), clientInfo.socket);
+                        if (clientInfo.socket.RemoteEndPoint.ToString().Split(':')[0] != IP)
+                        {
+                            //Send the message to all users
+                            clientInfo.socket.BeginSend(msg, 0, msg.Length, SocketFlags.None, new AsyncCallback(OnSend), clientInfo.socket);
+                        }
                     }
                 }
 
