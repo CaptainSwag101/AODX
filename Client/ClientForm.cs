@@ -24,6 +24,7 @@ namespace Client
         DataInfo,       //Get a list of music filenames, evidence, and currently unused characters that the server has loaded
         PacketSize,     //Get the size in bytes of the next incoming packet so we can size our receiving packet accordingly. Used for receiving the DataInfo packets.
         ChangeMusic,    //Makes the server tell all clients to start playing the selected audio file
+        Disconnect,
         Null            //No command
     }
 

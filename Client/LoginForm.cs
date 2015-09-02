@@ -200,7 +200,14 @@ namespace Client
 
                 Data msgReceived = new Data(byteData);
 
-                if (msgReceived.cmdCommand == Command.PacketSize)
+                if (msgReceived.cmdCommand == Command.Disconnect)
+                {
+                    MessageBox.Show("You are banned from this server!");
+                    btn_Connect.Image = Image.FromFile("base/misc/btn_connect.png");
+                    //clientSocket.Close();
+                    //Close();
+                }
+                else if (msgReceived.cmdCommand == Command.PacketSize)
                 {
                     incomingSize = Convert.ToInt32(msgReceived.strMessage);
                     byteData = new byte[incomingSize];
@@ -260,7 +267,7 @@ namespace Client
             }
             catch (SocketException)
             {
-                if (MessageBox.Show("You have been kicked from the server.", "AODXClient", MessageBoxButtons.OK) == DialogResult.OK | MessageBox.Show("You have been kicked from the server.", "AODXClient", MessageBoxButtons.OK) == DialogResult.Cancel)
+                if (MessageBox.Show("You have been disconnected from the server.", "AODXClient", MessageBoxButtons.OK) == DialogResult.OK | MessageBox.Show("You have been kicked from the server.", "AODXClient", MessageBoxButtons.OK) == DialogResult.Cancel)
                     Close();
             }
             catch (ObjectDisposedException)

@@ -22,6 +22,7 @@ namespace Server
         DataInfo,       //Get a list of music filenames, evidence, and currently unused characters that the server has loaded
         PacketSize,     //Get the size in bytes of the next incoming packet so we can size our receiving packet accordingly. Used for receiving the DataInfo packets.
         ChangeMusic,    //Tells all clients to start playing the selected audio file
+        Disconnect,
         Null            //No command
     }
 
@@ -235,6 +236,20 @@ namespace Server
 
                     byte[] message;
 
+                    bool found = false;
+                    using (StreamReader r = new StreamReader("base/banlist.ini"))
+                    {
+                        while (!r.EndOfStream)
+                        {
+                            if (r.ReadLine().StartsWith(clientSocket.RemoteEndPoint.ToString().Split(':')[0]))
+                            {
+                                found = true;
+                                break;
+                            }
+
+                        }
+                    }
+
                     //If the message is to login, logout, or simple text message
                     //then when sent to others, the type of the message remains the same
                     msgToSend.cmdCommand = msgReceived.cmdCommand;
@@ -250,7 +265,6 @@ namespace Server
                             ClientInfo clientInfo = new ClientInfo();
                             clientInfo.socket = clientSocket;
                             clientInfo.strName = msgReceived.strName;
-
                             clientList.Add(clientInfo);
                             appendLstUsersSafe(msgReceived.strName + " - " + ((IPEndPoint)clientSocket.RemoteEndPoint).Address.ToString());
 
@@ -303,6 +317,7 @@ namespace Server
                             break;
 
                         case Command.ChangeMusic:
+
                             if (msgReceived.strMessage != null & msgReceived.strName != null)
                             {
                                 msgToSend.cmdCommand = Command.ChangeMusic;
@@ -339,9 +354,11 @@ namespace Server
                             break;
 
                         case Command.PacketSize:
+
                             msgToSend.cmdCommand = Command.DataInfo;
                             msgToSend.strName = null;
                             msgToSend.strMessage = "";
+
                             List<string> allChars = iniParser.GetCharList();
                             List<string> charsInUse = new List<string>();
                             foreach (string cName in allChars)
@@ -383,8 +400,15 @@ namespace Server
                                 allData = message;
 
                             Data sizeMsg = new Data();
-                            sizeMsg.cmdCommand = Command.PacketSize;
-                            sizeMsg.strMessage = allData.Length.ToString();
+                            if (!found)
+                            {
+                                sizeMsg.cmdCommand = Command.PacketSize;
+                                sizeMsg.strMessage = allData.Length.ToString();
+                            }
+                            else
+                            {
+                                sizeMsg.cmdCommand = Command.Disconnect;
+                            }
 
                             byte[] sizePacket = sizeMsg.ToByte();
 
@@ -392,7 +416,9 @@ namespace Server
                             break;
 
                         case Command.DataInfo:
-                            clientSocket.BeginSend(allData, 0, allData.Length, SocketFlags.None, new AsyncCallback(OnSend), clientSocket);
+
+                            if (!found)
+                                clientSocket.BeginSend(allData, 0, allData.Length, SocketFlags.None, new AsyncCallback(OnSend), clientSocket);
                             break;
                     }
 
@@ -720,7 +746,13 @@ namespace Server
                     if (client.socket.RemoteEndPoint.ToString().Split(':')[0] == IP)
                     {
                         if (!File.Exists("base/banlist.ini"))
+                        {
                             File.CreateText("base/banlist.ini");
+                            using (StreamWriter w = new StreamWriter("base/banlist.ini"))
+                            {
+                                w.WriteLine("[banlist]");
+                            }
+                        }
 
                         bool found = false;
                         using (StreamReader r = new StreamReader("base/banlist.ini"))
