@@ -24,12 +24,14 @@ namespace Client
         DataInfo,       //Get a list of music filenames, evidence, and currently unused characters that the server has loaded
         PacketSize,     //Get the size in bytes of the next incoming packet so we can size our receiving packet accordingly. Used for receiving the DataInfo packets.
         ChangeMusic,    //Makes the server tell all clients to start playing the selected audio file
+        ChangeHealth,
         Disconnect,
         Null            //No command
     }
 
     public partial class ClientForm : Form
     {
+        #region declarations
         public Socket clientSocket; //The main client socket
         public string strName;      //Character that the user is playing as
         public List<string> songs; // = new List<string>();
@@ -43,7 +45,14 @@ namespace Client
         private int emoCount;
         private int emoPage;
         private int emoMaxPages;
+        private bool sendEnabled = true;
+        private byte defHealth = 5;
+        private byte proHealth = 5;
         private Data latestMsg;
+        private string persistDispMsg1;
+        private string persistDispMsg2;
+        private string persistDispMsg3;
+        private string persistNameLabel;
         private WaveFileReader blipReader;
         private DirectSoundOut blipPlayer = new DirectSoundOut();
         private WaveFileReader wr;
@@ -63,7 +72,9 @@ namespace Client
         private SolidBrush reportsBackgroundBrushGreen = new SolidBrush(Color.LightGreen);
         private SolidBrush reportsBackgroundBrushRed = new SolidBrush(Color.Red);
         private AboutBox AboutForm = new AboutBox();
+        #endregion
 
+        #region constructor
         public ClientForm()
         {
             InitializeComponent();
@@ -88,6 +99,7 @@ namespace Client
             objectLayerPB.Controls.Add(displayMsg3);
             nameLabel.BackColor = Color.Transparent;
             objectLayerPB.Controls.Add(nameLabel);
+            objectLayerPB.Controls.Add(testimonyPB);
             displayMsg1.BackColor = Color.Transparent;
             displayMsg2.BackColor = Color.Transparent;
             displayMsg3.BackColor = Color.Transparent;
@@ -103,6 +115,11 @@ namespace Client
             btn_holdit.Visible = true;
             btn_takethat.Image = Image.FromFile("base/misc/btn_takethat_off.png");
             btn_takethat.Visible = true;
+            //btn_Exclaim.Parent = uiPanel;
+            //btn_Mute.Parent = uiPanel;
+            //txtColorChanger.Parent = uiPanel;
+            //defHealthBar.Parent = uiPanel;
+            //proHealthBar.Parent = uiPanel;
             clearDispMsg();
             setDispMsgColor(Color.White);
 
@@ -113,6 +130,24 @@ namespace Client
         private void ClientForm_Load(object sender, EventArgs e)
         {
             nameLabel.Text = "";
+
+            if (iniParser.GetSide(strName) != "jud")
+            {
+                btn_crossexamination.Visible = false;
+                btn_crossexamination.Enabled = false;
+                btn_testimony.Visible = false;
+                btn_testimony.Enabled = false;
+                btn_defminus.Visible = false;
+                btn_defminus.Enabled = false;
+                btn_defplus.Visible = false;
+                btn_defplus.Enabled = false;
+                btn_prominus.Visible = false;
+                btn_prominus.Enabled = false;
+                btn_proplus.Visible = false;
+                btn_proplus.Enabled = false;
+                txtLog.Size = new Size(240, 347);
+            }
+
             musicList.Items.Clear();
 
             foreach (string song in songs)
@@ -143,6 +178,7 @@ namespace Client
             //Start listening to the data asynchronously
             clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), null);
         }
+        #endregion
 
         private void ClientForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -389,34 +425,70 @@ namespace Client
                 emoButton10.Load("base/characters/" + strName + "/emotions/button" + emoButton10.EmoNum + "_off.png");
         }
 
-        //Broadcast the message typed by the user to everyone
-        private void btnSend_Click(object sender, EventArgs e)
+        private void updateHealth()
         {
-            try
+            if (defHealth > 5)
+                defHealth = 5;
+            else if (defHealth < 0)
+                defHealth = 0;
+
+            if (proHealth > 5)
+                proHealth = 5;
+            else if (proHealth < 0)
+                proHealth = 0;
+
+            switch (defHealth)
             {
-                //Fill the info for the message to be send
-                Data msgToSend = new Data();
+                case 5:
+                    defHealthBar.Image = Image.FromFile("base/misc/healthbars/def.png");
+                    break;
 
-                msgToSend.strName = strName;
-                msgToSend.anim = selectedAnim;
-                msgToSend.textColor = selectedColor;
-                msgToSend.strMessage = txtMessage.Text;
-                msgToSend.callout = callout;
-                msgToSend.cmdCommand = Command.Message;
+                case 4:
+                    defHealthBar.Image = Image.FromFile("base/misc/healthbars/def4.png");
+                    break;
 
-                byte[] byteData = msgToSend.ToByte();
+                case 3:
+                    defHealthBar.Image = Image.FromFile("base/misc/healthbars/def3.png");
+                    break;
 
-                //prepWriteDispBoxes(msgToSend);
+                case 2:
+                    defHealthBar.Image = Image.FromFile("base/misc/healthbars/def2.png");
+                    break;
 
-                //Send it to the server
-                clientSocket.BeginSend(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+                case 1:
+                    defHealthBar.Image = Image.FromFile("base/misc/healthbars/def1.png");
+                    break;
 
-                txtMessage.Clear();
+                case 0:
+                    defHealthBar.Image = Image.FromFile("base/misc/healthbars/health5.png");
+                    break;
             }
-            catch (Exception ex)
+
+            switch (proHealth)
             {
-                if (Program.debug)
-                    MessageBox.Show("Unable to send message to the server.\r\n" + ex.Message + ".\r\n" + ex.StackTrace.ToString(), "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                case 5:
+                    proHealthBar.Image = Image.FromFile("base/misc/healthbars/pro.png");
+                    break;
+
+                case 4:
+                    proHealthBar.Image = Image.FromFile("base/misc/healthbars/pro4.png");
+                    break;
+
+                case 3:
+                    proHealthBar.Image = Image.FromFile("base/misc/healthbars/pro3.png");
+                    break;
+
+                case 2:
+                    proHealthBar.Image = Image.FromFile("base/misc/healthbars/pro2.png");
+                    break;
+
+                case 1:
+                    proHealthBar.Image = Image.FromFile("base/misc/healthbars/pro1.png");
+                    break;
+
+                case 0:
+                    proHealthBar.Image = Image.FromFile("base/misc/healthbars/health5.png");
+                    break;
             }
         }
 
@@ -466,8 +538,27 @@ namespace Client
                         }
                         break;
 
+                    case Command.ChangeHealth:
+                        if (msgReceived.strName == "def")
+                        {
+                            if (msgReceived.strMessage == "-1")
+                                defHealth--;
+                            else if (msgReceived.strMessage == "+1")
+                                defHealth++;
+                        }
+                        else if (msgReceived.strName == "pro")
+                        {
+                            if (msgReceived.strMessage == "-1")
+                                proHealth--;
+                            else if (msgReceived.strMessage == "+1")
+                                proHealth++;
+                        }
+
+                        updateHealth();
+                        break;
+
                     case Command.Message:
-                        btnSend.Enabled = false;
+                        sendEnabled = false;
                         //blipPlayer.PlayLooping();
                         latestMsg = msgReceived;
 
@@ -523,6 +614,7 @@ namespace Client
                     case Command.List:
                         appendTxtLogSafe("<<<" + strName + " has entered the courtroom>>>\r\n");
                         break;
+
                     case Command.DataInfo:
                         //Do the stuff with the incoming server data here
 
@@ -539,6 +631,7 @@ namespace Client
 
                         byteData = new byte[1024];
                         break;
+
                     case Command.PacketSize:
                         break;
                 }
@@ -633,6 +726,26 @@ namespace Client
 
                     System.Threading.Thread.Sleep(1000);
                     break;
+
+                case 4:
+                    testimonyPB.Image = Image.FromFile("base/misc/ani_witnessTestimony2.gif");
+                    wr = new WaveFileReader("base/sounds/general/sfx_testimony.wav");
+
+                    sfxPlayer.Initialize(wr);
+                    sfxPlayer.Play();
+
+                    System.Threading.Thread.Sleep(1000);
+                    break;
+
+                case 5:
+                    testimonyPB.Image = Image.FromFile("base/misc/ani_crossexamination.gif");
+                    wr = new WaveFileReader("base/sounds/general/sfx_testimony2.wav");
+
+                    sfxPlayer.Initialize(wr);
+                    sfxPlayer.Play();
+
+                    System.Threading.Thread.Sleep(1000);
+                    break;
             }
 
             nameLabel.Visible = true;
@@ -640,6 +753,7 @@ namespace Client
             displayMsg2.Visible = true;
             displayMsg3.Visible = true;
             objectLayerPB.Image = null;
+            testimonyPB.Image = null;
         }
 
         private void setCharSprite(string file)
@@ -808,16 +922,45 @@ namespace Client
         private void txtMessage_TextChanged(object sender, EventArgs e)
         {
             if (txtMessage.Text.Length == 0)
-                btnSend.Enabled = false;
+                sendEnabled = false;
             else if (redraw == false)
-                btnSend.Enabled = true;
+                sendEnabled = true;
         }
 
         private void txtMessage_KeyDown(object sender, KeyEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter & btnSend.Enabled & redraw == false)
+            if (e.KeyCode == Keys.Enter & sendEnabled)
             {
-                btnSend_Click(sender, null);
+                e.SuppressKeyPress = true;
+                if (redraw == false)
+                {
+                    try
+                    {
+                        //Fill the info for the message to be send
+                        Data msgToSend = new Data();
+
+                        msgToSend.strName = strName;
+                        msgToSend.anim = selectedAnim;
+                        msgToSend.textColor = selectedColor;
+                        msgToSend.strMessage = txtMessage.Text;
+                        msgToSend.callout = callout;
+                        msgToSend.cmdCommand = Command.Message;
+
+                        byte[] byteData = msgToSend.ToByte();
+
+                        //prepWriteDispBoxes(msgToSend);
+
+                        //Send it to the server
+                        clientSocket.BeginSend(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+
+                        txtMessage.Clear();
+                    }
+                    catch (Exception ex)
+                    {
+                        if (Program.debug)
+                            MessageBox.Show("Unable to send message to the server.\r\n" + ex.Message + ".\r\n" + ex.StackTrace.ToString(), "AODXClient: " + strName, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
             }
         }
 
@@ -884,7 +1027,7 @@ namespace Client
                     redraw = false;
 
                     if (txtMessage.Text.Length > 0)
-                        btnSend.Enabled = true;
+                        sendEnabled = true;
                 }
             }
         }
@@ -957,22 +1100,22 @@ namespace Client
                 case 0:
                     txtMessage.ForeColor = Color.Black;
                     selectedColor = Color.White;
-                    txtColorChanger.Text = "Text Color: White";
+                    //txtColorChanger.Text = "Text Color: White";
                     break;
                 case 1:
                     txtMessage.ForeColor = Color.DeepSkyBlue;
                     selectedColor = Color.DeepSkyBlue;
-                    txtColorChanger.Text = "Text Color: Blue";
+                    //txtColorChanger.Text = "Text Color: Blue";
                     break;
                 case 2:
                     txtMessage.ForeColor = Color.FromArgb(0, 255, 0);
                     selectedColor = Color.FromArgb(0, 255, 0);
-                    txtColorChanger.Text = "Text Color: Green";
+                    //txtColorChanger.Text = "Text Color: Green";
                     break;
                 case 3:
                     txtMessage.ForeColor = Color.OrangeRed;
                     selectedColor = Color.OrangeRed;
-                    txtColorChanger.Text = "Text Color: Orange";
+                    //txtColorChanger.Text = "Text Color: Orange";
                     break;
             }
         }
@@ -1234,6 +1377,96 @@ namespace Client
                 btn_holdit.Load("base/misc/btn_holdit_off.png");
                 btn_takethat.Load("base/misc/btn_takethat_off.png");
                 callout = 0;
+            }
+        }
+
+        private void btn_Mute_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_Exclaim_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_defminus_Click(object sender, EventArgs e)
+        {
+            if (btn_defminus.Visible == true)
+            {
+                if (defHealth > 0)
+                {
+                    Data msg = new Data();
+                    msg.cmdCommand = Command.ChangeHealth;
+                    msg.strName = "def";
+                    msg.strMessage = "-1";
+                    byte[] byteMsg = msg.ToByte();
+                    clientSocket.BeginSend(byteMsg, 0, byteMsg.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+                }
+            }
+        }
+
+        private void btn_defplus_Click(object sender, EventArgs e)
+        {
+            if (btn_defplus.Visible == true)
+            {
+                if (defHealth < 5)
+                {
+                    Data msg = new Data();
+                    msg.cmdCommand = Command.ChangeHealth;
+                    msg.strName = "def";
+                    msg.strMessage = "+1";
+                    byte[] byteMsg = msg.ToByte();
+                    clientSocket.BeginSend(byteMsg, 0, byteMsg.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+                }
+            }
+        }
+
+        private void btn_prominus_Click(object sender, EventArgs e)
+        {
+            if (btn_prominus.Visible == true)
+            {
+                if (proHealth > 0)
+                {
+                    Data msg = new Data();
+                    msg.cmdCommand = Command.ChangeHealth;
+                    msg.strName = "pro";
+                    msg.strMessage = "-1";
+                    byte[] byteMsg = msg.ToByte();
+                    clientSocket.BeginSend(byteMsg, 0, byteMsg.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+                }
+            }
+        }
+
+        private void btn_proplus_Click(object sender, EventArgs e)
+        {
+            if (btn_proplus.Visible == true)
+            {
+                if (proHealth < 5)
+                {
+                    Data msg = new Data();
+                    msg.cmdCommand = Command.ChangeHealth;
+                    msg.strName = "pro";
+                    msg.strMessage = "+1";
+                    byte[] byteMsg = msg.ToByte();
+                    clientSocket.BeginSend(byteMsg, 0, byteMsg.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+                }
+            }
+        }
+
+        private void btn_testimony_Click(object sender, EventArgs e)
+        {
+            if (btn_testimony.Visible == true)
+            {
+
+            }
+        }
+
+        private void btn_crossexamination_Click(object sender, EventArgs e)
+        {
+            if (btn_crossexamination.Visible == true)
+            {
+
             }
         }
     }

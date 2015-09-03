@@ -52,7 +52,6 @@ namespace Client
             this.emoButton1 = new Client.EmoButton();
             this.OOCInput = new System.Windows.Forms.TextBox();
             this.OOCChat = new System.Windows.Forms.TextBox();
-            this.txtColorChanger = new System.Windows.Forms.Button();
             this.nameLabel = new System.Windows.Forms.Label();
             this.displayMsg3 = new System.Windows.Forms.Label();
             this.displayMsg2 = new System.Windows.Forms.Label();
@@ -65,13 +64,26 @@ namespace Client
             this.objectLayerPB = new System.Windows.Forms.PictureBox();
             this.txtMessage = new System.Windows.Forms.TextBox();
             this.txtLog = new System.Windows.Forms.TextBox();
-            this.btnSend = new System.Windows.Forms.Button();
             this.dispTextRedraw = new System.Windows.Forms.Timer(this.components);
             this.musicList = new System.Windows.Forms.ListBox();
             this.btn_objection = new System.Windows.Forms.PictureBox();
             this.btn_holdit = new System.Windows.Forms.PictureBox();
             this.btn_takethat = new System.Windows.Forms.PictureBox();
-            this.calloutPanel = new System.Windows.Forms.Panel();
+            this.txtColorChanger = new System.Windows.Forms.PictureBox();
+            this.btn_Exclaim = new System.Windows.Forms.PictureBox();
+            this.btn_Mute = new System.Windows.Forms.PictureBox();
+            this.defHealthBar = new System.Windows.Forms.PictureBox();
+            this.proHealthBar = new System.Windows.Forms.PictureBox();
+            this.btn_defplus = new System.Windows.Forms.PictureBox();
+            this.btn_defminus = new System.Windows.Forms.PictureBox();
+            this.btn_prominus = new System.Windows.Forms.PictureBox();
+            this.btn_proplus = new System.Windows.Forms.PictureBox();
+            this.btn_testimony = new System.Windows.Forms.PictureBox();
+            this.btn_crossexamination = new System.Windows.Forms.PictureBox();
+            this.uiPanel = new System.Windows.Forms.Panel();
+            this.evidencePanel = new System.Windows.Forms.Panel();
+            this.OOCName = new System.Windows.Forms.TextBox();
+            this.testimonyPB = new System.Windows.Forms.PictureBox();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arrowRight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.arrowLeft)).BeginInit();
@@ -95,6 +107,19 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.btn_objection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_holdit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_takethat)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtColorChanger)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_Exclaim)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_Mute)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.defHealthBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.proHealthBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_defplus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_defminus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_prominus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_proplus)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_testimony)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_crossexamination)).BeginInit();
+            this.uiPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.testimonyPB)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -271,13 +296,6 @@ namespace Client
             this.OOCChat.ReadOnly = true;
             this.OOCChat.ShortcutsEnabled = false;
             // 
-            // txtColorChanger
-            // 
-            resources.ApplyResources(this.txtColorChanger, "txtColorChanger");
-            this.txtColorChanger.Name = "txtColorChanger";
-            this.txtColorChanger.UseVisualStyleBackColor = true;
-            this.txtColorChanger.Click += new System.EventHandler(this.txtColorChanger_Click);
-            // 
             // nameLabel
             // 
             this.nameLabel.BackColor = System.Drawing.Color.RoyalBlue;
@@ -336,6 +354,7 @@ namespace Client
             // 
             // GameDisplay
             // 
+            this.GameDisplay.Controls.Add(this.testimonyPB);
             this.GameDisplay.Controls.Add(this.nameLabel);
             this.GameDisplay.Controls.Add(this.displayMsg3);
             this.GameDisplay.Controls.Add(this.displayMsg2);
@@ -365,18 +384,11 @@ namespace Client
             // 
             // txtLog
             // 
-            resources.ApplyResources(this.txtLog, "txtLog");
             this.txtLog.BackColor = System.Drawing.SystemColors.Window;
+            resources.ApplyResources(this.txtLog, "txtLog");
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
             this.txtLog.ShortcutsEnabled = false;
-            // 
-            // btnSend
-            // 
-            resources.ApplyResources(this.btnSend, "btnSend");
-            this.btnSend.Name = "btnSend";
-            this.btnSend.UseVisualStyleBackColor = true;
-            this.btnSend.Click += new System.EventHandler(this.btnSend_Click);
             // 
             // dispTextRedraw
             // 
@@ -420,19 +432,134 @@ namespace Client
             this.btn_takethat.TabStop = false;
             this.btn_takethat.Click += new System.EventHandler(this.btn_takethat_Click);
             // 
-            // calloutPanel
+            // txtColorChanger
             // 
-            resources.ApplyResources(this.calloutPanel, "calloutPanel");
-            this.calloutPanel.Name = "calloutPanel";
+            this.txtColorChanger.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.txtColorChanger, "txtColorChanger");
+            this.txtColorChanger.Name = "txtColorChanger";
+            this.txtColorChanger.TabStop = false;
+            this.txtColorChanger.Click += new System.EventHandler(this.txtColorChanger_Click);
+            // 
+            // btn_Exclaim
+            // 
+            this.btn_Exclaim.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.btn_Exclaim, "btn_Exclaim");
+            this.btn_Exclaim.Name = "btn_Exclaim";
+            this.btn_Exclaim.TabStop = false;
+            this.btn_Exclaim.Click += new System.EventHandler(this.btn_Exclaim_Click);
+            // 
+            // btn_Mute
+            // 
+            this.btn_Mute.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.btn_Mute, "btn_Mute");
+            this.btn_Mute.Name = "btn_Mute";
+            this.btn_Mute.TabStop = false;
+            this.btn_Mute.Click += new System.EventHandler(this.btn_Mute_Click);
+            // 
+            // defHealthBar
+            // 
+            this.defHealthBar.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.defHealthBar, "defHealthBar");
+            this.defHealthBar.Name = "defHealthBar";
+            this.defHealthBar.TabStop = false;
+            // 
+            // proHealthBar
+            // 
+            this.proHealthBar.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.proHealthBar, "proHealthBar");
+            this.proHealthBar.Name = "proHealthBar";
+            this.proHealthBar.TabStop = false;
+            // 
+            // btn_defplus
+            // 
+            this.btn_defplus.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.btn_defplus, "btn_defplus");
+            this.btn_defplus.Name = "btn_defplus";
+            this.btn_defplus.TabStop = false;
+            this.btn_defplus.Click += new System.EventHandler(this.btn_defplus_Click);
+            // 
+            // btn_defminus
+            // 
+            this.btn_defminus.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.btn_defminus, "btn_defminus");
+            this.btn_defminus.Name = "btn_defminus";
+            this.btn_defminus.TabStop = false;
+            this.btn_defminus.Click += new System.EventHandler(this.btn_defminus_Click);
+            // 
+            // btn_prominus
+            // 
+            this.btn_prominus.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.btn_prominus, "btn_prominus");
+            this.btn_prominus.Name = "btn_prominus";
+            this.btn_prominus.TabStop = false;
+            this.btn_prominus.Click += new System.EventHandler(this.btn_prominus_Click);
+            // 
+            // btn_proplus
+            // 
+            this.btn_proplus.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.btn_proplus, "btn_proplus");
+            this.btn_proplus.Name = "btn_proplus";
+            this.btn_proplus.TabStop = false;
+            this.btn_proplus.Click += new System.EventHandler(this.btn_proplus_Click);
+            // 
+            // btn_testimony
+            // 
+            this.btn_testimony.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.btn_testimony, "btn_testimony");
+            this.btn_testimony.Name = "btn_testimony";
+            this.btn_testimony.TabStop = false;
+            this.btn_testimony.Click += new System.EventHandler(this.btn_testimony_Click);
+            // 
+            // btn_crossexamination
+            // 
+            this.btn_crossexamination.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.btn_crossexamination, "btn_crossexamination");
+            this.btn_crossexamination.Name = "btn_crossexamination";
+            this.btn_crossexamination.TabStop = false;
+            this.btn_crossexamination.Click += new System.EventHandler(this.btn_crossexamination_Click);
+            // 
+            // uiPanel
+            // 
+            this.uiPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.uiPanel.Controls.Add(this.proHealthBar);
+            resources.ApplyResources(this.uiPanel, "uiPanel");
+            this.uiPanel.Name = "uiPanel";
+            // 
+            // evidencePanel
+            // 
+            resources.ApplyResources(this.evidencePanel, "evidencePanel");
+            this.evidencePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.evidencePanel.Name = "evidencePanel";
+            // 
+            // OOCName
+            // 
+            resources.ApplyResources(this.OOCName, "OOCName");
+            this.OOCName.Name = "OOCName";
+            // 
+            // testimonyPB
+            // 
+            this.testimonyPB.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.testimonyPB, "testimonyPB");
+            this.testimonyPB.Name = "testimonyPB";
+            this.testimonyPB.TabStop = false;
             // 
             // ClientForm
             // 
-            this.AcceptButton = this.btnSend;
             resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.txtMessage);
+            this.Controls.Add(this.OOCName);
+            this.Controls.Add(this.evidencePanel);
+            this.Controls.Add(this.btn_crossexamination);
+            this.Controls.Add(this.btn_testimony);
+            this.Controls.Add(this.btn_proplus);
+            this.Controls.Add(this.btn_prominus);
+            this.Controls.Add(this.btn_defminus);
+            this.Controls.Add(this.btn_defplus);
+            this.Controls.Add(this.defHealthBar);
+            this.Controls.Add(this.btn_Mute);
+            this.Controls.Add(this.btn_Exclaim);
             this.Controls.Add(this.txtColorChanger);
-            this.Controls.Add(this.btnSend);
+            this.Controls.Add(this.txtMessage);
             this.Controls.Add(this.btn_objection);
             this.Controls.Add(this.btn_holdit);
             this.Controls.Add(this.btn_takethat);
@@ -443,7 +570,7 @@ namespace Client
             this.Controls.Add(this.GameDisplay);
             this.Controls.Add(this.txtLog);
             this.Controls.Add(this.menuStrip);
-            this.Controls.Add(this.calloutPanel);
+            this.Controls.Add(this.uiPanel);
             this.MainMenuStrip = this.menuStrip;
             this.MaximizeBox = false;
             this.Name = "ClientForm";
@@ -473,6 +600,19 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.btn_objection)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_holdit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_takethat)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.txtColorChanger)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_Exclaim)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_Mute)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.defHealthBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.proHealthBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_defplus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_defminus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_prominus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_proplus)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_testimony)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_crossexamination)).EndInit();
+            this.uiPanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.testimonyPB)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -498,7 +638,6 @@ namespace Client
         private EmoButton emoButton1;
         private System.Windows.Forms.TextBox OOCInput;
         private System.Windows.Forms.TextBox OOCChat;
-        private System.Windows.Forms.Button txtColorChanger;
         private System.Windows.Forms.Label nameLabel;
         private System.Windows.Forms.Label displayMsg3;
         private System.Windows.Forms.Label displayMsg2;
@@ -511,7 +650,6 @@ namespace Client
         private System.Windows.Forms.PictureBox objectLayerPB;
         private System.Windows.Forms.TextBox txtMessage;
         private System.Windows.Forms.TextBox txtLog;
-        private System.Windows.Forms.Button btnSend;
         private System.Windows.Forms.Timer dispTextRedraw;
         private System.Windows.Forms.ToolStripMenuItem helpMenu;
         private System.Windows.Forms.ToolStripMenuItem exitMenuItem;
@@ -521,7 +659,21 @@ namespace Client
         private System.Windows.Forms.PictureBox btn_objection;
         private System.Windows.Forms.PictureBox btn_holdit;
         private System.Windows.Forms.PictureBox btn_takethat;
-        private System.Windows.Forms.Panel calloutPanel;
+        private System.Windows.Forms.PictureBox txtColorChanger;
+        private System.Windows.Forms.PictureBox btn_Exclaim;
+        private System.Windows.Forms.PictureBox btn_Mute;
+        private System.Windows.Forms.PictureBox defHealthBar;
+        private System.Windows.Forms.PictureBox proHealthBar;
+        private System.Windows.Forms.PictureBox btn_defplus;
+        private System.Windows.Forms.PictureBox btn_defminus;
+        private System.Windows.Forms.PictureBox btn_prominus;
+        private System.Windows.Forms.PictureBox btn_proplus;
+        private System.Windows.Forms.PictureBox btn_testimony;
+        private System.Windows.Forms.PictureBox btn_crossexamination;
+        private System.Windows.Forms.Panel uiPanel;
+        private System.Windows.Forms.Panel evidencePanel;
+        private System.Windows.Forms.TextBox OOCName;
+        private System.Windows.Forms.PictureBox testimonyPB;
     }
 }
 

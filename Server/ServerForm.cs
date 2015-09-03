@@ -22,6 +22,7 @@ namespace Server
         DataInfo,       //Get a list of music filenames, evidence, and currently unused characters that the server has loaded
         PacketSize,     //Get the size in bytes of the next incoming packet so we can size our receiving packet accordingly. Used for receiving the DataInfo packets.
         ChangeMusic,    //Tells all clients to start playing the selected audio file
+        ChangeHealth,
         Disconnect,
         Null            //No command
     }
@@ -236,7 +237,7 @@ namespace Server
 
                     byte[] message;
 
-                    bool found = false;
+                    bool isBanned = false;
                     if (File.Exists("base/banlist.ini"))
                     {
                         using (StreamReader r = new StreamReader("base/banlist.ini"))
@@ -245,7 +246,7 @@ namespace Server
                             {
                                 if (r.ReadLine().StartsWith(clientSocket.RemoteEndPoint.ToString().Split(':')[0]))
                                 {
-                                    found = true;
+                                    isBanned = true;
                                     break;
                                 }
                             }
@@ -260,7 +261,6 @@ namespace Server
                     switch (msgReceived.cmdCommand)
                     {
                         case Command.Login:
-
                             //When a user logs in to the server then we add her to our
                             //list of clients
 
@@ -295,7 +295,6 @@ namespace Server
                             break;
 
                         case Command.Logout:
-
                             //When a user wants to log out of the server then we search for her 
                             //in the list of clients and close the corresponding connection
 
@@ -319,7 +318,6 @@ namespace Server
                             break;
 
                         case Command.ChangeMusic:
-
                             if (msgReceived.strMessage != null & msgReceived.strName != null)
                             {
                                 msgToSend.cmdCommand = Command.ChangeMusic;
@@ -328,15 +326,20 @@ namespace Server
                             }
                             break;
 
-                        case Command.Message:
+                        case Command.ChangeHealth:
+                            if (msgReceived.strMessage != null & msgReceived.strName != null)
+                            {
+                                msgToSend = msgReceived;
+                            }
+                            break;
 
+                        case Command.Message:
                             //Set the text of the message that we will broadcast to all users
                             msgToSend = msgReceived;
                             msgToSend.strMessage = msgReceived.strName + ": " + msgReceived.strMessage;
                             break;
 
                         case Command.List:
-
                             //Send the names of all users in the chat room to the new user
                             msgToSend.cmdCommand = Command.List;
                             msgToSend.strName = null;
@@ -356,7 +359,6 @@ namespace Server
                             break;
 
                         case Command.PacketSize:
-
                             msgToSend.cmdCommand = Command.DataInfo;
                             msgToSend.strName = null;
                             msgToSend.strMessage = "";
@@ -376,6 +378,7 @@ namespace Server
                                     }
                                 }
                             }
+
                             foreach (string cName in charsInUse)
                             {
                                 allChars.Remove(cName);
@@ -402,7 +405,7 @@ namespace Server
                                 allData = message;
 
                             Data sizeMsg = new Data();
-                            if (!found)
+                            if (!isBanned)
                             {
                                 sizeMsg.cmdCommand = Command.PacketSize;
                                 sizeMsg.strMessage = allData.Length.ToString();
@@ -413,13 +416,11 @@ namespace Server
                             }
 
                             byte[] sizePacket = sizeMsg.ToByte();
-
                             clientSocket.BeginSend(sizePacket, 0, sizePacket.Length, SocketFlags.None, new AsyncCallback(OnSend), clientSocket);
                             break;
 
                         case Command.DataInfo:
-
-                            if (!found)
+                            if (!isBanned)
                                 clientSocket.BeginSend(allData, 0, allData.Length, SocketFlags.None, new AsyncCallback(OnSend), clientSocket);
                             break;
                     }
@@ -430,13 +431,14 @@ namespace Server
 
                         foreach (ClientInfo clientInfo in clientList)
                         {
-                            if ((clientInfo.socket != clientSocket || msgToSend.cmdCommand != Command.Login) | msgToSend.cmdCommand == Command.ChangeMusic)
+                            //if the command is login, dont send the login notification to the person who's logging in, its redundant
+                            if (clientInfo.socket != clientSocket || msgToSend.cmdCommand != Command.Login)
                             {
                                 //Send the message to all users
                                 clientInfo.socket.BeginSend(message, 0, message.Length, SocketFlags.None, new AsyncCallback(OnSend), clientInfo.socket);
                             }
                         }
-                        if (msgToSend.cmdCommand != Command.ChangeMusic)
+                        if (msgToSend.cmdCommand != Command.ChangeMusic & msgToSend.cmdCommand != Command.ChangeHealth)
                             appendTxtLogSafe(msgToSend.strMessage + "\r\n");
                     }
 
@@ -752,7 +754,7 @@ namespace Server
                             File.CreateText("base/banlist.ini");
                             using (StreamWriter w = new StreamWriter("base/banlist.ini"))
                             {
-                                w.WriteLine("[banlist]");
+                                w.WriteLine("[banlist]\r\n");
                             }
                         }
 
