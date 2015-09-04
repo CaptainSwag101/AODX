@@ -439,7 +439,8 @@ namespace Server
                             }
                         }
                         if (msgToSend.cmdCommand != Command.ChangeMusic & msgToSend.cmdCommand != Command.ChangeHealth)
-                            appendTxtLogSafe(msgToSend.strMessage + "\r\n");
+                            if (msgReceived.callout <= 3)
+                                appendTxtLogSafe(msgToSend.strMessage + "\r\n");
                     }
 
                     //If the user is logging out then we need not listen from her

@@ -61,6 +61,7 @@ namespace Client
             this.charLayerPB = new System.Windows.Forms.PictureBox();
             this.backgroundPB = new System.Windows.Forms.PictureBox();
             this.GameDisplay = new System.Windows.Forms.Panel();
+            this.testimonyPB = new System.Windows.Forms.PictureBox();
             this.objectLayerPB = new System.Windows.Forms.PictureBox();
             this.txtMessage = new System.Windows.Forms.TextBox();
             this.txtLog = new System.Windows.Forms.TextBox();
@@ -83,7 +84,6 @@ namespace Client
             this.uiPanel = new System.Windows.Forms.Panel();
             this.evidencePanel = new System.Windows.Forms.Panel();
             this.OOCName = new System.Windows.Forms.TextBox();
-            this.testimonyPB = new System.Windows.Forms.PictureBox();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arrowRight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.arrowLeft)).BeginInit();
@@ -103,6 +103,7 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.charLayerPB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundPB)).BeginInit();
             this.GameDisplay.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.testimonyPB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.objectLayerPB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_objection)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_holdit)).BeginInit();
@@ -119,7 +120,6 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.btn_testimony)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_crossexamination)).BeginInit();
             this.uiPanel.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.testimonyPB)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -367,6 +367,13 @@ namespace Client
             resources.ApplyResources(this.GameDisplay, "GameDisplay");
             this.GameDisplay.Name = "GameDisplay";
             // 
+            // testimonyPB
+            // 
+            this.testimonyPB.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.testimonyPB, "testimonyPB");
+            this.testimonyPB.Name = "testimonyPB";
+            this.testimonyPB.TabStop = false;
+            // 
             // objectLayerPB
             // 
             this.objectLayerPB.BackColor = System.Drawing.Color.Transparent;
@@ -536,13 +543,6 @@ namespace Client
             resources.ApplyResources(this.OOCName, "OOCName");
             this.OOCName.Name = "OOCName";
             // 
-            // testimonyPB
-            // 
-            this.testimonyPB.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.testimonyPB, "testimonyPB");
-            this.testimonyPB.Name = "testimonyPB";
-            this.testimonyPB.TabStop = false;
-            // 
             // ClientForm
             // 
             resources.ApplyResources(this, "$this");
@@ -596,6 +596,7 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.charLayerPB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundPB)).EndInit();
             this.GameDisplay.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.testimonyPB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.objectLayerPB)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_objection)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_holdit)).EndInit();
@@ -612,7 +613,6 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.btn_testimony)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_crossexamination)).EndInit();
             this.uiPanel.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.testimonyPB)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

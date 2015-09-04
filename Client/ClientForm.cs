@@ -49,10 +49,6 @@ namespace Client
         private byte defHealth = 5;
         private byte proHealth = 5;
         private Data latestMsg;
-        private string persistDispMsg1;
-        private string persistDispMsg2;
-        private string persistDispMsg3;
-        private string persistNameLabel;
         private WaveFileReader blipReader;
         private DirectSoundOut blipPlayer = new DirectSoundOut();
         private WaveFileReader wr;
@@ -558,57 +554,63 @@ namespace Client
                         break;
 
                     case Command.Message:
-                        sendEnabled = false;
-                        //blipPlayer.PlayLooping();
                         latestMsg = msgReceived;
 
-                        curPreAnimTime = 0;
-                        curPreAnimTime = 0;
-                        curPreAnim = null;
-                        soundTime = 0;
-                        curSoundTime = 0;
-
-                        if (msgReceived.callout > 0)
-                            performCallout();
-
-                        if (iniParser.GetSoundName(msgReceived.strName, msgReceived.anim) != "1" && iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim) > 0 & File.Exists("base/sounds/general/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav"))
+                        if (msgReceived.callout <= 3)
                         {
-                            sfxPlayer.Stop();
-                            wr = new WaveFileReader("base/sounds/general/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav");
-                            sfxPlayer.Initialize(wr);
-                            soundTime = iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim);
-                        }
+                            sendEnabled = false;
+                            curPreAnimTime = 0;
+                            curPreAnimTime = 0;
+                            curPreAnim = null;
+                            soundTime = 0;
+                            curSoundTime = 0;
 
-                        /*  if (iniParser.GetSoundName(msgReceived.strName, msgReceived.anim) != "1" && iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim) > 0 & (File.Exists("base/sounds/general/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav") | File.Exists("base/characters/" + latestMsg.strName + "/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav")))
-                        {
-                            sfxPlayer.Stop();
-                            if (File.Exists("base/characters/" + latestMsg.strName + "/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav"))
-                                wr = new WaveFileReader("base/characters/" + latestMsg.strName + "/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav");
-                            else
+                            if (msgReceived.callout > 0)
+                                performCallout();
+
+                            if (iniParser.GetSoundName(msgReceived.strName, msgReceived.anim) != "1" && iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim) > 0 & File.Exists("base/sounds/general/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav"))
+                            {
+                                sfxPlayer.Stop();
                                 wr = new WaveFileReader("base/sounds/general/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav");
-                            sfxPlayer.Initialize(wr);
-                            soundTime = iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim);
-                        } */
+                                sfxPlayer.Initialize(wr);
+                                soundTime = iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim);
+                            }
 
-                        if (iniParser.GetAnimType(msgReceived.strName, msgReceived.anim) == 5)
-                            ChangeSides(true);
-                        else
-                            ChangeSides();
+                            /*  if (iniParser.GetSoundName(msgReceived.strName, msgReceived.anim) != "1" && iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim) > 0 & (File.Exists("base/sounds/general/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav") | File.Exists("base/characters/" + latestMsg.strName + "/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav")))
+                            {
+                                sfxPlayer.Stop();
+                                if (File.Exists("base/characters/" + latestMsg.strName + "/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav"))
+                                    wr = new WaveFileReader("base/characters/" + latestMsg.strName + "/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav");
+                                else
+                                    wr = new WaveFileReader("base/sounds/general/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav");
+                                sfxPlayer.Initialize(wr);
+                                soundTime = iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim);
+                            } */
 
-                        if (iniParser.GetAnimType(msgReceived.strName, msgReceived.anim) == 5 | iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim) == null | iniParser.GetPreAnimTime(msgReceived.strName, msgReceived.anim) <= 0)
-                        {
-                            charLayerPB.Enabled = true;
-                            setCharSprite("base/characters/" + msgReceived.strName + "/(b)" + iniParser.GetAnim(msgReceived.strName, msgReceived.anim) + ".gif");
-                            prepWriteDispBoxes(msgReceived, msgReceived.textColor);
+                            if (iniParser.GetAnimType(msgReceived.strName, msgReceived.anim) == 5)
+                                ChangeSides(true);
+                            else
+                                ChangeSides();
+
+                            if (iniParser.GetAnimType(msgReceived.strName, msgReceived.anim) == 5 | iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim) == null | iniParser.GetPreAnimTime(msgReceived.strName, msgReceived.anim) <= 0)
+                            {
+                                charLayerPB.Enabled = true;
+                                setCharSprite("base/characters/" + msgReceived.strName + "/(b)" + iniParser.GetAnim(msgReceived.strName, msgReceived.anim) + ".gif");
+                                prepWriteDispBoxes(msgReceived, msgReceived.textColor);
+                            }
+                            else
+                            {
+                                //charLayerPB.Enabled = false;
+                                setCharSprite("base/characters/" + msgReceived.strName + "/" + iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim) + ".gif");
+                                preAnimTime = iniParser.GetPreAnimTime(msgReceived.strName, msgReceived.anim);
+                                curPreAnim = iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim);
+                            }
+                            //dispTextRedraw.Enabled = true;
                         }
                         else
                         {
-                            //charLayerPB.Enabled = false;
-                            setCharSprite("base/characters/" + msgReceived.strName + "/" + iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim) + ".gif");
-                            preAnimTime = iniParser.GetPreAnimTime(msgReceived.strName, msgReceived.anim);
-                            curPreAnim = iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim);
+                            performCallout();
                         }
-                        //dispTextRedraw.Enabled = true;
                         break;
 
                     case Command.List:
@@ -638,7 +640,8 @@ namespace Client
 
                 if (msgReceived.strMessage != null & msgReceived.cmdCommand == Command.Message | msgReceived.cmdCommand == Command.Login | msgReceived.cmdCommand == Command.Logout)
                 {
-                    appendTxtLogSafe(msgReceived.strMessage + "\r\n");
+                    if (msgReceived.callout <= 3)
+                        appendTxtLogSafe(msgReceived.strMessage + "\r\n");
                 }
 
                 if (msgReceived.cmdCommand != Command.PacketSize)
@@ -729,22 +732,26 @@ namespace Client
 
                 case 4:
                     testimonyPB.Image = Image.FromFile("base/misc/ani_witnessTestimony2.gif");
-                    wr = new WaveFileReader("base/sounds/general/sfx_testimony.wav");
+                    wr = new WaveFileReader("base/sounds/general/sfx-testimony.wav");
 
                     sfxPlayer.Initialize(wr);
                     sfxPlayer.Play();
 
-                    System.Threading.Thread.Sleep(1000);
+                    System.Threading.Thread.Sleep(2800);
                     break;
 
                 case 5:
                     testimonyPB.Image = Image.FromFile("base/misc/ani_crossexamination.gif");
-                    wr = new WaveFileReader("base/sounds/general/sfx_testimony2.wav");
+                    System.Threading.Thread.Sleep(300);
+                    wr = new WaveFileReader("base/sounds/general/sfx-testimony2.wav");
 
                     sfxPlayer.Initialize(wr);
                     sfxPlayer.Play();
 
-                    System.Threading.Thread.Sleep(1000);
+                    System.Threading.Thread.Sleep(1200);
+                    sfxPlayer.Stop();
+                    System.Threading.Thread.Sleep(300);
+
                     break;
             }
 
@@ -761,7 +768,7 @@ namespace Client
             if (File.Exists(file))
                 charLayerPB.Image = Image.FromFile(file);
             else
-                charLayerPB.Image = Image.FromFile("base/misc/placeholder.gif");
+                charLayerPB.Image = Image.FromFile("base/misc/placeholder_char.gif");
         }
 
         private void appendTxtLogSafe(string txt)
@@ -1458,7 +1465,12 @@ namespace Client
         {
             if (btn_testimony.Visible == true)
             {
+                Data calloutMsg = new Data();
+                calloutMsg.callout = 4;
+                calloutMsg.cmdCommand = Command.Message;
 
+                byte[] msg = calloutMsg.ToByte();
+                clientSocket.BeginSend(msg, 0, msg.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
             }
         }
 
@@ -1466,7 +1478,12 @@ namespace Client
         {
             if (btn_crossexamination.Visible == true)
             {
+                Data calloutMsg = new Data();
+                calloutMsg.callout = 5;
+                calloutMsg.cmdCommand = Command.Message;
 
+                byte[] msg = calloutMsg.ToByte();
+                clientSocket.BeginSend(msg, 0, msg.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
             }
         }
     }

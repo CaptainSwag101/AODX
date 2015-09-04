@@ -699,6 +699,11 @@
   <data name="OOCChat.TabIndex" type="System.Int32, mscorlib">
     <value>16</value>
   </data>
+  <data name="OOCChat.Text" xml:space="preserve">
+    <value>OOC IS DISABLED. 
+
+YOU MUST CONSTRUCT ADDITIONAL PYLONS.</value>
+  </data>
   <data name="&gt;&gt;OOCChat.Name" xml:space="preserve">
     <value>OOCChat</value>
   </data>
@@ -967,6 +972,51 @@
   <data name="&gt;&gt;backgroundPB.ZOrder" xml:space="preserve">
     <value>9</value>
   </data>
+  <data name="&gt;&gt;testimonyPB.Name" xml:space="preserve">
+    <value>testimonyPB</value>
+  </data>
+  <data name="&gt;&gt;testimonyPB.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;testimonyPB.Parent" xml:space="preserve">
+    <value>GameDisplay</value>
+  </data>
+  <data name="&gt;&gt;testimonyPB.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;objectLayerPB.Name" xml:space="preserve">
+    <value>objectLayerPB</value>
+  </data>
+  <data name="&gt;&gt;objectLayerPB.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;objectLayerPB.Parent" xml:space="preserve">
+    <value>GameDisplay</value>
+  </data>
+  <data name="&gt;&gt;objectLayerPB.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="GameDisplay.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 27</value>
+  </data>
+  <data name="GameDisplay.Size" type="System.Drawing.Size, System.Drawing">
+    <value>256, 192</value>
+  </data>
+  <data name="GameDisplay.TabIndex" type="System.Int32, mscorlib">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;GameDisplay.Name" xml:space="preserve">
+    <value>GameDisplay</value>
+  </data>
+  <data name="&gt;&gt;GameDisplay.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;GameDisplay.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;GameDisplay.ZOrder" xml:space="preserve">
+    <value>20</value>
+  </data>
   <data name="testimonyPB.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 3</value>
   </data>
@@ -1014,27 +1064,6 @@
   </data>
   <data name="&gt;&gt;objectLayerPB.ZOrder" xml:space="preserve">
     <value>5</value>
-  </data>
-  <data name="GameDisplay.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 27</value>
-  </data>
-  <data name="GameDisplay.Size" type="System.Drawing.Size, System.Drawing">
-    <value>256, 192</value>
-  </data>
-  <data name="GameDisplay.TabIndex" type="System.Int32, mscorlib">
-    <value>14</value>
-  </data>
-  <data name="&gt;&gt;GameDisplay.Name" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;GameDisplay.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;GameDisplay.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;GameDisplay.ZOrder" xml:space="preserve">
-    <value>20</value>
   </data>
   <data name="txtMessage.Font" type="System.Drawing.Font, System.Drawing">
     <value>Ace Attorney 2, 12pt</value>
