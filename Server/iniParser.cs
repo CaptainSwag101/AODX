@@ -11,9 +11,20 @@ namespace Server
     {
         public static string GetServerInfo()
         {
-            string result = "A New Server|Server Description|";
+            string result = "A New Server|Server Description|1|1000|||1|"; //Name|Description|public|port|password|oppassword|musicmode|case
             if (File.Exists("base/settings.ini"))
             {
+                string name = "";
+                string desc = "";
+                string isPublic = "";
+                string port = "";
+                string password = "";
+                string oppassword = "";
+                string musicmode = "";
+                string loop = "";
+                string useCase = "";
+                string caseName = "";
+
                 using (var r = new StreamReader("base/settings.ini"))
                 {
                     while (!r.EndOfStream)
@@ -21,16 +32,56 @@ namespace Server
                         string line = r.ReadLine();
                         if (line.StartsWith("name", StringComparison.OrdinalIgnoreCase))
                         {
-                            result = "";
-                            result += (line.Split(new string[] { " = " }, StringSplitOptions.None)[1]);
-                            result += "|";
+                            name = line.Split(new string[] { " = " }, StringSplitOptions.None)[1] + "|";
                         }
 
                         if (line.StartsWith("desc", StringComparison.OrdinalIgnoreCase))
                         {
-                            result += (line.Split(new string[] { " = " }, StringSplitOptions.None)[1]);
+                            desc = line.Split(new string[] { " = " }, StringSplitOptions.None)[1] + "|";
+                        }
+
+                        if (line.StartsWith("public", StringComparison.OrdinalIgnoreCase))
+                        {
+                            isPublic = line.Split(new string[] { " = " }, StringSplitOptions.None)[1] + "|";
+                        }
+
+                        if (line.StartsWith("port", StringComparison.OrdinalIgnoreCase))
+                        {
+                            port = line.Split(new string[] { " = " }, StringSplitOptions.None)[1] + "|";
+                        }
+
+                        if (line.StartsWith("password", StringComparison.OrdinalIgnoreCase))
+                        {
+                            password = line.Split(new string[] { " = " }, StringSplitOptions.None)[1] + "|";
+                        }
+
+                        if (line.StartsWith("oppassword", StringComparison.OrdinalIgnoreCase))
+                        {
+                            oppassword = line.Split(new string[] { " = " }, StringSplitOptions.None)[1] + "|";
+                        }
+
+                        if (line.StartsWith("musicmode", StringComparison.OrdinalIgnoreCase))
+                        {
+                            musicmode = line.Split(new string[] { " = " }, StringSplitOptions.None)[1] + "|";
+                        }
+
+                        if (line.StartsWith("loopmusic", StringComparison.OrdinalIgnoreCase))
+                        {
+                            loop = line.Split(new string[] { " = " }, StringSplitOptions.None)[1] + "|";
+                        }
+
+                        if (line.StartsWith("usecase", StringComparison.OrdinalIgnoreCase))
+                        {
+                            useCase = line.Split(new string[] { " = " }, StringSplitOptions.None)[1] + "|";
+                        }
+
+                        if (line.StartsWith("case", StringComparison.OrdinalIgnoreCase))
+                        {
+                            caseName = line.Split(new string[] { " = " }, StringSplitOptions.None)[1] + "|";
                         }
                     }
+
+                    result = name + desc + isPublic + port + password + oppassword + musicmode + loop + useCase + caseName;
                 }
             }
             return result;
