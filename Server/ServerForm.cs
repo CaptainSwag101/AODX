@@ -23,6 +23,7 @@ namespace Server
         PacketSize,     //Get the size in bytes of the next incoming packet so we can size our receiving packet accordingly. Used for receiving the DataInfo packets.
         ChangeMusic,    //Tells all clients to start playing the selected audio file
         ChangeHealth,
+        Evidence,
         Disconnect,
         Null            //No command
     }
@@ -40,6 +41,8 @@ namespace Server
 
         //The collection of all clients logged into the room (an array of type ClientInfo)
         ArrayList clientList;
+
+        List<EvidenceFile> EviList = new List<EvidenceFile>();
 
         //The main socket on which the server listens to the clients
         Socket serverSocket;
@@ -68,6 +71,11 @@ namespace Server
             {
                 MessageBox.Show("Failed to find masterserver IP in " + '"' + "masterserver.ini" + '"' + ". \r\n Assuming masterserver is locally hosted.", "AODXServer", MessageBoxButtons.OK);
                 masterserverIP = "127.0.0.1";
+            }
+
+            if (iniParser.GetServerInfo().Split('|')[8] == "1")
+            {
+                EviList = iniParser.GetEvidenceData();
             }
 
             userNumStat.Text = "Users Online: " + clientList.Count;
@@ -183,6 +191,8 @@ namespace Server
                     }
                     else if (byteData[0] == 103)
                         receiveSocket.Close();
+                    else if (byteData[0] == 8)
+                        sendEvidence(receiveSocket);
                     else
                         parseMessage(receiveSocket);
                 }
@@ -219,6 +229,17 @@ namespace Server
             {
                 if (Program.debug)
                     MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace.ToString(), "AODXServer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void sendEvidence(Socket sendHere)
+        {
+            foreach (EvidenceFile evi in EviList)
+            {
+                EviData dat = new EviData(evi.filename, evi.data);
+                byte[] msg = dat.ToByte();
+                sendHere.BeginSend(msg, 0, msg.Length, SocketFlags.None, new AsyncCallback(OnSend), sendHere);
+                System.Threading.Thread.Sleep(100);
             }
         }
 
@@ -359,6 +380,9 @@ namespace Server
                             break;
 
                         case Command.PacketSize:
+                            //First, send all of the current case's evidence data
+                            sendEvidence(clientSocket);
+
                             msgToSend.cmdCommand = Command.DataInfo;
                             msgToSend.strName = null;
                             msgToSend.strMessage = "";
@@ -398,11 +422,11 @@ namespace Server
                             }
 
                             message = msgToSend.ToByte(true);
-                            byte[] evidence = iniParser.GetEvidenceData().ToArray();
-                            if (evidence.Length > 0)
-                                allData = message.Concat(evidence).ToArray();
-                            else
-                                allData = message;
+                            //byte[] evidence = iniParser.GetEvidenceData().ToArray();
+                            //if (evidence.Length > 0)
+                            //    allData = message.Concat(evidence).ToArray();
+                            //else
+                            allData = message;
 
                             Data sizeMsg = new Data();
                             if (!isBanned)
@@ -919,5 +943,77 @@ namespace Server
         public Color textColor;
         public string strMessage;   //Message text
         public Command cmdCommand;  //Command type (login, logout, send message, etcetera)
+    }
+
+    //The data structure by which the server and the client interact with 
+    //each other
+    class EviData
+    {
+        //Default constructor
+        public EviData(string name, byte[] fileData)
+        {
+            cmdCommand = Command.Evidence;
+            strName = name;
+            dataBytes = fileData;
+        }
+
+        //Converts the bytes into an object of type Data
+        public EviData(byte[] data)
+        {
+            //The first four bytes are for the Command
+            cmdCommand = (Command)BitConverter.ToInt32(data, 0);
+
+            //The next four store the length of the name
+            int nameLen = BitConverter.ToInt32(data, 4);
+
+            dataSize = BitConverter.ToInt32(data, 8);
+
+            //This check makes sure that strName has been passed in the array of bytes
+            if (nameLen > 0)
+                strName = Encoding.UTF8.GetString(data, 12, nameLen);
+            else
+                strName = null;
+
+            if (dataSize > 0)
+                dataBytes = data.Skip(12 + nameLen).ToArray();
+            else
+                dataBytes = null;
+        }
+
+        //Converts the Data structure into an array of bytes
+        public byte[] ToByte()
+        {
+            List<byte> result = new List<byte>();
+
+            //First four are for the Command
+            result.AddRange(BitConverter.GetBytes((int)cmdCommand));
+
+            //Add the length of the name
+            if (strName != null)
+                result.AddRange(BitConverter.GetBytes(strName.Length));
+
+            if (dataBytes != null)
+                result.AddRange(BitConverter.GetBytes(dataBytes.Length));
+
+            //Add the name
+            if (strName != null)
+                result.AddRange(Encoding.UTF8.GetBytes(strName));
+
+            result.AddRange(dataBytes);
+
+            return result.ToArray();
+        }
+
+        public string strName;      //Name and path of the file being sent/received
+        public byte[] dataBytes;
+        public int dataSize;
+        public Command cmdCommand;  //Command type (login, logout, send message, etcetera)
+    }
+
+    public class EvidenceFile
+    {
+        public string filename;
+        public int size;
+        public byte[] data;
     }
 }

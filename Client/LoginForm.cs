@@ -1,8 +1,10 @@
 using System;
+using System.IO;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
+using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
@@ -16,7 +18,7 @@ namespace Client
         public List<string> charList = new List<string>();
         public List<string> musicList = new List<string>();
         private Dictionary<string, string> serverData = new Dictionary<string, string>(); // Address, Name
-        private byte[] byteData = new byte[1024];
+        private byte[] byteData = new byte[4194304];
         private bool favorites = false;
         private string masterserverIP;
         private int incomingSize;
@@ -198,72 +200,98 @@ namespace Client
 
                 clientSocket.EndReceive(ar);
 
-                Data msgReceived = new Data(byteData);
-
-                if (msgReceived.cmdCommand == Command.Disconnect)
+                if (byteData[0] == 8)
                 {
-                    MessageBox.Show("You are banned from this server!");
-                    btn_Connect.Image = Image.FromFile("base/misc/btn_connect.png");
-                    //clientSocket.Close();
-                    //Close();
-                }
-                else if (msgReceived.cmdCommand == Command.PacketSize)
-                {
-                    incomingSize = Convert.ToInt32(msgReceived.strMessage);
-                    byteData = new byte[incomingSize];
-
-                    //DialogResult = DialogResult.OK;
-                    Data msgToSend = new Data();
-                    msgToSend.cmdCommand = Command.DataInfo;
-
-                    byte[] b = msgToSend.ToByte();
-
-                    //Send the message to the server
-                    clientSocket.BeginSend(b, 0, b.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
-
-                    clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), null);
-                    //Close();
-                }
-                else if (msgReceived.cmdCommand == Command.DataInfo)
-                {
-                    if (msgReceived.strMessage != null && msgReceived.strMessage != "")
+                    EviData msg = new EviData(byteData);
+                    string dirName = "";
+                    for (int x = 0; x < msg.strName.Split('/').Length - 1; x++)
                     {
-                        string[] data = msgReceived.strMessage.Split('|');
-                        int charCount = Convert.ToInt32(data[0]);
-                        if (charCount > 0)
-                        {
-                            for (int x = 1; x < charCount; x++)
-                            {
-                                charList.Add(data[x]);
-                            }
-                        }
+                        dirName = dirName + msg.strName.Split('/')[x];
+                        if (x < msg.strName.Split('/').Length - 2)
+                            dirName = dirName + '/';
+                    }
+                    if (!Directory.Exists(dirName))
+                        Directory.CreateDirectory(dirName);
 
-                        int songCount = Convert.ToInt32(data[charCount + 1]);
-                        if (songCount > 0)
+                    using (FileStream fs = new FileStream(msg.strName, FileMode.Create))
+                    {
+                        using (BinaryWriter w = new BinaryWriter(fs))
                         {
-                            for (int x = charCount + 2; x < charCount + 2 + songCount; x++)
-                            {
-                                musicList.Add(data[x]);
-                            }
+                            if (msg.dataSize > 0)
+                                w.Write(msg.dataBytes.Take(msg.dataSize).ToArray());
                         }
                     }
-
-                    byteData = new byte[1024];
-                    //Do stuff with the evidence/extra binary data here
-
+                    clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), null);
                 }
                 else
-                    clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), null);
-
-                if (msgReceived.cmdCommand == Command.DataInfo)
                 {
-                    //Program.charList = charList;
-                    //Program.musicList = musicList;
-                    //Program.connection = clientSocket;
-                    DialogResult = DialogResult.OK;
-                    Close();
-                }
 
+                    Data msgReceived = new Data(byteData);
+
+                    if (msgReceived.cmdCommand == Command.Disconnect)
+                    {
+                        MessageBox.Show("You are banned from this server!");
+                        btn_Connect.Image = Image.FromFile("base/misc/btn_connect.png");
+                        //clientSocket.Close();
+                        //Close();
+                    }
+                    else if (msgReceived.cmdCommand == Command.PacketSize)
+                    {
+                        incomingSize = Convert.ToInt32(msgReceived.strMessage);
+                        byteData = new byte[incomingSize];
+
+                        //DialogResult = DialogResult.OK;
+                        Data msgToSend = new Data();
+                        msgToSend.cmdCommand = Command.DataInfo;
+
+                        byte[] b = msgToSend.ToByte();
+
+                        //Send the message to the server
+                        clientSocket.BeginSend(b, 0, b.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+
+                        clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), null);
+                        //Close();
+                    }
+                    else if (msgReceived.cmdCommand == Command.DataInfo)
+                    {
+                        if (msgReceived.strMessage != null && msgReceived.strMessage != "")
+                        {
+                            string[] data = msgReceived.strMessage.Split('|');
+                            int charCount = Convert.ToInt32(data[0]);
+                            if (charCount > 0)
+                            {
+                                for (int x = 1; x < charCount; x++)
+                                {
+                                    charList.Add(data[x]);
+                                }
+                            }
+
+                            int songCount = Convert.ToInt32(data[charCount + 1]);
+                            if (songCount > 0)
+                            {
+                                for (int x = charCount + 2; x < charCount + 2 + songCount; x++)
+                                {
+                                    musicList.Add(data[x]);
+                                }
+                            }
+                        }
+
+                        byteData = new byte[4194304];
+                        //Do stuff with the evidence/extra binary data here
+
+                    }
+                    else
+                        clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), null);
+
+                    if (msgReceived.cmdCommand == Command.DataInfo)
+                    {
+                        //Program.charList = charList;
+                        //Program.musicList = musicList;
+                        //Program.connection = clientSocket;
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
+                }
             }
             catch (SocketException)
             {
@@ -290,7 +318,7 @@ namespace Client
                     int len = BitConverter.ToInt32(byteData, 1);
                     string infoString = Encoding.UTF8.GetString(byteData, 5, len);
                     editServerDescTB(infoString.Split('|')[1]);
-                    userCount.Text = "Users: " + Convert.ToInt32(infoString.Split('|')[2]);
+                    userCount.Text = "Users: " + Convert.ToInt32(infoString.Split('|')[11]);
 
                     //clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), clientSocket);
                 }

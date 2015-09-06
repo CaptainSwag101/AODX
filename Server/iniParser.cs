@@ -131,29 +131,52 @@ namespace Server
         }
 
         //Currently not called because it would be time-consuming and use lots of data and I haven't implemented evidence yet, so it's pointless
-        public static List<byte> GetEvidenceData()
+        public static List<EvidenceFile> GetEvidenceData()
         {
-            List<byte> evidence = new List<byte>();
-            string dirName = "base/evidence/";
+            List<EvidenceFile> evidence = new List<EvidenceFile>();
+            string dirName = "base/cases/";
             if (Directory.Exists(dirName))
             {
-                //foreach (string dir in Directory.EnumerateDirectories(dirName))
-                //{
-                foreach (string file in Directory.EnumerateFiles(dirName))
+                foreach (string dir in Directory.EnumerateDirectories(dirName))
                 {
-                    //TO DO (IMPORTANT!!!): ONLY SEND TEXT FILES AND IMAGES TO PREVENT THE TRANSFER OF MALICIOUS DATA!!!
-                    using (var fs = new FileStream(file, FileMode.Open))
+                    if (dir.Substring(11) == GetServerInfo().Split('|')[9])
                     {
-                        using (var b = new BinaryReader(fs))
+                        foreach (string file in Directory.EnumerateFiles(dir))
                         {
-                            evidence.AddRange(BitConverter.GetBytes((int)fs.Length));
-                            evidence.AddRange(b.ReadBytes((int)fs.Length));
+                            //TO DO (IMPORTANT!!!): ONLY SEND TEXT FILES AND IMAGES TO PREVENT THE TRANSFER OF MALICIOUS DATA!!!
+                            using (var fs = new FileStream(file, FileMode.Open))
+                            {
+                                using (var b = new BinaryReader(fs))
+                                {
+                                    EvidenceFile evi = new EvidenceFile();
+                                    evi.filename = file.Replace('\\', '/');
+                                    evi.data = b.ReadBytes((int)fs.Length);
+                                    evi.size = evi.data.Length;
+                                    evidence.Add(evi);
+                                }
+                            }
+                        }
+                        foreach (string dir2 in Directory.EnumerateDirectories(dir))
+                        {
+                            foreach (string file in Directory.EnumerateFiles(dir2))
+                            {
+                                //TO DO (IMPORTANT!!!): ONLY SEND TEXT FILES AND IMAGES TO PREVENT THE TRANSFER OF MALICIOUS DATA!!!
+                                using (var fs = new FileStream(file, FileMode.Open))
+                                {
+                                    using (var b = new BinaryReader(fs))
+                                    {
+                                        EvidenceFile evi = new EvidenceFile();
+                                        evi.filename = file.Replace('\\', '/');
+                                        evi.data = b.ReadBytes((int)fs.Length);
+                                        evi.size = evi.data.Length;
+                                        evidence.Add(evi);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
-                //}
             }
-            evidence.Add(255);
             return evidence;
         }
 

@@ -84,6 +84,7 @@ namespace Client
             this.uiPanel = new System.Windows.Forms.Panel();
             this.evidencePanel = new System.Windows.Forms.Panel();
             this.OOCName = new System.Windows.Forms.TextBox();
+            this.courtRecordPB = new System.Windows.Forms.PictureBox();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arrowRight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.arrowLeft)).BeginInit();
@@ -120,6 +121,8 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.btn_testimony)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_crossexamination)).BeginInit();
             this.uiPanel.SuspendLayout();
+            this.evidencePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.courtRecordPB)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -534,14 +537,22 @@ namespace Client
             // 
             // evidencePanel
             // 
-            resources.ApplyResources(this.evidencePanel, "evidencePanel");
             this.evidencePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.evidencePanel.Controls.Add(this.courtRecordPB);
+            resources.ApplyResources(this.evidencePanel, "evidencePanel");
             this.evidencePanel.Name = "evidencePanel";
             // 
             // OOCName
             // 
             resources.ApplyResources(this.OOCName, "OOCName");
             this.OOCName.Name = "OOCName";
+            // 
+            // courtRecordPB
+            // 
+            this.courtRecordPB.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.courtRecordPB, "courtRecordPB");
+            this.courtRecordPB.Name = "courtRecordPB";
+            this.courtRecordPB.TabStop = false;
             // 
             // ClientForm
             // 
@@ -613,6 +624,8 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.btn_testimony)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_crossexamination)).EndInit();
             this.uiPanel.ResumeLayout(false);
+            this.evidencePanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.courtRecordPB)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -674,6 +687,7 @@ namespace Client
         private System.Windows.Forms.Panel evidencePanel;
         private System.Windows.Forms.TextBox OOCName;
         private System.Windows.Forms.PictureBox testimonyPB;
+        private System.Windows.Forms.PictureBox courtRecordPB;
     }
 }
 

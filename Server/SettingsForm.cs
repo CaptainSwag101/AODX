@@ -157,11 +157,11 @@ namespace Server
             //caseChooser.ShowDialog(this);
             caseChooser.RootFolder = Environment.SpecialFolder.MyComputer;
             caseChooser.ShowNewFolderButton = false;
-            if (Directory.Exists("base/evidence"))
-                caseChooser.SelectedPath = Path.GetFullPath("base/evidence");
+            if (Directory.Exists("base/cases"))
+                caseChooser.SelectedPath = Path.GetFullPath("base/cases");
             if (caseChooser.ShowDialog() == DialogResult.OK)
             {
-                string folderName = caseChooser.SelectedPath.Substring(Path.GetFullPath("base/evidence").Length + 1);
+                string folderName = caseChooser.SelectedPath.Substring(Path.GetFullPath("base/cases").Length + 1);
                 cbUseCase.Text = "Use Case: " + folderName;
             }
         }

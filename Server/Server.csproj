@@ -133,6 +133,7 @@
     <Content Include="base\sounds\music\01. Give Life Back To Music.mp3" />
     <Content Include="base\sounds\music\08. Get Lucky %28Feat. Pharrell Williams%29.mp3" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

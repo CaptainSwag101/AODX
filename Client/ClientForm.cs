@@ -4,9 +4,9 @@ using CSCore.Codecs.WAV;
 using CSCore.Codecs.MP3;
 using CSCore.SoundOut;
 using System.IO;
-using System.Media;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Xml;
@@ -25,6 +25,7 @@ namespace Client
         PacketSize,     //Get the size in bytes of the next incoming packet so we can size our receiving packet accordingly. Used for receiving the DataInfo packets.
         ChangeMusic,    //Makes the server tell all clients to start playing the selected audio file
         ChangeHealth,
+        Evidence,
         Disconnect,
         Null            //No command
     }
@@ -509,7 +510,6 @@ namespace Client
             try
             {
                 clientSocket.EndReceive(ar);
-
                 Data msgReceived = new Data(byteData);
 
                 //Accordingly process the message received
@@ -910,6 +910,30 @@ namespace Client
                         {
                             backgroundPB.Image = Image.FromFile("base/background/default/witnessempty.png");
                             deskLayerPB.Image = Image.FromFile("base/background/default/witstand.png");
+                        }
+                        else
+                        {
+                            backgroundPB.Image = Image.FromFile("base/misc/ani_zoom_pro.gif");
+                            deskLayerPB.Image = null;
+                        }
+                        break;
+                    case "hld":
+                        if (!zoom)
+                        {
+                            backgroundPB.Image = Image.FromFile("base/background/default/helperstand.png");
+                            deskLayerPB.Image = null;
+                        }
+                        else
+                        {
+                            backgroundPB.Image = Image.FromFile("base/misc/ani_zoom_def.gif");
+                            deskLayerPB.Image = null;
+                        }
+                        break;
+                    case "hlp":
+                        if (!zoom)
+                        {
+                            backgroundPB.Image = Image.FromFile("base/background/default/prohelperstand.png");
+                            deskLayerPB.Image = null;
                         }
                         else
                         {
@@ -1588,5 +1612,77 @@ namespace Client
         public Color textColor;
         public string strMessage;   //Message text
         public Command cmdCommand;  //Command type (login, logout, send message, etcetera)
+    }
+
+    //The data structure by which the server and the client interact with 
+    //each other
+    class EviData
+    {
+        //Default constructor
+        public EviData(string name)
+        {
+            cmdCommand = Command.Evidence;
+            strName = name;
+        }
+
+        //Converts the bytes into an object of type Data
+        public EviData(byte[] data)
+        {
+            //The first four bytes are for the Command
+            cmdCommand = (Command)BitConverter.ToInt32(data, 0);
+
+            //The next four store the length of the name
+            int nameLen = BitConverter.ToInt32(data, 4);
+
+            dataSize = BitConverter.ToInt32(data, 8);
+
+            //This check makes sure that strName has been passed in the array of bytes
+            if (nameLen > 0)
+                strName = Encoding.UTF8.GetString(data, 12, nameLen);
+            else
+                strName = null;
+
+            if (dataSize > 0)
+                dataBytes = data.Skip(12 + nameLen).ToArray();
+            else
+                dataBytes = null;
+        }
+
+        //Converts the Data structure into an array of bytes
+        public byte[] ToByte()
+        {
+            List<byte> result = new List<byte>();
+
+            //First four are for the Command
+            result.AddRange(BitConverter.GetBytes((int)cmdCommand));
+
+            //Add the length of the name
+            if (strName != null)
+                result.AddRange(BitConverter.GetBytes(strName.Length));
+
+            if (dataBytes != null)
+                result.AddRange(BitConverter.GetBytes(dataBytes.Length));
+
+            //Add the name
+            if (strName != null)
+                result.AddRange(Encoding.UTF8.GetBytes(strName));
+
+            result.AddRange(dataBytes);
+
+            return result.ToArray();
+        }
+
+        public string strName;      //Name and path of the file being sent/received
+        public int dataSize;
+        public byte[] dataBytes;
+        public Command cmdCommand;  //Command type (login, logout, send message, etcetera)
+    }
+
+    public class Evidence
+    {
+        public string name;
+        public string desc;
+        public Image icon;
+
     }
 }
