@@ -40,16 +40,16 @@ namespace Client
             this.arrowRight = new System.Windows.Forms.PictureBox();
             this.arrowLeft = new System.Windows.Forms.PictureBox();
             this.emotionPanel = new System.Windows.Forms.Panel();
-            this.emoButton10 = new Client.EmoButton();
-            this.emoButton9 = new Client.EmoButton();
-            this.emoButton8 = new Client.EmoButton();
-            this.emoButton7 = new Client.EmoButton();
-            this.emoButton6 = new Client.EmoButton();
-            this.emoButton5 = new Client.EmoButton();
-            this.emoButton4 = new Client.EmoButton();
-            this.emoButton3 = new Client.EmoButton();
-            this.emoButton2 = new Client.EmoButton();
-            this.emoButton1 = new Client.EmoButton();
+            this.emoButton10 = new Client.IndexButton();
+            this.emoButton9 = new Client.IndexButton();
+            this.emoButton8 = new Client.IndexButton();
+            this.emoButton7 = new Client.IndexButton();
+            this.emoButton6 = new Client.IndexButton();
+            this.emoButton5 = new Client.IndexButton();
+            this.emoButton4 = new Client.IndexButton();
+            this.emoButton3 = new Client.IndexButton();
+            this.emoButton2 = new Client.IndexButton();
+            this.emoButton1 = new Client.IndexButton();
             this.OOCInput = new System.Windows.Forms.TextBox();
             this.OOCChat = new System.Windows.Forms.TextBox();
             this.nameLabel = new System.Windows.Forms.Label();
@@ -83,8 +83,26 @@ namespace Client
             this.btn_crossexamination = new System.Windows.Forms.PictureBox();
             this.uiPanel = new System.Windows.Forms.Panel();
             this.evidencePanel = new System.Windows.Forms.Panel();
-            this.OOCName = new System.Windows.Forms.TextBox();
+            this.evi1 = new Client.IndexButton();
+            this.evi18 = new Client.IndexButton();
+            this.evi17 = new Client.IndexButton();
+            this.evi16 = new Client.IndexButton();
+            this.evi15 = new Client.IndexButton();
+            this.evi14 = new Client.IndexButton();
+            this.evi13 = new Client.IndexButton();
+            this.evi12 = new Client.IndexButton();
+            this.evi11 = new Client.IndexButton();
+            this.evi10 = new Client.IndexButton();
+            this.evi9 = new Client.IndexButton();
+            this.evi8 = new Client.IndexButton();
+            this.evi7 = new Client.IndexButton();
+            this.evi6 = new Client.IndexButton();
+            this.evi5 = new Client.IndexButton();
+            this.evi4 = new Client.IndexButton();
+            this.evi3 = new Client.IndexButton();
+            this.evi2 = new Client.IndexButton();
             this.courtRecordPB = new System.Windows.Forms.PictureBox();
+            this.OOCName = new System.Windows.Forms.TextBox();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arrowRight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.arrowLeft)).BeginInit();
@@ -122,6 +140,24 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.btn_crossexamination)).BeginInit();
             this.uiPanel.SuspendLayout();
             this.evidencePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.evi1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi18)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi17)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi16)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi15)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi14)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi13)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi12)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi11)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi10)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi9)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi8)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi7)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi6)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.courtRecordPB)).BeginInit();
             this.SuspendLayout();
             // 
@@ -212,7 +248,7 @@ namespace Client
             this.emoButton10.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton10.Name = "emoButton10";
             this.emoButton10.TabStop = false;
-            this.emoButton10.Click += new System.EventHandler(this.emoButton10_Click);
+            this.emoButton10.Click += new System.EventHandler(this.emoButton_Click);
             // 
             // emoButton9
             // 
@@ -220,7 +256,7 @@ namespace Client
             this.emoButton9.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton9.Name = "emoButton9";
             this.emoButton9.TabStop = false;
-            this.emoButton9.Click += new System.EventHandler(this.emoButton9_Click);
+            this.emoButton9.Click += new System.EventHandler(this.emoButton_Click);
             // 
             // emoButton8
             // 
@@ -228,7 +264,7 @@ namespace Client
             this.emoButton8.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton8.Name = "emoButton8";
             this.emoButton8.TabStop = false;
-            this.emoButton8.Click += new System.EventHandler(this.emoButton8_Click);
+            this.emoButton8.Click += new System.EventHandler(this.emoButton_Click);
             // 
             // emoButton7
             // 
@@ -236,7 +272,7 @@ namespace Client
             this.emoButton7.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton7.Name = "emoButton7";
             this.emoButton7.TabStop = false;
-            this.emoButton7.Click += new System.EventHandler(this.emoButton7_Click);
+            this.emoButton7.Click += new System.EventHandler(this.emoButton_Click);
             // 
             // emoButton6
             // 
@@ -244,7 +280,7 @@ namespace Client
             this.emoButton6.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton6.Name = "emoButton6";
             this.emoButton6.TabStop = false;
-            this.emoButton6.Click += new System.EventHandler(this.emoButton6_Click);
+            this.emoButton6.Click += new System.EventHandler(this.emoButton_Click);
             // 
             // emoButton5
             // 
@@ -252,7 +288,7 @@ namespace Client
             this.emoButton5.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton5.Name = "emoButton5";
             this.emoButton5.TabStop = false;
-            this.emoButton5.Click += new System.EventHandler(this.emoButton5_Click);
+            this.emoButton5.Click += new System.EventHandler(this.emoButton_Click);
             // 
             // emoButton4
             // 
@@ -260,7 +296,7 @@ namespace Client
             this.emoButton4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton4.Name = "emoButton4";
             this.emoButton4.TabStop = false;
-            this.emoButton4.Click += new System.EventHandler(this.emoButton4_Click);
+            this.emoButton4.Click += new System.EventHandler(this.emoButton_Click);
             // 
             // emoButton3
             // 
@@ -268,7 +304,7 @@ namespace Client
             this.emoButton3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton3.Name = "emoButton3";
             this.emoButton3.TabStop = false;
-            this.emoButton3.Click += new System.EventHandler(this.emoButton3_Click);
+            this.emoButton3.Click += new System.EventHandler(this.emoButton_Click);
             // 
             // emoButton2
             // 
@@ -276,7 +312,7 @@ namespace Client
             this.emoButton2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton2.Name = "emoButton2";
             this.emoButton2.TabStop = false;
-            this.emoButton2.Click += new System.EventHandler(this.emoButton2_Click);
+            this.emoButton2.Click += new System.EventHandler(this.emoButton_Click);
             // 
             // emoButton1
             // 
@@ -284,7 +320,7 @@ namespace Client
             this.emoButton1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.emoButton1.Name = "emoButton1";
             this.emoButton1.TabStop = false;
-            this.emoButton1.Click += new System.EventHandler(this.emoButton1_Click);
+            this.emoButton1.Click += new System.EventHandler(this.emoButton_Click);
             // 
             // OOCInput
             // 
@@ -538,14 +574,171 @@ namespace Client
             // evidencePanel
             // 
             this.evidencePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.evidencePanel.Controls.Add(this.evi1);
+            this.evidencePanel.Controls.Add(this.evi18);
+            this.evidencePanel.Controls.Add(this.evi17);
+            this.evidencePanel.Controls.Add(this.evi16);
+            this.evidencePanel.Controls.Add(this.evi15);
+            this.evidencePanel.Controls.Add(this.evi14);
+            this.evidencePanel.Controls.Add(this.evi13);
+            this.evidencePanel.Controls.Add(this.evi12);
+            this.evidencePanel.Controls.Add(this.evi11);
+            this.evidencePanel.Controls.Add(this.evi10);
+            this.evidencePanel.Controls.Add(this.evi9);
+            this.evidencePanel.Controls.Add(this.evi8);
+            this.evidencePanel.Controls.Add(this.evi7);
+            this.evidencePanel.Controls.Add(this.evi6);
+            this.evidencePanel.Controls.Add(this.evi5);
+            this.evidencePanel.Controls.Add(this.evi4);
+            this.evidencePanel.Controls.Add(this.evi3);
+            this.evidencePanel.Controls.Add(this.evi2);
             this.evidencePanel.Controls.Add(this.courtRecordPB);
             resources.ApplyResources(this.evidencePanel, "evidencePanel");
             this.evidencePanel.Name = "evidencePanel";
             // 
-            // OOCName
+            // evi1
             // 
-            resources.ApplyResources(this.OOCName, "OOCName");
-            this.OOCName.Name = "OOCName";
+            this.evi1.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi1, "evi1");
+            this.evi1.Name = "evi1";
+            this.evi1.TabStop = false;
+            this.evi1.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi18
+            // 
+            this.evi18.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi18, "evi18");
+            this.evi18.Name = "evi18";
+            this.evi18.TabStop = false;
+            this.evi18.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi17
+            // 
+            this.evi17.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi17, "evi17");
+            this.evi17.Name = "evi17";
+            this.evi17.TabStop = false;
+            this.evi17.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi16
+            // 
+            this.evi16.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi16, "evi16");
+            this.evi16.Name = "evi16";
+            this.evi16.TabStop = false;
+            this.evi16.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi15
+            // 
+            this.evi15.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi15, "evi15");
+            this.evi15.Name = "evi15";
+            this.evi15.TabStop = false;
+            this.evi15.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi14
+            // 
+            this.evi14.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi14, "evi14");
+            this.evi14.Name = "evi14";
+            this.evi14.TabStop = false;
+            this.evi14.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi13
+            // 
+            this.evi13.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi13, "evi13");
+            this.evi13.Name = "evi13";
+            this.evi13.TabStop = false;
+            this.evi13.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi12
+            // 
+            this.evi12.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi12, "evi12");
+            this.evi12.Name = "evi12";
+            this.evi12.TabStop = false;
+            this.evi12.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi11
+            // 
+            this.evi11.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi11, "evi11");
+            this.evi11.Name = "evi11";
+            this.evi11.TabStop = false;
+            this.evi11.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi10
+            // 
+            this.evi10.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi10, "evi10");
+            this.evi10.Name = "evi10";
+            this.evi10.TabStop = false;
+            this.evi10.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi9
+            // 
+            this.evi9.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi9, "evi9");
+            this.evi9.Name = "evi9";
+            this.evi9.TabStop = false;
+            this.evi9.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi8
+            // 
+            this.evi8.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi8, "evi8");
+            this.evi8.Name = "evi8";
+            this.evi8.TabStop = false;
+            this.evi8.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi7
+            // 
+            this.evi7.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi7, "evi7");
+            this.evi7.Name = "evi7";
+            this.evi7.TabStop = false;
+            this.evi7.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi6
+            // 
+            this.evi6.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi6, "evi6");
+            this.evi6.Name = "evi6";
+            this.evi6.TabStop = false;
+            this.evi6.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi5
+            // 
+            this.evi5.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi5, "evi5");
+            this.evi5.Name = "evi5";
+            this.evi5.TabStop = false;
+            this.evi5.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi4
+            // 
+            this.evi4.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi4, "evi4");
+            this.evi4.Name = "evi4";
+            this.evi4.TabStop = false;
+            this.evi4.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi3
+            // 
+            this.evi3.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi3, "evi3");
+            this.evi3.Name = "evi3";
+            this.evi3.TabStop = false;
+            this.evi3.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi2
+            // 
+            this.evi2.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi2, "evi2");
+            this.evi2.Name = "evi2";
+            this.evi2.TabStop = false;
+            this.evi2.Click += new System.EventHandler(this.eviButton_Click);
             // 
             // courtRecordPB
             // 
@@ -553,6 +746,11 @@ namespace Client
             resources.ApplyResources(this.courtRecordPB, "courtRecordPB");
             this.courtRecordPB.Name = "courtRecordPB";
             this.courtRecordPB.TabStop = false;
+            // 
+            // OOCName
+            // 
+            resources.ApplyResources(this.OOCName, "OOCName");
+            this.OOCName.Name = "OOCName";
             // 
             // ClientForm
             // 
@@ -625,6 +823,24 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.btn_crossexamination)).EndInit();
             this.uiPanel.ResumeLayout(false);
             this.evidencePanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.evi1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi18)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi17)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi16)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi15)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi14)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi13)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi12)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi11)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi10)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi9)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi8)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi7)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi6)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.courtRecordPB)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -638,17 +854,17 @@ namespace Client
         private System.Windows.Forms.Timer animTimer;
         private System.Windows.Forms.PictureBox arrowRight;
         private System.Windows.Forms.PictureBox arrowLeft;
-        private EmoButton emoButton10;
-        private EmoButton emoButton9;
-        private EmoButton emoButton8;
-        private EmoButton emoButton7;
-        private EmoButton emoButton6;
-        private EmoButton emoButton5;
-        private EmoButton emoButton4;
-        private EmoButton emoButton3;
-        private EmoButton emoButton2;
+        private IndexButton emoButton10;
+        private IndexButton emoButton9;
+        private IndexButton emoButton8;
+        private IndexButton emoButton7;
+        private IndexButton emoButton6;
+        private IndexButton emoButton5;
+        private IndexButton emoButton4;
+        private IndexButton emoButton3;
+        private IndexButton emoButton2;
         private System.Windows.Forms.Panel emotionPanel;
-        private EmoButton emoButton1;
+        private IndexButton emoButton1;
         private System.Windows.Forms.TextBox OOCInput;
         private System.Windows.Forms.TextBox OOCChat;
         private System.Windows.Forms.Label nameLabel;
@@ -688,6 +904,24 @@ namespace Client
         private System.Windows.Forms.TextBox OOCName;
         private System.Windows.Forms.PictureBox testimonyPB;
         private System.Windows.Forms.PictureBox courtRecordPB;
+        private IndexButton evi1;
+        private IndexButton evi7;
+        private IndexButton evi6;
+        private IndexButton evi5;
+        private IndexButton evi4;
+        private IndexButton evi3;
+        private IndexButton evi2;
+        private IndexButton evi9;
+        private IndexButton evi8;
+        private IndexButton evi18;
+        private IndexButton evi17;
+        private IndexButton evi16;
+        private IndexButton evi15;
+        private IndexButton evi14;
+        private IndexButton evi13;
+        private IndexButton evi12;
+        private IndexButton evi11;
+        private IndexButton evi10;
     }
 }
 

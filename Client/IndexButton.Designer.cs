@@ -1,6 +1,6 @@
 ﻿namespace Client
 {
-    partial class EmoButton
+    partial class IndexButton
     {
         /// <summary> 
         /// Required designer variable.

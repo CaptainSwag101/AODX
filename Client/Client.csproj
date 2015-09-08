@@ -87,11 +87,11 @@
     <Compile Include="ClientForm.Designer.cs">
       <DependentUpon>ClientForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="EmoButton.cs">
+    <Compile Include="IndexButton.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="EmoButton.Designer.cs">
-      <DependentUpon>EmoButton.cs</DependentUpon>
+    <Compile Include="IndexButton.Designer.cs">
+      <DependentUpon>IndexButton.cs</DependentUpon>
     </Compile>
     <Compile Include="iniParser.cs" />
     <Compile Include="LoginForm.cs">

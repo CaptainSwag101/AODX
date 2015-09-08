@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 namespace Client
 {
-    public partial class EmoButton : PictureBox
+    public partial class IndexButton : PictureBox
     {
-        public int EmoNum;
+        public int Index;
 
-        public EmoButton()
+        public IndexButton()
         {
             InitializeComponent();
         }

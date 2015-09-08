@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
+using System.IO;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -90,6 +90,9 @@ namespace Client
 
                 //Send the message to the server
                 clientSocket.BeginSend(b, 0, b.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+
+                if (Directory.Exists("base/cases"))
+                    Directory.Delete("base/cases", true);
             }
         }
     }

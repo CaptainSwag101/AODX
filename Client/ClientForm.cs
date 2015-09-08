@@ -37,6 +37,7 @@ namespace Client
         public string strName;      //Character that the user is playing as
         public List<string> songs; // = new List<string>();
         private int selectedAnim = 1;
+        private int selectedEvidence = 0;
         private byte callout = 0;
         private int colorIndex = 0;
         private Color selectedColor = Color.White;
@@ -46,10 +47,14 @@ namespace Client
         private int emoCount;
         private int emoPage;
         private int emoMaxPages;
+        private int eviCount;
+        private int eviPage;
+        private int eviMaxPages;
         private bool sendEnabled = true;
         private byte defHealth = 5;
         private byte proHealth = 5;
         private Data latestMsg;
+        private List<Evidence> eviList = new List<Evidence>();
         private WaveFileReader blipReader;
         private DirectSoundOut blipPlayer = new DirectSoundOut();
         private WaveFileReader wr;
@@ -112,6 +117,28 @@ namespace Client
             btn_holdit.Visible = true;
             btn_takethat.Image = Image.FromFile("base/misc/btn_takethat_off.png");
             btn_takethat.Visible = true;
+
+            courtRecordPB.Controls.Add(evi1);
+            courtRecordPB.Controls.Add(evi2);
+            courtRecordPB.Controls.Add(evi3);
+            courtRecordPB.Controls.Add(evi4);
+            courtRecordPB.Controls.Add(evi5);
+            courtRecordPB.Controls.Add(evi6);
+            courtRecordPB.Controls.Add(evi7);
+            courtRecordPB.Controls.Add(evi8);
+            courtRecordPB.Controls.Add(evi9);
+            courtRecordPB.Controls.Add(evi10);
+            courtRecordPB.Controls.Add(evi11);
+            courtRecordPB.Controls.Add(evi12);
+            courtRecordPB.Controls.Add(evi13);
+            courtRecordPB.Controls.Add(evi14);
+            courtRecordPB.Controls.Add(evi15);
+            courtRecordPB.Controls.Add(evi16);
+            courtRecordPB.Controls.Add(evi17);
+            courtRecordPB.Controls.Add(evi18);
+
+            loadEviButtons();
+
             //btn_Exclaim.Parent = uiPanel;
             //btn_Mute.Parent = uiPanel;
             //txtColorChanger.Parent = uiPanel;
@@ -155,7 +182,10 @@ namespace Client
             emoCount = iniParser.GetEmoNum(strName);
             emoMaxPages = (int)Math.Floor((decimal)(emoCount / 10));
 
+            //eviList = iniParser.LoadEvidence();
+
             loadEmoButtons();
+            //loadEviButtons();
 
             //byteData = new byte[incomingSize];
             byteData = new byte[1024];
@@ -209,6 +239,9 @@ namespace Client
                     musicPlayer.Dispose();
                 if (musicReader != null)
                     musicReader.Dispose();
+
+                if (Directory.Exists("base/cases"))
+                    Directory.Delete("base/cases", true);
             }
             catch (SocketException)
             { }
@@ -334,92 +367,105 @@ namespace Client
                 return;
             emoButton1.Enabled = true;
             emoButton1.Visible = true;
-            emoButton1.EmoNum = 1 + (10 * emoPage);
-            if (emoButton1.EmoNum == selectedAnim)
-                emoButton1.Load("base/characters/" + strName + "/emotions/button" + emoButton1.EmoNum + "_on.png");
+            emoButton1.Index = 1 + (10 * emoPage);
+            if (emoButton1.Index == selectedAnim)
+                emoButton1.Load("base/characters/" + strName + "/emotions/button" + emoButton1.Index + "_on.png");
             else
-                emoButton1.Load("base/characters/" + strName + "/emotions/button" + emoButton1.EmoNum + "_off.png");
+                emoButton1.Load("base/characters/" + strName + "/emotions/button" + emoButton1.Index + "_off.png");
             if (emoCount - (1 + (10 * emoPage)) <= 0)
                 return;
             emoButton2.Enabled = true;
             emoButton2.Visible = true;
-            emoButton2.EmoNum = 2 + (10 * emoPage);
-            if (emoButton2.EmoNum == selectedAnim)
-                emoButton2.Load("base/characters/" + strName + "/emotions/button" + emoButton2.EmoNum + "_on.png");
+            emoButton2.Index = 2 + (10 * emoPage);
+            if (emoButton2.Index == selectedAnim)
+                emoButton2.Load("base/characters/" + strName + "/emotions/button" + emoButton2.Index + "_on.png");
             else
-                emoButton2.Load("base/characters/" + strName + "/emotions/button" + emoButton2.EmoNum + "_off.png");
+                emoButton2.Load("base/characters/" + strName + "/emotions/button" + emoButton2.Index + "_off.png");
             if (emoCount - (2 + (10 * emoPage)) <= 0)
                 return;
             emoButton3.Enabled = true;
             emoButton3.Visible = true;
-            emoButton3.EmoNum = 3 + (10 * emoPage);
-            if (emoButton3.EmoNum == selectedAnim)
-                emoButton3.Load("base/characters/" + strName + "/emotions/button" + emoButton3.EmoNum + "_on.png");
+            emoButton3.Index = 3 + (10 * emoPage);
+            if (emoButton3.Index == selectedAnim)
+                emoButton3.Load("base/characters/" + strName + "/emotions/button" + emoButton3.Index + "_on.png");
             else
-                emoButton3.Load("base/characters/" + strName + "/emotions/button" + emoButton3.EmoNum + "_off.png");
+                emoButton3.Load("base/characters/" + strName + "/emotions/button" + emoButton3.Index + "_off.png");
             if (emoCount - (3 + (10 * emoPage)) <= 0)
                 return;
             emoButton4.Enabled = true;
             emoButton4.Visible = true;
-            emoButton4.EmoNum = 4 + (10 * emoPage);
-            if (emoButton4.EmoNum == selectedAnim)
-                emoButton4.Load("base/characters/" + strName + "/emotions/button" + emoButton4.EmoNum + "_on.png");
+            emoButton4.Index = 4 + (10 * emoPage);
+            if (emoButton4.Index == selectedAnim)
+                emoButton4.Load("base/characters/" + strName + "/emotions/button" + emoButton4.Index + "_on.png");
             else
-                emoButton4.Load("base/characters/" + strName + "/emotions/button" + emoButton4.EmoNum + "_off.png");
+                emoButton4.Load("base/characters/" + strName + "/emotions/button" + emoButton4.Index + "_off.png");
             if (emoCount - (5 + (10 * emoPage)) <= 0)
                 return;
             emoButton5.Enabled = true;
             emoButton5.Visible = true;
-            emoButton5.EmoNum = 5 + (10 * emoPage);
-            if (emoButton5.EmoNum == selectedAnim)
-                emoButton5.Load("base/characters/" + strName + "/emotions/button" + emoButton5.EmoNum + "_on.png");
+            emoButton5.Index = 5 + (10 * emoPage);
+            if (emoButton5.Index == selectedAnim)
+                emoButton5.Load("base/characters/" + strName + "/emotions/button" + emoButton5.Index + "_on.png");
             else
-                emoButton5.Load("base/characters/" + strName + "/emotions/button" + emoButton5.EmoNum + "_off.png");
+                emoButton5.Load("base/characters/" + strName + "/emotions/button" + emoButton5.Index + "_off.png");
             if (emoCount - (6 + (10 * emoPage)) <= 0)
                 return;
             emoButton6.Enabled = true;
             emoButton6.Visible = true;
-            emoButton6.EmoNum = 6 + (10 * emoPage);
-            if (emoButton6.EmoNum == selectedAnim)
-                emoButton6.Load("base/characters/" + strName + "/emotions/button" + emoButton6.EmoNum + "_on.png");
+            emoButton6.Index = 6 + (10 * emoPage);
+            if (emoButton6.Index == selectedAnim)
+                emoButton6.Load("base/characters/" + strName + "/emotions/button" + emoButton6.Index + "_on.png");
             else
-                emoButton6.Load("base/characters/" + strName + "/emotions/button" + emoButton6.EmoNum + "_off.png");
+                emoButton6.Load("base/characters/" + strName + "/emotions/button" + emoButton6.Index + "_off.png");
             if (emoCount - (7 + (10 * emoPage)) <= 0)
                 return;
             emoButton7.Enabled = true;
             emoButton7.Visible = true;
-            emoButton7.EmoNum = 7 + (10 * emoPage);
-            if (emoButton7.EmoNum == selectedAnim)
-                emoButton7.Load("base/characters/" + strName + "/emotions/button" + emoButton7.EmoNum + "_on.png");
+            emoButton7.Index = 7 + (10 * emoPage);
+            if (emoButton7.Index == selectedAnim)
+                emoButton7.Load("base/characters/" + strName + "/emotions/button" + emoButton7.Index + "_on.png");
             else
-                emoButton7.Load("base/characters/" + strName + "/emotions/button" + emoButton7.EmoNum + "_off.png");
+                emoButton7.Load("base/characters/" + strName + "/emotions/button" + emoButton7.Index + "_off.png");
             if (emoCount - (8 + (10 * emoPage)) <= 0)
                 return;
             emoButton8.Enabled = true;
             emoButton8.Visible = true;
-            emoButton8.EmoNum = 8 + (10 * emoPage);
-            if (emoButton8.EmoNum == selectedAnim)
-                emoButton8.Load("base/characters/" + strName + "/emotions/button" + emoButton8.EmoNum + "_on.png");
+            emoButton8.Index = 8 + (10 * emoPage);
+            if (emoButton8.Index == selectedAnim)
+                emoButton8.Load("base/characters/" + strName + "/emotions/button" + emoButton8.Index + "_on.png");
             else
-                emoButton8.Load("base/characters/" + strName + "/emotions/button" + emoButton8.EmoNum + "_off.png");
+                emoButton8.Load("base/characters/" + strName + "/emotions/button" + emoButton8.Index + "_off.png");
             if (emoCount - (9 + (10 * emoPage)) <= 0)
                 return;
             emoButton9.Enabled = true;
             emoButton9.Visible = true;
-            emoButton9.EmoNum = 9 + (10 * emoPage);
-            if (emoButton9.EmoNum == selectedAnim)
-                emoButton9.Load("base/characters/" + strName + "/emotions/button" + emoButton9.EmoNum + "_on.png");
+            emoButton9.Index = 9 + (10 * emoPage);
+            if (emoButton9.Index == selectedAnim)
+                emoButton9.Load("base/characters/" + strName + "/emotions/button" + emoButton9.Index + "_on.png");
             else
-                emoButton9.Load("base/characters/" + strName + "/emotions/button" + emoButton9.EmoNum + "_off.png");
+                emoButton9.Load("base/characters/" + strName + "/emotions/button" + emoButton9.Index + "_off.png");
             if (emoCount - (10 + (10 * emoPage)) <= 0)
                 return;
             emoButton10.Enabled = true;
             emoButton10.Visible = true;
-            emoButton10.EmoNum = 10 + (10 * emoPage);
-            if (emoButton10.EmoNum == selectedAnim)
-                emoButton10.Load("base/characters/" + strName + "/emotions/button" + emoButton10.EmoNum + "_on.png");
+            emoButton10.Index = 10 + (10 * emoPage);
+            if (emoButton10.Index == selectedAnim)
+                emoButton10.Load("base/characters/" + strName + "/emotions/button" + emoButton10.Index + "_on.png");
             else
-                emoButton10.Load("base/characters/" + strName + "/emotions/button" + emoButton10.EmoNum + "_off.png");
+                emoButton10.Load("base/characters/" + strName + "/emotions/button" + emoButton10.Index + "_off.png");
+        }
+
+        private void loadEviButtons()
+        {
+            int nIndex = 0;
+            foreach (Control ctrl in courtRecordPB.Controls)
+            {
+                if (ctrl is IndexButton)
+                {
+                    nIndex++;
+                    ((IndexButton)ctrl).Index = nIndex;
+                }
+            }
         }
 
         private void updateHealth()
@@ -1150,67 +1196,7 @@ namespace Client
                     break;
             }
         }
-
-        private void emoButton1_Click(object sender, EventArgs e)
-        {
-            selectedAnim = emoButton1.EmoNum;
-            loadEmoButtons(false);
-        }
-
-        private void emoButton2_Click(object sender, EventArgs e)
-        {
-            selectedAnim = emoButton2.EmoNum;
-            loadEmoButtons(false);
-        }
-
-        private void emoButton3_Click(object sender, EventArgs e)
-        {
-            selectedAnim = emoButton3.EmoNum;
-            loadEmoButtons(false);
-        }
-
-        private void emoButton4_Click(object sender, EventArgs e)
-        {
-            selectedAnim = emoButton4.EmoNum;
-            loadEmoButtons(false);
-        }
-
-        private void emoButton5_Click(object sender, EventArgs e)
-        {
-            selectedAnim = emoButton5.EmoNum;
-            loadEmoButtons(false);
-        }
-
-        private void emoButton6_Click(object sender, EventArgs e)
-        {
-            selectedAnim = emoButton6.EmoNum;
-            loadEmoButtons(false);
-        }
-
-        private void emoButton7_Click(object sender, EventArgs e)
-        {
-            selectedAnim = emoButton7.EmoNum;
-            loadEmoButtons(false);
-        }
-
-        private void emoButton8_Click(object sender, EventArgs e)
-        {
-            selectedAnim = emoButton8.EmoNum;
-            loadEmoButtons(false);
-        }
-
-        private void emoButton9_Click(object sender, EventArgs e)
-        {
-            selectedAnim = emoButton9.EmoNum;
-            loadEmoButtons(false);
-        }
-
-        private void emoButton10_Click(object sender, EventArgs e)
-        {
-            selectedAnim = emoButton10.EmoNum;
-            loadEmoButtons(false);
-        }
-
+        
         private void arrowLeft_Click(object sender, EventArgs e)
         {
             emoPage--;
@@ -1510,6 +1496,31 @@ namespace Client
                 clientSocket.BeginSend(msg, 0, msg.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
             }
         }
+
+        private void emoButton_Click(object sender, EventArgs e)
+        {
+            if (sender is IndexButton)
+            {
+                IndexButton button = sender as IndexButton;
+                if (button.Visible == true & button.Enabled == true)
+                {
+                    selectedAnim = button.Index;
+                    loadEmoButtons(false);
+                }
+            }
+        }
+
+        private void eviButton_Click(object sender, EventArgs e)
+        {
+            if (sender is IndexButton)
+            {
+                IndexButton button = sender as IndexButton;
+                if (button.Visible == true & button.Enabled == true)
+                {
+                    //showEvidenceInfo(button.Index);
+                }
+            }
+        }
     }
 
     //The data structure by which the server and the client interact with 
@@ -1683,6 +1694,5 @@ namespace Client
         public string name;
         public string desc;
         public Image icon;
-
     }
 }

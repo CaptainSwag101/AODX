@@ -67,6 +67,9 @@ namespace Client
                 //Send the message to the server
                 if (clientSocket != null && clientSocket.Connected)
                     clientSocket.BeginSend(b, 0, b.Length, SocketFlags.None, new AsyncCallback(OnSendClose), null);
+
+                if (Directory.Exists("base/cases"))
+                    Directory.Delete("base/cases", true);
             }
         }
 
