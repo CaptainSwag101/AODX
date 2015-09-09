@@ -42,7 +42,7 @@ namespace Server
         //The collection of all clients logged into the room (an array of type ClientInfo)
         ArrayList clientList;
 
-        List<EvidenceFile> EviList = new List<EvidenceFile>();
+        List<Evidence> eviList = new List<Evidence>();
 
         //The main socket on which the server listens to the clients
         Socket serverSocket;
@@ -75,7 +75,14 @@ namespace Server
 
             if (iniParser.GetServerInfo().Split('|')[8] == "1")
             {
-                EviList = iniParser.GetEvidenceData();
+                eviList = iniParser.GetEvidenceData();
+                foreach (Evidence item in eviList)
+                {
+                    if (item.name == null)
+                        item.name = "Item name";
+                    if (item.desc == null)
+                        item.desc = "Item description.";
+                }
             }
 
             userNumStat.Text = "Users Online: " + clientList.Count;
@@ -234,9 +241,9 @@ namespace Server
 
         private void sendEvidence(Socket sendHere)
         {
-            foreach (EvidenceFile evi in EviList)
+            foreach (Evidence evi in eviList)
             {
-                EviData dat = new EviData(evi.filename, evi.data);
+                EviData dat = new EviData(evi.name, evi.desc, evi.icon);
                 byte[] msg = dat.ToByte();
                 sendHere.BeginSend(msg, 0, msg.Length, SocketFlags.None, new AsyncCallback(OnSend), sendHere);
                 System.Threading.Thread.Sleep(100);
@@ -512,17 +519,10 @@ namespace Server
         {
             if (txtLog.InvokeRequired)
             {
-                txtLog.Invoke(new Action(() => txtLog.Text += txt));
+                txtLog.Invoke(new Action(() => txtLog.AppendText(txt)));
                 return;
             }
-            txtLog.Text += txt;
-
-            if (txtLog.InvokeRequired)
-            {
-                txtLog.Invoke(new Action(() => txtLog.ScrollToCaret()));
-                return;
-            }
-            txtLog.ScrollToCaret();
+            txtLog.AppendText(txt);
         }
 
         private void appendLstUsersSafe(string txt)
@@ -950,11 +950,22 @@ namespace Server
     class EviData
     {
         //Default constructor
-        public EviData(string name, byte[] fileData)
+        public EviData(string name, string desc, Image icon)
         {
             cmdCommand = Command.Evidence;
             strName = name;
-            dataBytes = fileData;
+            strDesc = desc;
+            MemoryStream ms = new MemoryStream();
+            icon.Save(ms, icon.RawFormat);
+            using (FileStream fs = new FileStream("base/test.gif", FileMode.Create))
+            {
+                fs.Write(ms.ToArray(), 0, ms.ToArray().Length);
+            }
+
+            icon.Save("base/test2.gif");
+
+            //System.Drawing.Imaging.ImageFormat.Gif.Guid
+            dataBytes = ms.ToArray();
         }
 
         //Converts the bytes into an object of type Data
@@ -966,16 +977,23 @@ namespace Server
             //The next four store the length of the name
             int nameLen = BitConverter.ToInt32(data, 4);
 
-            dataSize = BitConverter.ToInt32(data, 8);
+            int descLen = BitConverter.ToInt32(data, 8);
+
+            dataSize = BitConverter.ToInt32(data, 12);
 
             //This check makes sure that strName has been passed in the array of bytes
             if (nameLen > 0)
-                strName = Encoding.UTF8.GetString(data, 12, nameLen);
+                strName = Encoding.UTF8.GetString(data, 16, nameLen);
             else
                 strName = null;
 
+            if (descLen > 0)
+                strDesc = Encoding.UTF8.GetString(data, 16 + nameLen, descLen);
+            else
+                strDesc = null;
+
             if (dataSize > 0)
-                dataBytes = data.Skip(12 + nameLen).ToArray();
+                dataBytes = data.Skip(16 + nameLen + descLen).ToArray();
             else
                 dataBytes = null;
         }
@@ -992,6 +1010,9 @@ namespace Server
             if (strName != null)
                 result.AddRange(BitConverter.GetBytes(strName.Length));
 
+            if (strDesc != null)
+                result.AddRange(BitConverter.GetBytes(strDesc.Length));
+
             if (dataBytes != null)
                 result.AddRange(BitConverter.GetBytes(dataBytes.Length));
 
@@ -999,21 +1020,26 @@ namespace Server
             if (strName != null)
                 result.AddRange(Encoding.UTF8.GetBytes(strName));
 
+            if (strDesc != null)
+                result.AddRange(Encoding.UTF8.GetBytes(strDesc));
+
             result.AddRange(dataBytes);
 
             return result.ToArray();
         }
 
         public string strName;      //Name and path of the file being sent/received
-        public byte[] dataBytes;
+        public string strDesc;
         public int dataSize;
+        public byte[] dataBytes;
         public Command cmdCommand;  //Command type (login, logout, send message, etcetera)
     }
 
-    public class EvidenceFile
+    public class Evidence
     {
+        public string name;
         public string filename;
-        public int size;
-        public byte[] data;
+        public string desc;
+        public Image icon;
     }
 }

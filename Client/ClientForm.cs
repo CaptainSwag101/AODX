@@ -36,6 +36,7 @@ namespace Client
         public Socket clientSocket; //The main client socket
         public string strName;      //Character that the user is playing as
         public List<string> songs; // = new List<string>();
+        public List<Evidence> eviList = new List<Evidence>();
         private int selectedAnim = 1;
         private int selectedEvidence = 0;
         private byte callout = 0;
@@ -47,14 +48,13 @@ namespace Client
         private int emoCount;
         private int emoPage;
         private int emoMaxPages;
-        private int eviCount;
-        private int eviPage;
-        private int eviMaxPages;
+        private int eviCount = 0;
+        private int eviPage = 0;
+        private int eviMaxPages = 0;
         private bool sendEnabled = true;
         private byte defHealth = 5;
         private byte proHealth = 5;
         private Data latestMsg;
-        private List<Evidence> eviList = new List<Evidence>();
         private WaveFileReader blipReader;
         private DirectSoundOut blipPlayer = new DirectSoundOut();
         private WaveFileReader wr;
@@ -137,8 +137,6 @@ namespace Client
             courtRecordPB.Controls.Add(evi17);
             courtRecordPB.Controls.Add(evi18);
 
-            loadEviButtons();
-
             //btn_Exclaim.Parent = uiPanel;
             //btn_Mute.Parent = uiPanel;
             //txtColorChanger.Parent = uiPanel;
@@ -182,10 +180,8 @@ namespace Client
             emoCount = iniParser.GetEmoNum(strName);
             emoMaxPages = (int)Math.Floor((decimal)(emoCount / 10));
 
-            //eviList = iniParser.LoadEvidence();
-
             loadEmoButtons();
-            //loadEviButtons();
+            loadEviButtons();
 
             //byteData = new byte[incomingSize];
             byteData = new byte[1024];
@@ -457,13 +453,26 @@ namespace Client
 
         private void loadEviButtons()
         {
+            eviCount = eviList.Count();
             int nIndex = 0;
             foreach (Control ctrl in courtRecordPB.Controls)
             {
                 if (ctrl is IndexButton)
                 {
                     nIndex++;
-                    ((IndexButton)ctrl).Index = nIndex;
+                    ((IndexButton)ctrl).Index = nIndex + (18 * eviPage);
+
+                    if (nIndex + (18 * eviPage) > eviCount)
+                    {
+                        ctrl.Enabled = false;
+                        ctrl.Visible = false;
+                    }
+                    else
+                    {
+                        ((IndexButton)ctrl).Image = eviList[nIndex + (18 * eviPage) - 1].icon;
+                        ctrl.Enabled = true;
+                        ctrl.Visible = true;
+                    }
                 }
             }
         }
@@ -821,17 +830,10 @@ namespace Client
         {
             if (txtLog.InvokeRequired)
             {
-                txtLog.Invoke(new Action(() => txtLog.Text += txt));
+                txtLog.Invoke(new Action(() => txtLog.AppendText(txt)));
                 return;
             }
-            txtLog.Text += txt;
-
-            if (txtLog.InvokeRequired)
-            {
-                txtLog.Invoke(new Action(() => txtLog.ScrollToCaret()));
-                return;
-            }
-            txtLog.ScrollToCaret();
+            txtLog.AppendText(txt);
         }
 
         private void prepWriteDispBoxes(Data msg, Color newColor)
@@ -1517,6 +1519,7 @@ namespace Client
                 IndexButton button = sender as IndexButton;
                 if (button.Visible == true & button.Enabled == true)
                 {
+                    selectedEvidence = button.Index;
                     //showEvidenceInfo(button.Index);
                 }
             }
@@ -1630,10 +1633,11 @@ namespace Client
     class EviData
     {
         //Default constructor
-        public EviData(string name)
+        public EviData(string name, string desc)
         {
             cmdCommand = Command.Evidence;
             strName = name;
+            strDesc = desc;
         }
 
         //Converts the bytes into an object of type Data
@@ -1645,16 +1649,23 @@ namespace Client
             //The next four store the length of the name
             int nameLen = BitConverter.ToInt32(data, 4);
 
-            dataSize = BitConverter.ToInt32(data, 8);
+            int descLen = BitConverter.ToInt32(data, 8);
+
+            dataSize = BitConverter.ToInt32(data, 12);
 
             //This check makes sure that strName has been passed in the array of bytes
             if (nameLen > 0)
-                strName = Encoding.UTF8.GetString(data, 12, nameLen);
+                strName = Encoding.UTF8.GetString(data, 16, nameLen);
             else
                 strName = null;
 
+            if (descLen > 0)
+                strDesc = Encoding.UTF8.GetString(data, 16 + nameLen, descLen);
+            else
+                strDesc= null;
+
             if (dataSize > 0)
-                dataBytes = data.Skip(12 + nameLen).ToArray();
+                dataBytes = data.Skip(16 + nameLen + descLen).ToArray();
             else
                 dataBytes = null;
         }
@@ -1671,6 +1682,9 @@ namespace Client
             if (strName != null)
                 result.AddRange(BitConverter.GetBytes(strName.Length));
 
+            if (strDesc != null)
+                result.AddRange(BitConverter.GetBytes(strDesc.Length));
+
             if (dataBytes != null)
                 result.AddRange(BitConverter.GetBytes(dataBytes.Length));
 
@@ -1678,12 +1692,16 @@ namespace Client
             if (strName != null)
                 result.AddRange(Encoding.UTF8.GetBytes(strName));
 
+            if (strDesc != null)
+                result.AddRange(Encoding.UTF8.GetBytes(strDesc));
+
             result.AddRange(dataBytes);
 
             return result.ToArray();
         }
 
         public string strName;      //Name and path of the file being sent/received
+        public string strDesc;
         public int dataSize;
         public byte[] dataBytes;
         public Command cmdCommand;  //Command type (login, logout, send message, etcetera)

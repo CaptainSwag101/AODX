@@ -17,6 +17,7 @@ namespace Client
         public Socket masterSocket;
         public List<string> charList = new List<string>();
         public List<string> musicList = new List<string>();
+        public List<Evidence> eviList = new List<Evidence>();
         private Dictionary<string, string> serverData = new Dictionary<string, string>(); // Address, Name
         private byte[] byteData = new byte[4194304];
         private bool favorites = false;
@@ -206,24 +207,37 @@ namespace Client
                 if (byteData[0] == 8)
                 {
                     EviData msg = new EviData(byteData);
-                    string dirName = "";
-                    for (int x = 0; x < msg.strName.Split('/').Length - 1; x++)
-                    {
-                        dirName = dirName + msg.strName.Split('/')[x];
-                        if (x < msg.strName.Split('/').Length - 2)
-                            dirName = dirName + '/';
-                    }
-                    if (!Directory.Exists(dirName))
-                        Directory.CreateDirectory(dirName);
 
-                    using (FileStream fs = new FileStream(msg.strName, FileMode.Create))
+                    Evidence evi = new Evidence();
+                    evi.name = msg.strName;
+                    evi.desc = msg.strDesc;
+
+                    using (MemoryStream ms = new MemoryStream(msg.dataBytes))
                     {
-                        using (BinaryWriter w = new BinaryWriter(fs))
-                        {
-                            if (msg.dataSize > 0)
-                                w.Write(msg.dataBytes.Take(msg.dataSize).ToArray());
-                        }
+                        evi.icon = Image.FromStream(ms,false,true);
                     }
+
+                    eviList.Add(evi);
+
+                    //string dirName = "";
+                    //for (int x = 0; x < msg.strName.Split('/').Length - 1; x++)
+                    //{
+                    //    dirName = dirName + msg.strName.Split('/')[x];
+                    //    if (x < msg.strName.Split('/').Length - 2)
+                    //        dirName = dirName + '/';
+                    //}
+                    //if (!Directory.Exists(dirName))
+                    //    Directory.CreateDirectory(dirName);
+
+                    //using (FileStream fs = new FileStream(msg.strName, FileMode.Create))
+                    //{
+                    //    using (BinaryWriter w = new BinaryWriter(fs))
+                    //    {
+                    //        if (msg.dataSize > 0)
+                    //            w.Write(msg.dataBytes.Take(msg.dataSize).ToArray());
+                    //    }
+                    //}
+
                     clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), null);
                 }
                 else

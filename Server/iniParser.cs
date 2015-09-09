@@ -2,8 +2,10 @@
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using System.Drawing;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace Server
 {
@@ -131,9 +133,9 @@ namespace Server
         }
 
         //Currently not called because it would be time-consuming and use lots of data and I haven't implemented evidence yet, so it's pointless
-        public static List<EvidenceFile> GetEvidenceData()
+        public static List<Evidence> GetEvidenceData()
         {
-            List<EvidenceFile> evidence = new List<EvidenceFile>();
+            List<Evidence> evidence = new List<Evidence>();
             string dirName = "base/cases/";
             if (Directory.Exists(dirName))
             {
@@ -143,33 +145,156 @@ namespace Server
                     {
                         foreach (string file in Directory.EnumerateFiles(dir))
                         {
-                            //TO DO (IMPORTANT!!!): ONLY SEND TEXT FILES AND IMAGES TO PREVENT THE TRANSFER OF MALICIOUS DATA!!!
                             using (var fs = new FileStream(file, FileMode.Open))
                             {
-                                using (var b = new BinaryReader(fs))
+                                Evidence evi = new Evidence();
+                                evi.filename = file.Split('.').First();
+                                switch (file.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries).Last().Split('/').Last().Split('.').Last())
                                 {
-                                    EvidenceFile evi = new EvidenceFile();
-                                    evi.filename = file.Replace('\\', '/');
-                                    evi.data = b.ReadBytes((int)fs.Length);
-                                    evi.size = evi.data.Length;
-                                    evidence.Add(evi);
+                                    case "gif":
+                                    case "png":
+                                    case "bmp":
+                                        evi.icon = Image.FromFile(file);
+
+                                        bool found = false;
+                                        foreach (Evidence data in evidence)
+                                        {
+                                            if (data.filename == evi.filename)
+                                            {
+                                                data.icon = evi.icon;
+                                                found = true;
+                                                break;
+                                            }
+                                        }
+
+                                        if (!found)
+                                            evidence.Add(evi);
+
+                                        break;
+
+                                    case "ini":
+                                        if (file.Split('\\').Last() == "case.ini")
+                                            break;
+
+                                        //load ini data into name and desc
+                                        using (StreamReader r = new StreamReader(fs))
+                                        {
+                                            while (!r.EndOfStream)
+                                            {
+                                                string line = r.ReadLine();
+                                                if (line.Split(new string[] { " = " }, StringSplitOptions.None)[0].StartsWith("name", StringComparison.OrdinalIgnoreCase))
+                                                {
+                                                    evi.name = line.Split(new string[] { " = " }, StringSplitOptions.None)[1];
+                                                }
+                                                else if (line.Split(new string[] { " = " }, StringSplitOptions.None)[0].StartsWith("desc", StringComparison.OrdinalIgnoreCase))
+                                                {
+                                                    evi.desc = line.Split(new string[] { " = " }, StringSplitOptions.None)[1];
+                                                }
+                                            }
+                                        }
+
+                                        bool found2 = false;
+                                        foreach (Evidence data in evidence)
+                                        {
+                                            if (data.filename == evi.filename)
+                                            {
+                                                data.name = evi.name;
+                                                data.desc = evi.desc;
+                                                found2 = true;
+                                                break;
+                                            }
+                                        }
+
+                                        if (!found2)
+                                            evidence.Add(evi);
+
+                                        break;
                                 }
                             }
                         }
+
                         foreach (string dir2 in Directory.EnumerateDirectories(dir))
                         {
                             foreach (string file in Directory.EnumerateFiles(dir2))
                             {
-                                //TO DO (IMPORTANT!!!): ONLY SEND TEXT FILES AND IMAGES TO PREVENT THE TRANSFER OF MALICIOUS DATA!!!
                                 using (var fs = new FileStream(file, FileMode.Open))
                                 {
-                                    using (var b = new BinaryReader(fs))
+                                    Evidence evi = new Evidence();
+                                    evi.filename = file.Split('.').First();
+                                    switch (file.Split(new char[] { '\\' }, StringSplitOptions.RemoveEmptyEntries).Last().Split('/').Last().Split('.').Last())
                                     {
-                                        EvidenceFile evi = new EvidenceFile();
-                                        evi.filename = file.Replace('\\', '/');
-                                        evi.data = b.ReadBytes((int)fs.Length);
-                                        evi.size = evi.data.Length;
-                                        evidence.Add(evi);
+                                        case "gif":
+                                        case "png":
+                                        case "bmp":
+                                            evi.icon = Image.FromStream(fs, false, true);
+
+                                            evi.icon.Save("base/test3.gif");
+
+                                            //if (System.Drawing.Imaging.ImageFormat.Gif.Equals(evi.icon.RawFormat))
+                                                //MessageBox.Show("GIF");
+                                            //else if (System.Drawing.Imaging.ImageFormat.Png.Equals(evi.icon.RawFormat))
+                                                //MessageBox.Show("PNG");
+
+                                            bool found = false;
+                                            foreach (Evidence data in evidence)
+                                            {
+                                                if (data.icon != null)
+                                                    data.icon.Save("base/test4.gif");
+                                                if (data.filename == evi.filename)
+                                                {
+                                                    data.icon = evi.icon;
+                                                    data.icon.Save("base/test4.gif");
+                                                    found = true;
+                                                    break;
+                                                }
+                                            }
+
+                                            if (!found)
+                                                evidence.Add(evi);
+
+                                            evi = null;
+
+                                            break;
+
+                                        case "ini":
+                                            //load ini data into name and desc
+                                            using (StreamReader r = new StreamReader(fs))
+                                            {
+                                                while (!r.EndOfStream)
+                                                {
+                                                    string line = r.ReadLine();
+                                                    if (line.Split(new string[] { " = " }, StringSplitOptions.None)[0].StartsWith("name", StringComparison.OrdinalIgnoreCase))
+                                                    {
+                                                        evi.name = line.Split(new string[] { " = " }, StringSplitOptions.None)[1];
+                                                    }
+                                                    else if (line.Split(new string[] { " = " }, StringSplitOptions.None)[0].StartsWith("desc", StringComparison.OrdinalIgnoreCase))
+                                                    {
+                                                        evi.desc = line.Split(new string[] { " = " }, StringSplitOptions.None)[1];
+                                                    }
+                                                }
+                                            }
+
+                                            bool found2 = false;
+                                            foreach (Evidence data in evidence)
+                                            {
+                                                if (data.icon != null)
+                                                    data.icon.Save("base/test4.gif");
+                                                if (data.filename == evi.filename)
+                                                {
+                                                    data.name = evi.name;
+                                                    data.desc = evi.desc;
+                                                    found2 = true;
+
+                                                    data.icon.Save("base/test4.gif");
+                                                    break;
+                                                }
+                                            }
+
+                                            if (!found2)
+                                                evidence.Add(evi);
+
+                                            evi = null;
+                                            break;
                                     }
                                 }
                             }

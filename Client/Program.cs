@@ -14,6 +14,7 @@ namespace Client
 
         public static List<string> charList;
         public static List<string> musicList;
+        public static List<Evidence> eList;
         public static bool debug = false;
         //public static Socket connection;
 
@@ -34,6 +35,7 @@ namespace Client
             {
                 charList = loginForm.charList;
                 musicList = loginForm.musicList;
+                eList = loginForm.eviList;
 
                 CharForm CharSelect = new CharForm();
                 CharSelect.clientSocket = loginForm.clientSocket;
@@ -45,6 +47,7 @@ namespace Client
                 {
                     ClientForm AODXClientForm = new ClientForm();
                     AODXClientForm.clientSocket = CharSelect.clientSocket;
+                    AODXClientForm.eviList = eList;
                     AODXClientForm.songs = musicList;
                     AODXClientForm.strName = CharSelect.strName;
                     try
