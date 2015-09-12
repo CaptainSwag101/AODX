@@ -83,6 +83,7 @@ namespace Client
             this.btn_crossexamination = new System.Windows.Forms.PictureBox();
             this.uiPanel = new System.Windows.Forms.Panel();
             this.evidencePanel = new System.Windows.Forms.Panel();
+            this.btn_edit = new System.Windows.Forms.PictureBox();
             this.btn_present = new System.Windows.Forms.PictureBox();
             this.btn_back = new System.Windows.Forms.PictureBox();
             this.crTitle = new System.Windows.Forms.Label();
@@ -143,6 +144,7 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.btn_crossexamination)).BeginInit();
             this.uiPanel.SuspendLayout();
             this.evidencePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_edit)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_present)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_back)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.evi1)).BeginInit();
@@ -579,6 +581,7 @@ namespace Client
             // evidencePanel
             // 
             this.evidencePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.evidencePanel.Controls.Add(this.btn_edit);
             this.evidencePanel.Controls.Add(this.btn_present);
             this.evidencePanel.Controls.Add(this.btn_back);
             this.evidencePanel.Controls.Add(this.crTitle);
@@ -603,6 +606,14 @@ namespace Client
             this.evidencePanel.Controls.Add(this.courtRecordPB);
             resources.ApplyResources(this.evidencePanel, "evidencePanel");
             this.evidencePanel.Name = "evidencePanel";
+            // 
+            // btn_edit
+            // 
+            this.btn_edit.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.btn_edit, "btn_edit");
+            this.btn_edit.Name = "btn_edit";
+            this.btn_edit.TabStop = false;
+            this.btn_edit.Click += new System.EventHandler(this.btn_edit_Click);
             // 
             // btn_present
             // 
@@ -854,6 +865,7 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.btn_crossexamination)).EndInit();
             this.uiPanel.ResumeLayout(false);
             this.evidencePanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.btn_edit)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_present)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.btn_back)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.evi1)).EndInit();
@@ -958,6 +970,7 @@ namespace Client
         private System.Windows.Forms.Label crTitle;
         private System.Windows.Forms.PictureBox btn_back;
         private System.Windows.Forms.PictureBox btn_present;
+        private System.Windows.Forms.PictureBox btn_edit;
     }
 }
 

@@ -24,6 +24,7 @@ namespace Server
         ChangeMusic,    //Tells all clients to start playing the selected audio file
         ChangeHealth,
         Evidence,
+        Present,
         Disconnect,
         Null            //No command
     }
@@ -362,6 +363,7 @@ namespace Server
                             break;
 
                         case Command.Message:
+                        case Command.Present:
                             //Set the text of the message that we will broadcast to all users
                             msgToSend = msgReceived;
                             msgToSend.strMessage = msgReceived.strName + ": " + msgReceived.strMessage;
@@ -471,7 +473,7 @@ namespace Server
                         }
                         if (msgToSend.cmdCommand != Command.ChangeMusic & msgToSend.cmdCommand != Command.ChangeHealth)
                             if (msgReceived.callout <= 3)
-                                appendTxtLogSafe(msgToSend.strMessage + "\r\n");
+                                appendTxtLogSafe(msgToSend.strMessage.Split('|')[0] + "\r\n");
                     }
 
                     //If the user is logging out then we need not listen from her
