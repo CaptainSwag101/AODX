@@ -211,6 +211,7 @@ namespace Client
                     Evidence evi = new Evidence();
                     evi.name = msg.strName;
                     evi.desc = msg.strDesc;
+                    evi.note = msg.strNote;
 
                     using (MemoryStream ms = new MemoryStream(msg.dataBytes))
                     {

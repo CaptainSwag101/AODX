@@ -243,7 +243,7 @@ namespace Server
         {
             foreach (Evidence evi in eviList)
             {
-                EviData dat = new EviData(evi.name, evi.desc, evi.icon);
+                EviData dat = new EviData(evi.name, evi.desc, evi.note, evi.icon);
                 byte[] msg = dat.ToByte();
                 sendHere.BeginSend(msg, 0, msg.Length, SocketFlags.None, new AsyncCallback(OnSend), sendHere);
                 System.Threading.Thread.Sleep(100);
@@ -950,11 +950,12 @@ namespace Server
     class EviData
     {
         //Default constructor
-        public EviData(string name, string desc, Image icon)
+        public EviData(string name, string desc, string note, Image icon)
         {
             cmdCommand = Command.Evidence;
             strName = name;
             strDesc = desc;
+            strNote = note;
             MemoryStream ms = new MemoryStream();
             icon.Save(ms, icon.RawFormat);
             using (FileStream fs = new FileStream("base/test.gif", FileMode.Create))
@@ -979,21 +980,28 @@ namespace Server
 
             int descLen = BitConverter.ToInt32(data, 8);
 
-            dataSize = BitConverter.ToInt32(data, 12);
+            int noteLen = BitConverter.ToInt32(data, 12);
+
+            dataSize = BitConverter.ToInt32(data, 16);
 
             //This check makes sure that strName has been passed in the array of bytes
             if (nameLen > 0)
-                strName = Encoding.UTF8.GetString(data, 16, nameLen);
+                strName = Encoding.UTF8.GetString(data, 20, nameLen);
             else
                 strName = null;
 
             if (descLen > 0)
-                strDesc = Encoding.UTF8.GetString(data, 16 + nameLen, descLen);
+                strDesc = Encoding.UTF8.GetString(data, 20 + nameLen, descLen);
             else
                 strDesc = null;
 
+            if (noteLen > 0)
+                strNote = Encoding.UTF8.GetString(data, 20 + nameLen + descLen, noteLen);
+            else
+                strNote = null;
+
             if (dataSize > 0)
-                dataBytes = data.Skip(16 + nameLen + descLen).ToArray();
+                dataBytes = data.Skip(20 + nameLen + descLen + noteLen).ToArray();
             else
                 dataBytes = null;
         }
@@ -1013,6 +1021,11 @@ namespace Server
             if (strDesc != null)
                 result.AddRange(BitConverter.GetBytes(strDesc.Length));
 
+            if (strNote != null)
+                result.AddRange(BitConverter.GetBytes(strNote.Length));
+            else
+                result.AddRange(BitConverter.GetBytes("Submitted by the judge.".Length));
+
             if (dataBytes != null)
                 result.AddRange(BitConverter.GetBytes(dataBytes.Length));
 
@@ -1023,6 +1036,8 @@ namespace Server
             if (strDesc != null)
                 result.AddRange(Encoding.UTF8.GetBytes(strDesc));
 
+            result.AddRange(Encoding.UTF8.GetBytes(strNote ?? "Submitted by the judge."));
+
             result.AddRange(dataBytes);
 
             return result.ToArray();
@@ -1030,6 +1045,7 @@ namespace Server
 
         public string strName;      //Name and path of the file being sent/received
         public string strDesc;
+        public string strNote;
         public int dataSize;
         public byte[] dataBytes;
         public Command cmdCommand;  //Command type (login, logout, send message, etcetera)
@@ -1040,6 +1056,7 @@ namespace Server
         public string name;
         public string filename;
         public string desc;
+        public string note;
         public Image icon;
     }
 }

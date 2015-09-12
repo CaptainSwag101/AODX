@@ -83,6 +83,9 @@ namespace Client
             this.btn_crossexamination = new System.Windows.Forms.PictureBox();
             this.uiPanel = new System.Windows.Forms.Panel();
             this.evidencePanel = new System.Windows.Forms.Panel();
+            this.btn_present = new System.Windows.Forms.PictureBox();
+            this.btn_back = new System.Windows.Forms.PictureBox();
+            this.crTitle = new System.Windows.Forms.Label();
             this.evi1 = new Client.IndexButton();
             this.evi18 = new Client.IndexButton();
             this.evi17 = new Client.IndexButton();
@@ -140,6 +143,8 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.btn_crossexamination)).BeginInit();
             this.uiPanel.SuspendLayout();
             this.evidencePanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_present)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_back)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.evi1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.evi18)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.evi17)).BeginInit();
@@ -574,6 +579,9 @@ namespace Client
             // evidencePanel
             // 
             this.evidencePanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.evidencePanel.Controls.Add(this.btn_present);
+            this.evidencePanel.Controls.Add(this.btn_back);
+            this.evidencePanel.Controls.Add(this.crTitle);
             this.evidencePanel.Controls.Add(this.evi1);
             this.evidencePanel.Controls.Add(this.evi18);
             this.evidencePanel.Controls.Add(this.evi17);
@@ -595,6 +603,29 @@ namespace Client
             this.evidencePanel.Controls.Add(this.courtRecordPB);
             resources.ApplyResources(this.evidencePanel, "evidencePanel");
             this.evidencePanel.Name = "evidencePanel";
+            // 
+            // btn_present
+            // 
+            this.btn_present.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.btn_present, "btn_present");
+            this.btn_present.Name = "btn_present";
+            this.btn_present.TabStop = false;
+            this.btn_present.Click += new System.EventHandler(this.btn_present_Click);
+            // 
+            // btn_back
+            // 
+            this.btn_back.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.btn_back, "btn_back");
+            this.btn_back.Name = "btn_back";
+            this.btn_back.TabStop = false;
+            this.btn_back.Click += new System.EventHandler(this.btn_back_Click);
+            // 
+            // crTitle
+            // 
+            this.crTitle.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            resources.ApplyResources(this.crTitle, "crTitle");
+            this.crTitle.ForeColor = System.Drawing.Color.DarkOrange;
+            this.crTitle.Name = "crTitle";
             // 
             // evi1
             // 
@@ -823,6 +854,8 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.btn_crossexamination)).EndInit();
             this.uiPanel.ResumeLayout(false);
             this.evidencePanel.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.btn_present)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.btn_back)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.evi1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.evi18)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.evi17)).EndInit();
@@ -922,6 +955,9 @@ namespace Client
         private IndexButton evi12;
         private IndexButton evi11;
         private IndexButton evi10;
+        private System.Windows.Forms.Label crTitle;
+        private System.Windows.Forms.PictureBox btn_back;
+        private System.Windows.Forms.PictureBox btn_present;
     }
 }
 

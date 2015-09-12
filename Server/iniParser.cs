@@ -190,6 +190,10 @@ namespace Server
                                                 {
                                                     evi.desc = line.Split(new string[] { " = " }, StringSplitOptions.None)[1];
                                                 }
+                                                else if (line.Split(new string[] { " = " }, StringSplitOptions.None)[0].StartsWith("note", StringComparison.OrdinalIgnoreCase))
+                                                {
+                                                    evi.note = line.Split(new string[] { " = " }, StringSplitOptions.None)[1];
+                                                }
                                             }
                                         }
 
@@ -200,6 +204,7 @@ namespace Server
                                             {
                                                 data.name = evi.name;
                                                 data.desc = evi.desc;
+                                                data.note = evi.note;
                                                 found2 = true;
                                                 break;
                                             }
@@ -271,6 +276,10 @@ namespace Server
                                                     {
                                                         evi.desc = line.Split(new string[] { " = " }, StringSplitOptions.None)[1];
                                                     }
+                                                    else if (line.Split(new string[] { " = " }, StringSplitOptions.None)[0].StartsWith("note", StringComparison.OrdinalIgnoreCase))
+                                                    {
+                                                        evi.note = line.Split(new string[] { " = " }, StringSplitOptions.None)[1];
+                                                    }
                                                 }
                                             }
 
@@ -283,6 +292,7 @@ namespace Server
                                                 {
                                                     data.name = evi.name;
                                                     data.desc = evi.desc;
+                                                    data.note = evi.note;
                                                     found2 = true;
 
                                                     data.icon.Save("base/test4.gif");

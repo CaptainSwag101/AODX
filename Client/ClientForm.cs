@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Windows.Forms;
 using System.Xml;
 using System.Net.Sockets;
@@ -67,6 +68,7 @@ namespace Client
         private int curPreAnimTime;
         private int curSoundTime;
         private string curPreAnim;
+        private bool readyToPresent = false;
         //global brushes with ordinary/selected colors
         private SolidBrush reportsForegroundBrushSelected = new SolidBrush(Color.White);
         private SolidBrush reportsForegroundBrush = new SolidBrush(Color.Black);
@@ -74,6 +76,7 @@ namespace Client
         private SolidBrush reportsBackgroundBrushGreen = new SolidBrush(Color.LightGreen);
         private SolidBrush reportsBackgroundBrushRed = new SolidBrush(Color.Red);
         private AboutBox AboutForm = new AboutBox();
+        private PrivateFontCollection fonts = new PrivateFontCollection();
         #endregion
 
         #region constructor
@@ -117,7 +120,11 @@ namespace Client
             btn_holdit.Visible = true;
             btn_takethat.Image = Image.FromFile("base/misc/btn_takethat_off.png");
             btn_takethat.Visible = true;
+            btn_back.Parent = courtRecordPB;
+            btn_present.Parent = courtRecordPB;
 
+            crTitle.BackColor = Color.Transparent;
+            crTitle.Parent = courtRecordPB;
             courtRecordPB.Controls.Add(evi1);
             courtRecordPB.Controls.Add(evi2);
             courtRecordPB.Controls.Add(evi3);
@@ -169,6 +176,8 @@ namespace Client
                 btn_proplus.Enabled = false;
                 txtLog.Size = new Size(240, 347);
             }
+
+            fonts.AddFontFile("base/misc/Ace-Attorney-2.ttf");
 
             musicList.Items.Clear();
 
@@ -901,10 +910,7 @@ namespace Client
                 }
             }
             //dispTextRedraw.Enabled = true;
-            if (iniParser.GetDispName(latestMsg.strName) != null)
-                nameLabel.Text = iniParser.GetDispName(latestMsg.strName);
-            else
-                nameLabel.Text = latestMsg.strName;
+            nameLabel.Text = iniParser.GetDispName(latestMsg.strName) ?? latestMsg.strName;
             //blipPlayer.Initialize(blipReader);
             blipPlayer.Stop();
             blipPlayer.Play();
@@ -1198,7 +1204,7 @@ namespace Client
                     break;
             }
         }
-        
+
         private void arrowLeft_Click(object sender, EventArgs e)
         {
             emoPage--;
@@ -1519,8 +1525,104 @@ namespace Client
                 IndexButton button = sender as IndexButton;
                 if (button.Visible == true & button.Enabled == true)
                 {
-                    selectedEvidence = button.Index;
-                    //showEvidenceInfo(button.Index);
+                    readyToPresent = true;
+                    btn_back.Image = Image.FromFile("base/misc/btn_back.png");
+                    btn_present.Image = Image.FromFile("base/misc/btn_present.png");
+                    selectedEvidence = button.Index - 1;
+                    showEvidenceInfo();
+                }
+            }
+        }
+
+        private void showEvidenceInfo()
+        {
+            foreach (Control ctrl in courtRecordPB.Controls)
+            {
+                if (ctrl is IndexButton)
+                    ctrl.Visible = false;
+            }
+            PictureBox infoBox = new PictureBox();
+            infoBox.Name = "infoBox";
+            infoBox.Parent = courtRecordPB;
+            infoBox.Location = new Point(30, 77);
+            infoBox.Size = new Size(440, 222);
+            infoBox.Image = Image.FromFile("base/misc/inventory_disp.png");
+
+            PictureBox icon = new PictureBox();
+            icon.Name = "icon";
+            icon.Parent = infoBox;
+            icon.Location = new Point(10, 16);
+            icon.Size = new Size(70, 70);
+            icon.Image = eviList[selectedEvidence].icon;
+
+            Label eviName = new Label();
+            eviName.Name = "eviName";
+            eviName.Parent = infoBox;
+            eviName.Location = new Point(90, 9);
+            eviName.AutoSize = false;
+            eviName.TextAlign = ContentAlignment.MiddleCenter;
+            eviName.Size = new Size(338, 17);
+            eviName.BackColor = Color.Transparent;
+            eviName.ForeColor = Color.DarkOrange;
+            eviName.Font = new Font(fonts.Families[0], 12.0f);
+            eviName.Text = eviList[selectedEvidence].name;
+
+            Label eviNote = new Label();
+            eviNote.Name = "eviNote";
+            eviNote.Parent = infoBox;
+            eviNote.Location = new Point(95, 31);
+            eviNote.AutoSize = false;
+            eviNote.TextAlign = ContentAlignment.TopLeft;
+            eviNote.Size = new Size(332, 62);
+            eviNote.BackColor = Color.Transparent;
+            eviNote.ForeColor = Color.Black;
+            eviNote.Font = new Font(fonts.Families[0], 12.0f);
+            if (eviList[selectedEvidence].note != "")
+                eviNote.Text = "Type: Evidence\r\n" + eviList[selectedEvidence].note;
+            else
+                eviNote.Text = "Type: Evidence\r\nSubmitted by the judge."; // somewhat redundant
+
+            Label eviDesc = new Label();
+            eviDesc.Name = "eviDesc";
+            eviDesc.Parent = infoBox;
+            eviDesc.Location = new Point(5, 110);
+            eviDesc.AutoSize = false;
+            eviDesc.TextAlign = ContentAlignment.TopLeft;
+            eviDesc.Size = new Size(434, 112);
+            eviDesc.BackColor = Color.Transparent;
+            eviDesc.ForeColor = Color.White;
+            eviDesc.Font = new Font(fonts.Families[0], 12.0f);
+            eviDesc.Text = eviList[selectedEvidence].desc;
+
+
+            //evidencePanel.Controls.Add(infoBox);
+        }
+
+        private void btn_present_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btn_back_Click(object sender, EventArgs e)
+        {
+            readyToPresent = false;
+            btn_back.Image = Image.FromFile("base/misc/btn_back_off.png");
+            btn_present.Image = Image.FromFile("base/misc/btn_present_off.png");
+
+            int nIndex = 0;
+            foreach (Control ctrl in courtRecordPB.Controls)
+            {
+                if (ctrl.Name == "infoBox" | ctrl.Name == "icon" | ctrl.Name == "eviName" | ctrl.Name == "eviDesc" | ctrl.Name == "eviNote")
+                    ctrl.Dispose();
+
+                if (ctrl is IndexButton)
+                {
+                    nIndex++;
+                    if (nIndex + (18 * eviPage) <= eviCount)
+                    {
+                        ctrl.Enabled = true;
+                        ctrl.Visible = true;
+                    }
                 }
             }
         }
@@ -1633,10 +1735,11 @@ namespace Client
     class EviData
     {
         //Default constructor
-        public EviData(string name, string desc)
+        public EviData(string name, string desc, string note)
         {
             cmdCommand = Command.Evidence;
             strName = name;
+            strNote = note;
             strDesc = desc;
         }
 
@@ -1651,21 +1754,28 @@ namespace Client
 
             int descLen = BitConverter.ToInt32(data, 8);
 
-            dataSize = BitConverter.ToInt32(data, 12);
+            int noteLen = BitConverter.ToInt32(data, 12);
+
+            dataSize = BitConverter.ToInt32(data, 16);
 
             //This check makes sure that strName has been passed in the array of bytes
             if (nameLen > 0)
-                strName = Encoding.UTF8.GetString(data, 16, nameLen);
+                strName = Encoding.UTF8.GetString(data, 20, nameLen);
             else
                 strName = null;
 
             if (descLen > 0)
-                strDesc = Encoding.UTF8.GetString(data, 16 + nameLen, descLen);
+                strDesc = Encoding.UTF8.GetString(data, 20 + nameLen, descLen);
             else
-                strDesc= null;
+                strDesc = null;
+
+            if (noteLen > 0)
+                strNote = Encoding.UTF8.GetString(data, 20 + nameLen + descLen, noteLen);
+            else
+                strNote = null;
 
             if (dataSize > 0)
-                dataBytes = data.Skip(16 + nameLen + descLen).ToArray();
+                dataBytes = data.Skip(20 + nameLen + descLen + noteLen).ToArray();
             else
                 dataBytes = null;
         }
@@ -1685,6 +1795,11 @@ namespace Client
             if (strDesc != null)
                 result.AddRange(BitConverter.GetBytes(strDesc.Length));
 
+            if (strNote != null)
+                result.AddRange(BitConverter.GetBytes(strNote.Length));
+            else
+                result.AddRange(BitConverter.GetBytes("Submitted by the judge.".Length));
+
             if (dataBytes != null)
                 result.AddRange(BitConverter.GetBytes(dataBytes.Length));
 
@@ -1695,6 +1810,8 @@ namespace Client
             if (strDesc != null)
                 result.AddRange(Encoding.UTF8.GetBytes(strDesc));
 
+            result.AddRange(Encoding.UTF8.GetBytes(strNote ?? "Submitted by the judge."));
+
             result.AddRange(dataBytes);
 
             return result.ToArray();
@@ -1702,6 +1819,7 @@ namespace Client
 
         public string strName;      //Name and path of the file being sent/received
         public string strDesc;
+        public string strNote;
         public int dataSize;
         public byte[] dataBytes;
         public Command cmdCommand;  //Command type (login, logout, send message, etcetera)
@@ -1711,6 +1829,7 @@ namespace Client
     {
         public string name;
         public string desc;
+        public string note;
         public Image icon;
     }
 }
