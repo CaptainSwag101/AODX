@@ -880,7 +880,7 @@ namespace Client
                     if (!mute)
                         sfxPlayer.Play();
 
-                    System.Threading.Thread.Sleep(2800);
+                    System.Threading.Thread.Sleep(3500);
                     break;
 
                 case 5:
@@ -896,7 +896,7 @@ namespace Client
 
                     System.Threading.Thread.Sleep(1200);
                     sfxPlayer.Stop();
-                    System.Threading.Thread.Sleep(300);
+                    System.Threading.Thread.Sleep(800);
 
                     break;
             }
@@ -1811,9 +1811,23 @@ namespace Client
             if (readyToPresent && btn_edit.Visible & btn_edit.Enabled)
             {
                 EvidenceEditor editor = new EvidenceEditor();
+                editor.evidence = eviList;
                 if (editor.ShowDialog() == DialogResult.OK)
                 {
-
+                    int index = 0;
+                    foreach (Evidence item in editor.evidence)
+                    {
+                        if (item.Equals(eviList[index]))
+                        {
+                            EviData msgToSend = new EviData(item.name, item.desc, item.note);
+                            var ms = new MemoryStream();
+                            item.icon.Save(ms, item.icon.RawFormat);
+                            msgToSend.dataBytes = ms.ToArray();
+                            byte[] msg = msgToSend.ToByte();
+                            clientSocket.BeginSend(msg, 0, msg.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+                        }
+                        index++;
+                    }
                 }
             }
         }

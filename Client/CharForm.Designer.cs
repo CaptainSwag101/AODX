@@ -35,6 +35,9 @@
             // 
             // lb_CharList
             // 
+            this.lb_CharList.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lb_CharList.FormattingEnabled = true;
             this.lb_CharList.Location = new System.Drawing.Point(12, 12);
             this.lb_CharList.Name = "lb_CharList";
@@ -44,6 +47,8 @@
             // 
             // btn_Login
             // 
+            this.btn_Login.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.btn_Login.Location = new System.Drawing.Point(13, 218);
             this.btn_Login.Name = "btn_Login";
             this.btn_Login.Size = new System.Drawing.Size(259, 31);
@@ -61,6 +66,9 @@
             this.Controls.Add(this.btn_Login);
             this.Controls.Add(this.lb_CharList);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.MinimumSize = new System.Drawing.Size(300, 300);
             this.Name = "CharForm";
             this.Text = "CharForm";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CharForm_FormClosing);

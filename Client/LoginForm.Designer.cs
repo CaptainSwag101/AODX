@@ -180,7 +180,7 @@ namespace Client
             // 
             // serverDescTextBox
             // 
-            this.serverDescTextBox.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.serverDescTextBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(152)))), ((int)(((byte)(184)))), ((int)(((byte)(160)))));
             this.serverDescTextBox.Location = new System.Drawing.Point(340, 140);
             this.serverDescTextBox.Name = "serverDescTextBox";
             this.serverDescTextBox.Size = new System.Drawing.Size(164, 244);

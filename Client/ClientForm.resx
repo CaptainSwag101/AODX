@@ -4607,6 +4607,9 @@ YOU MUST CONSTRUCT ADDITIONAL PYLONS.</value>
         AAAAAAAAAAAAAAAAAAAAAAAA
 </value>
   </data>
+  <data name="$this.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
+    <value>NoControl</value>
+  </data>
   <data name="$this.MinimumSize" type="System.Drawing.Size, System.Drawing">
     <value>794, 742</value>
   </data>
