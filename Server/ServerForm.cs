@@ -193,7 +193,7 @@ namespace Server
                 if (!isClosing & receiveSocket.Connected)
                 {
                     //If the masterserver is requesting our info (description, user count, etc.)
-                    if (byteData[0] == 101)
+                    if (byteData[0] == 101 | receiveSocket.RemoteEndPoint == masterSocket.RemoteEndPoint)
                     {
                         sendServerInfo(masterSocket);
                         masterSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), masterSocket);
@@ -249,7 +249,8 @@ namespace Server
                         //System.Threading.Thread.Sleep(3000);
                         receiveSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), receiveSocket);
                     }
-                    else if (byteData[0] == 0 | byteData[0] == 1 | byteData[0] == 2 | byteData[0] == 3 | byteData[0] == 4 | byteData[0] == 5 | byteData[0] == 6 | byteData[0] == 7 | byteData[0] == 10 | byteData[0] == 11 | byteData[0] == 12)
+                    //else if (byteData[0] == 0 | byteData[0] == 1 | byteData[0] == 2 | byteData[0] == 3 | byteData[0] == 4 | byteData[0] == 5 | byteData[0] == 6 | byteData[0] == 7 | byteData[0] == 10 | byteData[0] == 11 | byteData[0] == 12)
+                    else if (receiveSocket.RemoteEndPoint != masterSocket.RemoteEndPoint)
                         parseMessage(receiveSocket);
                     else
                     {

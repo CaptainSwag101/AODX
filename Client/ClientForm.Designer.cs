@@ -93,10 +93,6 @@ namespace Client
             this.evi8 = new Client.IndexButton();
             this.evi7 = new Client.IndexButton();
             this.evi6 = new Client.IndexButton();
-            this.evi5 = new Client.IndexButton();
-            this.evi4 = new Client.IndexButton();
-            this.evi3 = new Client.IndexButton();
-            this.evi2 = new Client.IndexButton();
             this.emoButton10 = new Client.IndexButton();
             this.emoButton9 = new Client.IndexButton();
             this.emoButton8 = new Client.IndexButton();
@@ -107,6 +103,10 @@ namespace Client
             this.emoButton3 = new Client.IndexButton();
             this.emoButton2 = new Client.IndexButton();
             this.emoButton1 = new Client.IndexButton();
+            this.evi5 = new Client.IndexButton();
+            this.evi4 = new Client.IndexButton();
+            this.evi3 = new Client.IndexButton();
+            this.evi2 = new Client.IndexButton();
             this.menuStrip.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.arrowRight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.arrowLeft)).BeginInit();
@@ -152,10 +152,6 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.evi8)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.evi7)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.evi6)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.evi5)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.evi4)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.evi3)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.evi2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emoButton10)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emoButton9)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emoButton8)).BeginInit();
@@ -166,6 +162,10 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.emoButton3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emoButton2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.emoButton1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi5)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi4)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi3)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi2)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip
@@ -682,38 +682,6 @@ namespace Client
             this.evi6.TabStop = false;
             this.evi6.Click += new System.EventHandler(this.eviButton_Click);
             // 
-            // evi5
-            // 
-            this.evi5.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.evi5, "evi5");
-            this.evi5.Name = "evi5";
-            this.evi5.TabStop = false;
-            this.evi5.Click += new System.EventHandler(this.eviButton_Click);
-            // 
-            // evi4
-            // 
-            this.evi4.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.evi4, "evi4");
-            this.evi4.Name = "evi4";
-            this.evi4.TabStop = false;
-            this.evi4.Click += new System.EventHandler(this.eviButton_Click);
-            // 
-            // evi3
-            // 
-            this.evi3.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.evi3, "evi3");
-            this.evi3.Name = "evi3";
-            this.evi3.TabStop = false;
-            this.evi3.Click += new System.EventHandler(this.eviButton_Click);
-            // 
-            // evi2
-            // 
-            this.evi2.BackColor = System.Drawing.Color.Transparent;
-            resources.ApplyResources(this.evi2, "evi2");
-            this.evi2.Name = "evi2";
-            this.evi2.TabStop = false;
-            this.evi2.Click += new System.EventHandler(this.eviButton_Click);
-            // 
             // emoButton10
             // 
             resources.ApplyResources(this.emoButton10, "emoButton10");
@@ -794,6 +762,38 @@ namespace Client
             this.emoButton1.TabStop = false;
             this.emoButton1.Click += new System.EventHandler(this.emoButton_Click);
             // 
+            // evi5
+            // 
+            this.evi5.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi5, "evi5");
+            this.evi5.Name = "evi5";
+            this.evi5.TabStop = false;
+            this.evi5.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi4
+            // 
+            this.evi4.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi4, "evi4");
+            this.evi4.Name = "evi4";
+            this.evi4.TabStop = false;
+            this.evi4.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi3
+            // 
+            this.evi3.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi3, "evi3");
+            this.evi3.Name = "evi3";
+            this.evi3.TabStop = false;
+            this.evi3.Click += new System.EventHandler(this.eviButton_Click);
+            // 
+            // evi2
+            // 
+            this.evi2.BackColor = System.Drawing.Color.Transparent;
+            resources.ApplyResources(this.evi2, "evi2");
+            this.evi2.Name = "evi2";
+            this.evi2.TabStop = false;
+            this.evi2.Click += new System.EventHandler(this.eviButton_Click);
+            // 
             // ClientForm
             // 
             resources.ApplyResources(this, "$this");
@@ -873,10 +873,6 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.evi8)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.evi7)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.evi6)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.evi5)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.evi4)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.evi3)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.evi2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emoButton10)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emoButton9)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emoButton8)).EndInit();
@@ -887,6 +883,10 @@ namespace Client
             ((System.ComponentModel.ISupportInitialize)(this.emoButton3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emoButton2)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.emoButton1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi5)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi4)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi3)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.evi2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 

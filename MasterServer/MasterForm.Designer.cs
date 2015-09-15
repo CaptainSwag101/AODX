@@ -62,7 +62,7 @@
             // refreshStatsTimer
             // 
             this.refreshStatsTimer.Enabled = true;
-            this.refreshStatsTimer.Interval = 5000;
+            this.refreshStatsTimer.Interval = 300000;
             this.refreshStatsTimer.Tick += new System.EventHandler(this.refreshStatsTimer_Tick);
             // 
             // statusStrip1

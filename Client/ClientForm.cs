@@ -616,6 +616,7 @@ namespace Client
                         eviList.Add(evi);
 
                     testimonyPB.Location = new Point(257, 3);
+                    testimonyPB.BringToFront();
                     PictureBox icon = new PictureBox();
                     icon.Image = evi.icon;
                     icon.Location = new Point(6, 5);

@@ -111,6 +111,7 @@
             this.descTB.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(116)))), ((int)(((byte)(92)))));
             this.descTB.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.descTB.Font = new System.Drawing.Font("Ace Attorney 2", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.descTB.ForeColor = System.Drawing.Color.White;
             this.descTB.Location = new System.Drawing.Point(10, 110);
             this.descTB.Multiline = true;
             this.descTB.Name = "descTB";
