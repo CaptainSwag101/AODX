@@ -56,7 +56,7 @@ namespace Server
 
         private bool isClosing = false;
 
-        byte[] byteData = new byte[1024];
+        byte[] byteData = new byte[1048576];
         byte[] allData;
 
         public ServerForm()
@@ -240,13 +240,16 @@ namespace Server
                         {
                             client.socket.BeginSend(msgToSend, 0, msgToSend.Length, SocketFlags.None, new AsyncCallback(OnSend), client.socket);
                         }
-                        byteData = new byte[1024];
+                        byteData = new byte[1048576];
 
                         //System.Threading.Thread.Sleep(3000);
                         receiveSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), receiveSocket);
                     }
-                    else
+                    else if (byteData[0] == 0 | byteData[0] == 1 | byteData[0] == 2 | byteData[0] == 3 | byteData[0] == 4 | byteData[0] == 5 | byteData[0] == 6 | byteData[0] == 7 | byteData[0] == 10 | byteData[0] == 11 | byteData[0] == 12)
                         parseMessage(receiveSocket);
+                    else
+                        //TO DO: Look into this, something is definitely wrong when we receive 2 or 3 garbage messages from clients every time they present evidence!!!
+                        receiveSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), receiveSocket);
                 }
             }
             catch (SocketException)
@@ -336,6 +339,12 @@ namespace Server
                         case Command.Login:
                             //When a user logs in to the server then we add her to our
                             //list of clients
+
+                            if (msgReceived.strName == null || msgReceived.strName == "")
+                            {
+                                clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), clientSocket);
+                                return;
+                            }
 
                             ClientInfo clientInfo = new ClientInfo();
                             clientInfo.socket = clientSocket;

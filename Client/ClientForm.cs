@@ -202,7 +202,7 @@ namespace Client
             loadEviButtons();
 
             //byteData = new byte[incomingSize];
-            byteData = new byte[1024];
+            byteData = new byte[1048576];
 
             //The user has logged into the system so we now request the server to send
             //the names of all users who are in the chat room
@@ -214,7 +214,7 @@ namespace Client
 
             clientSocket.BeginSend(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
 
-            byteData = new byte[1024];
+            byteData = new byte[1048576];
 
             //Start listening to the data asynchronously
             clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), null);
@@ -620,21 +620,50 @@ namespace Client
                     icon.Location = new Point(6, 5);
                     icon.Size = new Size(70, 70);
                     icon.BringToFront();
+                    testimonyPB.Invoke((MethodInvoker)delegate
+                    {
+                        //perform on the UI thread
+                        testimonyPB.Controls.Add(icon);
+                    });
                     Label name = new Label();
                     name.Text = evi.name;
                     name.Location = new Point(91, 8);
                     name.Size = new Size(155, 17);
+                    name.TextAlign = ContentAlignment.MiddleCenter;
+                    name.ForeColor = Color.DarkOrange;
+                    name.BackColor = Color.Transparent;
+                    //name.Font = new Font(fonts.Families[0], 12.0f, FontStyle.Bold);
                     name.BringToFront();
+                    testimonyPB.Invoke((MethodInvoker)delegate
+                    {
+                        //perform on the UI thread
+                        testimonyPB.Controls.Add(name);
+                    });
                     Label note = new Label();
                     note.Text = evi.note;
                     note.Location = new Point(92, 26);
                     note.Size = new Size(153, 44);
+                    //note.Font = new Font(fonts.Families[0], 12.0f);
+                    note.BackColor = Color.Transparent;
                     note.BringToFront();
+                    testimonyPB.Invoke((MethodInvoker)delegate
+                    {
+                        //perform on the UI thread
+                        testimonyPB.Controls.Add(note);
+                    });
                     Label desc = new Label();
                     desc.Text = evi.desc;
                     desc.Location = new Point(9, 81);
                     desc.Size = new Size(238, 45);
+                    //desc.Font = new Font(fonts.Families[0], 12.0f);
+                    desc.BackColor = Color.Transparent;
+                    desc.ForeColor = Color.White;
                     desc.BringToFront();
+                    testimonyPB.Invoke((MethodInvoker)delegate
+                    {
+                        //perform on the UI thread
+                        testimonyPB.Controls.Add(desc);
+                    });
                     testimonyPB.Size = new Size(256, 127);
                     testimonyPB.Image = Image.FromFile("base/misc/inventory_update.png");
                     wr = new WaveFileReader("base/sounds/general/sfx-selectjingle.wav");
@@ -643,24 +672,32 @@ namespace Client
                     if (!mute)
                         sfxPlayer.Play();
 
-                    for (int x = 0; x < 128; x++)
+                    for (int x = 0; x <= 128; x++)
                     {
                         testimonyPB.Location = new Point(256 - (2 * x), 3);
-                        icon.Location = new Point(256 + 6 - (2 * x), 3 + 5);
-                        name.Location = new Point(256 + 91 - (2 * x), 3 + 8);
-                        note.Location = new Point(256 + 92 - (2 * x), 3 + 26);
-                        desc.Location = new Point(256 + 9 - (2 * x), 3 + 81);
+                        //icon.Location = new Point(256 + 6 - (2 * x), 3 + 5);
+                        //name.Location = new Point(256 + 91 - (2 * x), 3 + 8);
+                        //note.Location = new Point(256 + 92 - (2 * x), 3 + 26);
+                        //desc.Location = new Point(256 + 9 - (2 * x), 3 + 81);
+                        icon.Refresh();
+                        name.Refresh();
+                        note.Refresh();
+                        desc.Refresh();
                     }
 
                     System.Threading.Thread.Sleep(3000);
 
-                    for (int x = 0; x < 128; x++)
+                    for (int x = 0; x <= 128; x++)
                     {
                         testimonyPB.Location = new Point(0 - (2 * x), 3);
-                        icon.Location = new Point(6 - (2 * x), 3 + 5);
-                        name.Location = new Point(91 - (2 * x), 3 + 8);
-                        note.Location = new Point(92 - (2 * x), 3 + 26);
-                        desc.Location = new Point(9 - (2 * x), 3 + 81);
+                        //icon.Location = new Point(6 - (2 * x), 3 + 5);
+                        //name.Location = new Point(91 - (2 * x), 3 + 8);
+                        //note.Location = new Point(92 - (2 * x), 3 + 26);
+                        //desc.Location = new Point(9 - (2 * x), 3 + 81);
+                        icon.Refresh();
+                        name.Refresh();
+                        note.Refresh();
+                        desc.Refresh();
                     }
 
                     testimonyPB.Image = null;
@@ -852,12 +889,12 @@ namespace Client
                             msgToSend.cmdCommand = Command.Login;
                             msgToSend.strName = strName;
 
-                            byteData = new byte[1024];
+                            byteData = new byte[1048576];
                             byteData = msgToSend.ToByte();
 
                             clientSocket.BeginSend(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
 
-                            byteData = new byte[1024];
+                            byteData = new byte[1048576];
                             break;
 
                         case Command.PacketSize:
@@ -871,7 +908,7 @@ namespace Client
                     }
 
                     if (msgReceived.cmdCommand != Command.PacketSize)
-                        byteData = new byte[1024];
+                        byteData = new byte[1048576];
                     else
                         byteData = new byte[Convert.ToInt32(msgReceived.strMessage)];
                 }
