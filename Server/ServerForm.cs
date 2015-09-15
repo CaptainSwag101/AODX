@@ -24,6 +24,7 @@ namespace Server
         ChangeMusic,    //Tells all clients to start playing the selected audio file
         ChangeHealth,
         Evidence,
+        SendEvidence,
         Present,
         Disconnect,
         Null            //No command
@@ -201,6 +202,49 @@ namespace Server
                         receiveSocket.Close();
                     else if (byteData[0] == 8)
                         sendEvidence(receiveSocket);
+                    else if (byteData[0] == 9)
+                    {
+                        EviData msg = new EviData(byteData);
+
+                        Evidence evi = new Evidence();
+                        evi.name = msg.strName;
+                        evi.desc = msg.strDesc;
+                        evi.note = msg.strNote;
+
+                        using (MemoryStream ms = new MemoryStream(msg.dataBytes))
+                        {
+                            evi.icon = Image.FromStream(ms, false, true);
+                        }
+
+                        bool found = false;
+                        foreach (Evidence item in eviList)
+                        {
+                            if (item.Equals(evi))
+                            {
+                                found = true;
+                                item.name = evi.name;
+                                item.note = evi.note;
+                                item.desc = evi.desc;
+                                item.icon = evi.icon;
+                                break;
+                            }
+                        }
+                        if (found == false)
+                            eviList.Add(evi);
+
+                        EviData dat = msg;
+                        dat.cmdCommand = Command.Evidence;
+                        byte[] msgToSend = dat.ToByte();
+
+                        foreach (ClientInfo client in clientList)
+                        {
+                            client.socket.BeginSend(msgToSend, 0, msgToSend.Length, SocketFlags.None, new AsyncCallback(OnSend), client.socket);
+                        }
+                        byteData = new byte[1024];
+
+                        //System.Threading.Thread.Sleep(3000);
+                        receiveSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), receiveSocket);
+                    }
                     else
                         parseMessage(receiveSocket);
                 }

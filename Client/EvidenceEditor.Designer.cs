@@ -35,8 +35,9 @@
             this.iconPB = new System.Windows.Forms.PictureBox();
             this.nameTB = new System.Windows.Forms.TextBox();
             this.noteLabel = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.descTB = new System.Windows.Forms.TextBox();
             this.noteTB = new System.Windows.Forms.TextBox();
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.backgroundPB)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.iconPB)).BeginInit();
             this.SuspendLayout();
@@ -105,17 +106,17 @@
             this.noteLabel.TabIndex = 5;
             this.noteLabel.Text = "Type: Evidence";
             // 
-            // textBox1
+            // descTB
             // 
-            this.textBox1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(116)))), ((int)(((byte)(92)))));
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Font = new System.Drawing.Font("Ace Attorney 2", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(10, 110);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(418, 106);
-            this.textBox1.TabIndex = 6;
-            this.textBox1.Text = "Description";
+            this.descTB.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(116)))), ((int)(((byte)(92)))));
+            this.descTB.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.descTB.Font = new System.Drawing.Font("Ace Attorney 2", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.descTB.Location = new System.Drawing.Point(10, 110);
+            this.descTB.Multiline = true;
+            this.descTB.Name = "descTB";
+            this.descTB.Size = new System.Drawing.Size(418, 106);
+            this.descTB.TabIndex = 6;
+            this.descTB.Text = "Description";
             // 
             // noteTB
             // 
@@ -129,6 +130,12 @@
             this.noteTB.TabIndex = 7;
             this.noteTB.Text = "Note";
             // 
+            // openFileDialog
+            // 
+            this.openFileDialog.DefaultExt = "png";
+            this.openFileDialog.InitialDirectory = "base\\";
+            this.openFileDialog.Title = "Select new image (PNG only)";
+            // 
             // EvidenceEditor
             // 
             this.AcceptButton = this.btn_OK;
@@ -137,7 +144,7 @@
             this.CancelButton = this.btn_Cancel;
             this.ClientSize = new System.Drawing.Size(440, 245);
             this.Controls.Add(this.noteTB);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.descTB);
             this.Controls.Add(this.noteLabel);
             this.Controls.Add(this.nameTB);
             this.Controls.Add(this.iconPB);
@@ -165,7 +172,8 @@
         private System.Windows.Forms.PictureBox iconPB;
         private System.Windows.Forms.TextBox nameTB;
         private System.Windows.Forms.Label noteLabel;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox descTB;
         private System.Windows.Forms.TextBox noteTB;
+        private System.Windows.Forms.OpenFileDialog openFileDialog;
     }
 }

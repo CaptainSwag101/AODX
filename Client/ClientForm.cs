@@ -27,6 +27,7 @@ namespace Client
         ChangeMusic,    //Makes the server tell all clients to start playing the selected audio file
         ChangeHealth,
         Evidence,
+        SendEvidence,
         Present,
         Disconnect,
         Null            //No command
@@ -39,7 +40,7 @@ namespace Client
         public string strName;      //Character that the user is playing as
         public List<string> songs; // = new List<string>();
         public List<Evidence> eviList = new List<Evidence>();
-        private int selectedAnim = 1;
+        public int selectedAnim = 1;
         private int selectedEvidence = 0;
         private byte callout = 0;
         private int colorIndex = 0;
@@ -582,209 +583,298 @@ namespace Client
             try
             {
                 clientSocket.EndReceive(ar);
-                Data msgReceived = new Data(byteData);
 
-                //Accordingly process the message received
-                switch (msgReceived.cmdCommand)
+                if (byteData[0] == 8)
                 {
-                    case Command.Login:
-                        break;
+                    EviData data = new EviData(byteData);
 
-                    case Command.Logout:
-                        break;
+                    Evidence evi = new Evidence();
+                    evi.name = data.strName;
+                    evi.desc = data.strDesc;
+                    evi.note = data.strNote;
 
-                    case Command.ChangeMusic:
-                        if (msgReceived.strMessage != null && msgReceived.strMessage != "" & msgReceived.strName != null)
+                    using (MemoryStream ms = new MemoryStream(data.dataBytes))
+                    {
+                        evi.icon = Image.FromStream(ms, false, true);
+                    }
+
+                    bool found = false;
+                    foreach (Evidence item in eviList)
+                    {
+                        if (item.Equals(evi))
                         {
-                            appendTxtLogSafe("<<<" + msgReceived.strName + " changed the music to " + msgReceived.strMessage + ">>>\r\n");
-                            musicReader = new DmoMp3Decoder("base/sounds/music/" + msgReceived.strMessage);
-
-                            if (musicPlayer.PlaybackState != PlaybackState.Stopped)
-                                musicPlayer.Stop();
-                            musicPlayer.Initialize(musicReader);
-                            if (!mute)
-                                musicPlayer.Play();
+                            found = true;
+                            item.name = evi.name;
+                            item.note = evi.note;
+                            item.desc = evi.desc;
+                            item.icon = evi.icon;
+                            break;
                         }
-                        break;
+                    }
+                    if (found == false)
+                        eviList.Add(evi);
 
-                    case Command.ChangeHealth:
-                        if (msgReceived.strName == "def")
-                        {
-                            if (msgReceived.strMessage == "-1")
-                                defHealth--;
-                            else if (msgReceived.strMessage == "+1")
-                                defHealth++;
-                        }
-                        else if (msgReceived.strName == "pro")
-                        {
-                            if (msgReceived.strMessage == "-1")
-                                proHealth--;
-                            else if (msgReceived.strMessage == "+1")
-                                proHealth++;
-                        }
+                    testimonyPB.Location = new Point(257, 3);
+                    PictureBox icon = new PictureBox();
+                    icon.Image = evi.icon;
+                    icon.Location = new Point(6, 5);
+                    icon.Size = new Size(70, 70);
+                    icon.BringToFront();
+                    Label name = new Label();
+                    name.Text = evi.name;
+                    name.Location = new Point(91, 8);
+                    name.Size = new Size(155, 17);
+                    name.BringToFront();
+                    Label note = new Label();
+                    note.Text = evi.note;
+                    note.Location = new Point(92, 26);
+                    note.Size = new Size(153, 44);
+                    note.BringToFront();
+                    Label desc = new Label();
+                    desc.Text = evi.desc;
+                    desc.Location = new Point(9, 81);
+                    desc.Size = new Size(238, 45);
+                    desc.BringToFront();
+                    testimonyPB.Size = new Size(256, 127);
+                    testimonyPB.Image = Image.FromFile("base/misc/inventory_update.png");
+                    wr = new WaveFileReader("base/sounds/general/sfx-selectjingle.wav");
 
-                        updateHealth();
-                        break;
+                    sfxPlayer.Initialize(wr);
+                    if (!mute)
+                        sfxPlayer.Play();
 
-                    case Command.Message:
-                    case Command.Present:
-                        if (latestMsg != null && msgReceived.strName == latestMsg.strName)
-                        {
-                            newGuy = false;
-                        }
-                        else
-                        {
-                            newGuy = true;
-                            testimonyPB.Image = null;
-                        }
+                    for (int x = 0; x < 128; x++)
+                    {
+                        testimonyPB.Location = new Point(256 - (2 * x), 3);
+                        icon.Location = new Point(256 + 6 - (2 * x), 3 + 5);
+                        name.Location = new Point(256 + 91 - (2 * x), 3 + 8);
+                        note.Location = new Point(256 + 92 - (2 * x), 3 + 26);
+                        desc.Location = new Point(256 + 9 - (2 * x), 3 + 81);
+                    }
 
-                        latestMsg = msgReceived;
-                        objectLayerPB.Image = null;
-                        objectLayerPB.Location = new Point(0, 0);
-                        objectLayerPB.Size = new Size(256, 192);
+                    System.Threading.Thread.Sleep(3000);
 
-                        if (msgReceived.callout <= 3)
-                        {
-                            sendEnabled = false;
-                            curPreAnimTime = 0;
-                            curPreAnimTime = 0;
-                            curPreAnim = null;
-                            soundTime = 0;
-                            curSoundTime = 0;
+                    for (int x = 0; x < 128; x++)
+                    {
+                        testimonyPB.Location = new Point(0 - (2 * x), 3);
+                        icon.Location = new Point(6 - (2 * x), 3 + 5);
+                        name.Location = new Point(91 - (2 * x), 3 + 8);
+                        note.Location = new Point(92 - (2 * x), 3 + 26);
+                        desc.Location = new Point(9 - (2 * x), 3 + 81);
+                    }
 
-                            if (msgReceived.callout > 0)
-                                performCallout();
+                    testimonyPB.Image = null;
+                    name.Dispose();
+                    icon.Dispose();
+                    desc.Dispose();
+                    note.Dispose();
+                }
+                else
+                {
+                    Data msgReceived = new Data(byteData);
 
-                            if (iniParser.GetSoundName(msgReceived.strName, msgReceived.anim) != "1" && iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim) > 0 & File.Exists("base/sounds/general/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav"))
+                    //Accordingly process the message received
+                    switch (msgReceived.cmdCommand)
+                    {
+                        case Command.Login:
+                            break;
+
+                        case Command.Logout:
+                            break;
+
+                        case Command.ChangeMusic:
+                            if (msgReceived.strMessage != null && msgReceived.strMessage != "" & msgReceived.strName != null)
                             {
-                                sfxPlayer.Stop();
-                                wr = new WaveFileReader("base/sounds/general/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav");
-                                sfxPlayer.Initialize(wr);
-                                soundTime = iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim);
+                                appendTxtLogSafe("<<<" + msgReceived.strName + " changed the music to " + msgReceived.strMessage + ">>>\r\n");
+                                musicReader = new DmoMp3Decoder("base/sounds/music/" + msgReceived.strMessage);
+
+                                if (musicPlayer.PlaybackState != PlaybackState.Stopped)
+                                    musicPlayer.Stop();
+                                musicPlayer.Initialize(musicReader);
+                                if (!mute)
+                                    musicPlayer.Play();
+                            }
+                            break;
+
+                        case Command.ChangeHealth:
+                            if (msgReceived.strName == "def")
+                            {
+                                if (msgReceived.strMessage == "-1")
+                                    defHealth--;
+                                else if (msgReceived.strMessage == "+1")
+                                    defHealth++;
+                            }
+                            else if (msgReceived.strName == "pro")
+                            {
+                                if (msgReceived.strMessage == "-1")
+                                    proHealth--;
+                                else if (msgReceived.strMessage == "+1")
+                                    proHealth++;
                             }
 
-                            /*  if (iniParser.GetSoundName(msgReceived.strName, msgReceived.anim) != "1" && iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim) > 0 & (File.Exists("base/sounds/general/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav") | File.Exists("base/characters/" + latestMsg.strName + "/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav")))
-                            {
-                                sfxPlayer.Stop();
-                                if (File.Exists("base/characters/" + latestMsg.strName + "/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav"))
-                                    wr = new WaveFileReader("base/characters/" + latestMsg.strName + "/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav");
-                                else
-                                    wr = new WaveFileReader("base/sounds/general/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav");
-                                sfxPlayer.Initialize(wr);
-                                soundTime = iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim);
-                            } */
+                            updateHealth();
+                            break;
 
-                            if (iniParser.GetAnimType(msgReceived.strName, msgReceived.anim) == 5)
-                                ChangeSides(true);
+                        case Command.Message:
+                        case Command.Present:
+                            if (latestMsg != null && msgReceived.strName == latestMsg.strName)
+                            {
+                                newGuy = false;
+                            }
                             else
-                                ChangeSides();
-
-                            //If there is no pre-animation
-                            if (iniParser.GetAnimType(msgReceived.strName, msgReceived.anim) == 5 | iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim) == null | iniParser.GetPreAnimTime(msgReceived.strName, msgReceived.anim) <= 0)
                             {
-                                charLayerPB.Enabled = true;
-                                setCharSprite("base/characters/" + msgReceived.strName + "/(b)" + iniParser.GetAnim(msgReceived.strName, msgReceived.anim) + ".gif");
-                                if (msgReceived.cmdCommand == Command.Present)
+                                newGuy = true;
+                                testimonyPB.Image = null;
+                            }
+
+                            latestMsg = msgReceived;
+                            objectLayerPB.Image = null;
+                            objectLayerPB.Location = new Point(0, 0);
+                            objectLayerPB.Size = new Size(256, 192);
+
+                            if (msgReceived.callout <= 3)
+                            {
+                                sendEnabled = false;
+                                curPreAnimTime = 0;
+                                curPreAnimTime = 0;
+                                curPreAnim = null;
+                                soundTime = 0;
+                                curSoundTime = 0;
+
+                                if (msgReceived.callout > 0)
+                                    performCallout();
+
+                                if (iniParser.GetSoundName(msgReceived.strName, msgReceived.anim) != "1" && iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim) > 0 & File.Exists("base/sounds/general/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav"))
                                 {
                                     sfxPlayer.Stop();
-                                    wr = new WaveFileReader("base/sounds/general/sfx-shooop.wav");
+                                    wr = new WaveFileReader("base/sounds/general/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav");
                                     sfxPlayer.Initialize(wr);
-                                    if (!mute)
-                                        sfxPlayer.Play();
-
-                                    switch (iniParser.GetSide(msgReceived.strName))
-                                    {
-                                        case "def":
-                                            testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceRight.gif");
-                                            System.Threading.Thread.Sleep(100);
-                                            testimonyPB.Location = new Point(173, 13);
-                                            testimonyPB.Size = new Size(70, 70);
-                                            testimonyPB.Image = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
-                                            break;
-                                        case "pro":
-                                            testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceLeft.gif");
-                                            System.Threading.Thread.Sleep(100);
-                                            testimonyPB.Location = new Point(13, 13);
-                                            testimonyPB.Size = new Size(70, 70);
-                                            testimonyPB.Image = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
-                                            break;
-                                        case "hld":
-                                            testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceLeft.gif");
-                                            System.Threading.Thread.Sleep(100);
-                                            testimonyPB.Location = new Point(13, 13);
-                                            testimonyPB.Size = new Size(70, 70);
-                                            testimonyPB.Image = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
-                                            break;
-                                        case "hlp":
-                                            testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceRight.gif");
-                                            System.Threading.Thread.Sleep(100);
-                                            testimonyPB.Location = new Point(173, 13);
-                                            testimonyPB.Size = new Size(70, 70);
-                                            testimonyPB.Image = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
-                                            break;
-                                        default:
-                                            testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceRight.gif");
-                                            System.Threading.Thread.Sleep(100);
-                                            testimonyPB.Location = new Point(173, 13);
-                                            testimonyPB.Size = new Size(70, 70);
-                                            testimonyPB.Image = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
-                                            break;
-                                    }
-
-                                    msgReceived.strMessage = msgReceived.strMessage.Split('|')[0];
+                                    soundTime = iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim);
                                 }
-                                prepWriteDispBoxes(msgReceived, msgReceived.textColor);
+
+                                /*  if (iniParser.GetSoundName(msgReceived.strName, msgReceived.anim) != "1" && iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim) > 0 & (File.Exists("base/sounds/general/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav") | File.Exists("base/characters/" + latestMsg.strName + "/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav")))
+                                {
+                                    sfxPlayer.Stop();
+                                    if (File.Exists("base/characters/" + latestMsg.strName + "/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav"))
+                                        wr = new WaveFileReader("base/characters/" + latestMsg.strName + "/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav");
+                                    else
+                                        wr = new WaveFileReader("base/sounds/general/" + iniParser.GetSoundName(latestMsg.strName, latestMsg.anim) + ".wav");
+                                    sfxPlayer.Initialize(wr);
+                                    soundTime = iniParser.GetSoundTime(msgReceived.strName, msgReceived.anim);
+                                } */
+
+                                if (iniParser.GetAnimType(msgReceived.strName, msgReceived.anim) == 5)
+                                    ChangeSides(true);
+                                else
+                                    ChangeSides();
+
+                                //If there is no pre-animation
+                                if (iniParser.GetAnimType(msgReceived.strName, msgReceived.anim) == 5 | iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim) == null | iniParser.GetPreAnimTime(msgReceived.strName, msgReceived.anim) <= 0)
+                                {
+                                    charLayerPB.Enabled = true;
+                                    setCharSprite("base/characters/" + msgReceived.strName + "/(b)" + iniParser.GetAnim(msgReceived.strName, msgReceived.anim) + ".gif");
+                                    if (msgReceived.cmdCommand == Command.Present)
+                                    {
+                                        sfxPlayer.Stop();
+                                        wr = new WaveFileReader("base/sounds/general/sfx-shooop.wav");
+                                        sfxPlayer.Initialize(wr);
+                                        if (!mute)
+                                            sfxPlayer.Play();
+
+                                        switch (iniParser.GetSide(msgReceived.strName))
+                                        {
+                                            case "def":
+                                                testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceRight.gif");
+                                                System.Threading.Thread.Sleep(100);
+                                                testimonyPB.Location = new Point(173, 13);
+                                                testimonyPB.Size = new Size(70, 70);
+                                                testimonyPB.Image = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
+                                                break;
+                                            case "pro":
+                                                testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceLeft.gif");
+                                                System.Threading.Thread.Sleep(100);
+                                                testimonyPB.Location = new Point(13, 13);
+                                                testimonyPB.Size = new Size(70, 70);
+                                                testimonyPB.Image = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
+                                                break;
+                                            case "hld":
+                                                testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceLeft.gif");
+                                                System.Threading.Thread.Sleep(100);
+                                                testimonyPB.Location = new Point(13, 13);
+                                                testimonyPB.Size = new Size(70, 70);
+                                                testimonyPB.Image = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
+                                                break;
+                                            case "hlp":
+                                                testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceRight.gif");
+                                                System.Threading.Thread.Sleep(100);
+                                                testimonyPB.Location = new Point(173, 13);
+                                                testimonyPB.Size = new Size(70, 70);
+                                                testimonyPB.Image = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
+                                                break;
+                                            default:
+                                                testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceRight.gif");
+                                                System.Threading.Thread.Sleep(100);
+                                                testimonyPB.Location = new Point(173, 13);
+                                                testimonyPB.Size = new Size(70, 70);
+                                                testimonyPB.Image = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
+                                                break;
+                                        }
+
+                                        msgReceived.strMessage = msgReceived.strMessage.Split('|')[0];
+                                    }
+                                    prepWriteDispBoxes(msgReceived, msgReceived.textColor);
+                                }
+                                else //if there is a pre-animation
+                                {
+                                    //charLayerPB.Enabled = false;
+                                    setCharSprite("base/characters/" + msgReceived.strName + "/" + iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim) + ".gif");
+                                    preAnimTime = iniParser.GetPreAnimTime(msgReceived.strName, msgReceived.anim);
+                                    curPreAnim = iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim);
+                                }
+                                //dispTextRedraw.Enabled = true;
                             }
-                            else //if there is a pre-animation
+                            else
                             {
-                                //charLayerPB.Enabled = false;
-                                setCharSprite("base/characters/" + msgReceived.strName + "/" + iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim) + ".gif");
-                                preAnimTime = iniParser.GetPreAnimTime(msgReceived.strName, msgReceived.anim);
-                                curPreAnim = iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim);
+                                performCallout();
                             }
-                            //dispTextRedraw.Enabled = true;
-                        }
-                        else
-                        {
-                            performCallout();
-                        }
-                        break;
+                            break;
 
-                    case Command.List:
-                        appendTxtLogSafe("<<<" + strName + " has entered the courtroom>>>\r\n");
-                        break;
+                        case Command.List:
+                            appendTxtLogSafe("<<<" + strName + " has entered the courtroom>>>\r\n");
+                            break;
 
-                    case Command.DataInfo:
-                        //Do the stuff with the incoming server data here
+                        case Command.DataInfo:
+                            //Do the stuff with the incoming server data here
 
-                        //The user has logged into the system so we now request the server to send
-                        //the names of all users who are in the chat room
-                        Data msgToSend = new Data();
-                        msgToSend.cmdCommand = Command.Login;
-                        msgToSend.strName = strName;
+                            //The user has logged into the system so we now request the server to send
+                            //the names of all users who are in the chat room
+                            Data msgToSend = new Data();
+                            msgToSend.cmdCommand = Command.Login;
+                            msgToSend.strName = strName;
 
+                            byteData = new byte[1024];
+                            byteData = msgToSend.ToByte();
+
+                            clientSocket.BeginSend(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+
+                            byteData = new byte[1024];
+                            break;
+
+                        case Command.PacketSize:
+                            break;
+                    }
+
+                    if (msgReceived.strMessage != null & msgReceived.cmdCommand == Command.Message | msgReceived.cmdCommand == Command.Login | msgReceived.cmdCommand == Command.Logout)
+                    {
+                        if (msgReceived.callout <= 3)
+                            appendTxtLogSafe(msgReceived.strMessage + "\r\n");
+                    }
+
+                    if (msgReceived.cmdCommand != Command.PacketSize)
                         byteData = new byte[1024];
-                        byteData = msgToSend.ToByte();
-
-                        clientSocket.BeginSend(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
-
-                        byteData = new byte[1024];
-                        break;
-
-                    case Command.PacketSize:
-                        break;
+                    else
+                        byteData = new byte[Convert.ToInt32(msgReceived.strMessage)];
                 }
-
-                if (msgReceived.strMessage != null & msgReceived.cmdCommand == Command.Message | msgReceived.cmdCommand == Command.Login | msgReceived.cmdCommand == Command.Logout)
-                {
-                    if (msgReceived.callout <= 3)
-                        appendTxtLogSafe(msgReceived.strMessage + "\r\n");
-                }
-
-                if (msgReceived.cmdCommand != Command.PacketSize)
-                    byteData = new byte[1024];
-                else
-                    byteData = new byte[Convert.ToInt32(msgReceived.strMessage)];
 
                 clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), null);
 
@@ -1812,6 +1902,7 @@ namespace Client
             {
                 EvidenceEditor editor = new EvidenceEditor();
                 editor.evidence = eviList;
+                editor.selected = selectedEvidence;
                 if (editor.ShowDialog() == DialogResult.OK)
                 {
                     int index = 0;
@@ -1819,12 +1910,13 @@ namespace Client
                     {
                         if (item.Equals(eviList[index]))
                         {
-                            EviData msgToSend = new EviData(item.name, item.desc, item.note);
+                            EviData msgToSend = new EviData(eviList[index].name, eviList[index].desc, "Type: Evidence\r\n" + eviList[index].note);
                             var ms = new MemoryStream();
-                            item.icon.Save(ms, item.icon.RawFormat);
+                            eviList[index].icon.Save(ms, eviList[index].icon.RawFormat);
                             msgToSend.dataBytes = ms.ToArray();
                             byte[] msg = msgToSend.ToByte();
                             clientSocket.BeginSend(msg, 0, msg.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+                            break;
                         }
                         index++;
                     }
@@ -1942,7 +2034,7 @@ namespace Client
         //Default constructor
         public EviData(string name, string desc, string note)
         {
-            cmdCommand = Command.Evidence;
+            cmdCommand = Command.SendEvidence;
             strName = name;
             strNote = note;
             strDesc = desc;
