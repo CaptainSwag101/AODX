@@ -592,6 +592,7 @@ namespace Client
                     evi.name = data.strName;
                     evi.desc = data.strDesc;
                     evi.note = data.strNote;
+                    evi.index = data.index;
 
                     using (MemoryStream ms = new MemoryStream(data.dataBytes))
                     {
@@ -601,7 +602,7 @@ namespace Client
                     bool found = false;
                     foreach (Evidence item in eviList)
                     {
-                        if (item.Equals(evi))
+                        if (item.index == evi.index)
                         {
                             found = true;
                             item.name = evi.name;
@@ -672,9 +673,9 @@ namespace Client
                     if (!mute)
                         sfxPlayer.Play();
 
-                    for (int x = 0; x <= 128; x++)
+                    for (int x = 0; x <= 64; x++)
                     {
-                        testimonyPB.Location = new Point(256 - (2 * x), 3);
+                        testimonyPB.Location = new Point(256 - (4 * x), 3);
                         //icon.Location = new Point(256 + 6 - (2 * x), 3 + 5);
                         //name.Location = new Point(256 + 91 - (2 * x), 3 + 8);
                         //note.Location = new Point(256 + 92 - (2 * x), 3 + 26);
@@ -687,9 +688,9 @@ namespace Client
 
                     System.Threading.Thread.Sleep(3000);
 
-                    for (int x = 0; x <= 128; x++)
+                    for (int x = 0; x <= 64; x++)
                     {
-                        testimonyPB.Location = new Point(0 - (2 * x), 3);
+                        testimonyPB.Location = new Point(0 - (4 * x), 3);
                         //icon.Location = new Point(6 - (2 * x), 3 + 5);
                         //name.Location = new Point(91 - (2 * x), 3 + 8);
                         //note.Location = new Point(92 - (2 * x), 3 + 26);
@@ -1246,27 +1247,7 @@ namespace Client
                             msgToSend.cmdCommand = Command.Present;
                             msgToSend.strMessage = msgToSend.strMessage + "|" + selectedEvidence;
 
-                            readyToPresent = false;
-                            presenting = false;
-                            btn_back.Image = Image.FromFile("base/misc/btn_back_off.png");
-                            btn_present.Image = Image.FromFile("base/misc/btn_present_off.png");
-
-                            int nIndex = 0;
-                            foreach (Control ctrl in courtRecordPB.Controls)
-                            {
-                                if (ctrl.Name == "infoBox" | ctrl.Name == "icon" | ctrl.Name == "eviName" | ctrl.Name == "eviDesc" | ctrl.Name == "eviNote")
-                                    ctrl.Dispose();
-
-                                if (ctrl is IndexButton)
-                                {
-                                    nIndex++;
-                                    if (nIndex + (18 * eviPage) <= eviCount)
-                                    {
-                                        ctrl.Enabled = true;
-                                        ctrl.Visible = true;
-                                    }
-                                }
-                            }
+                            btn_back_PerformClick();
                         }
 
                         byte[] byteData = msgToSend.ToByte();
@@ -1824,7 +1805,7 @@ namespace Client
                 {
                     readyToPresent = true;
                     btn_back.Image = Image.FromFile("base/misc/btn_back.png");
-                    btn_present.Image = Image.FromFile("base/misc/btn_present.png");
+                    btn_present.Image = Image.FromFile("base/misc/btn_present_off.png");
                     if (btn_edit.Visible)
                         btn_edit.Image = Image.FromFile("base/misc/btn_edit.png");
                     selectedEvidence = button.Index - 1;
@@ -1901,12 +1882,17 @@ namespace Client
         {
             if (readyToPresent)
             {
-                btn_present.Image = Image.FromFile("base/misc/btn_present_off.png");
+                btn_present.Image = Image.FromFile("base/misc/btn_present.png");
                 presenting = true;
             }
         }
 
         private void btn_back_Click(object sender, EventArgs e)
+        {
+            btn_back_PerformClick();
+        }
+
+        private void btn_back_PerformClick()
         {
             readyToPresent = false;
             presenting = false;
@@ -1945,14 +1931,16 @@ namespace Client
                     int index = 0;
                     foreach (Evidence item in editor.evidence)
                     {
-                        if (item.Equals(eviList[index]))
+                        if (item.index == selectedEvidence)
                         {
-                            EviData msgToSend = new EviData(eviList[index].name, eviList[index].desc, "Type: Evidence\r\n" + eviList[index].note);
+                            //EviData msgToSend = new EviData(eviList[index].name, eviList[index].desc, "Type: Evidence\r\n" + eviList[index].note, eviList[index].index);
+                            EviData msgToSend = new EviData(item.name, item.desc, item.note, item.index);
                             var ms = new MemoryStream();
-                            eviList[index].icon.Save(ms, eviList[index].icon.RawFormat);
+                            item.icon.Save(ms, item.icon.RawFormat);
                             msgToSend.dataBytes = ms.ToArray();
                             byte[] msg = msgToSend.ToByte();
                             clientSocket.BeginSend(msg, 0, msg.Length, SocketFlags.None, new AsyncCallback(OnSend), null);
+                            btn_back_PerformClick();
                             break;
                         }
                         index++;
@@ -2069,12 +2057,13 @@ namespace Client
     class EviData
     {
         //Default constructor
-        public EviData(string name, string desc, string note)
+        public EviData(string name, string desc, string note, int i)
         {
             cmdCommand = Command.SendEvidence;
             strName = name;
             strNote = note;
             strDesc = desc;
+            index = i;
         }
 
         //Converts the bytes into an object of type Data
@@ -2083,33 +2072,35 @@ namespace Client
             //The first four bytes are for the Command
             cmdCommand = (Command)BitConverter.ToInt32(data, 0);
 
+            index = BitConverter.ToInt32(data, 4);
+
             //The next four store the length of the name
-            int nameLen = BitConverter.ToInt32(data, 4);
+            int nameLen = BitConverter.ToInt32(data, 8);
 
-            int descLen = BitConverter.ToInt32(data, 8);
+            int descLen = BitConverter.ToInt32(data, 12);
 
-            int noteLen = BitConverter.ToInt32(data, 12);
+            int noteLen = BitConverter.ToInt32(data, 16);
 
-            dataSize = BitConverter.ToInt32(data, 16);
+            dataSize = BitConverter.ToInt32(data, 20);
 
             //This check makes sure that strName has been passed in the array of bytes
             if (nameLen > 0)
-                strName = Encoding.UTF8.GetString(data, 20, nameLen);
+                strName = Encoding.UTF8.GetString(data, 24, nameLen);
             else
                 strName = null;
 
             if (descLen > 0)
-                strDesc = Encoding.UTF8.GetString(data, 20 + nameLen, descLen);
+                strDesc = Encoding.UTF8.GetString(data, 24 + nameLen, descLen);
             else
                 strDesc = null;
 
             if (noteLen > 0)
-                strNote = Encoding.UTF8.GetString(data, 20 + nameLen + descLen, noteLen);
+                strNote = Encoding.UTF8.GetString(data, 24 + nameLen + descLen, noteLen);
             else
                 strNote = null;
 
             if (dataSize > 0)
-                dataBytes = data.Skip(20 + nameLen + descLen + noteLen).ToArray();
+                dataBytes = data.Skip(24 + nameLen + descLen + noteLen).ToArray();
             else
                 dataBytes = null;
         }
@@ -2121,6 +2112,8 @@ namespace Client
 
             //First four are for the Command
             result.AddRange(BitConverter.GetBytes((int)cmdCommand));
+
+            result.AddRange(BitConverter.GetBytes(index));
 
             //Add the length of the name
             if (strName != null)
@@ -2154,6 +2147,7 @@ namespace Client
         public string strName;      //Name and path of the file being sent/received
         public string strDesc;
         public string strNote;
+        public int index;
         public int dataSize;
         public byte[] dataBytes;
         public Command cmdCommand;  //Command type (login, logout, send message, etcetera)
@@ -2164,6 +2158,7 @@ namespace Client
         public string name;
         public string desc;
         public string note;
+        public int index;
         public Image icon;
     }
 }

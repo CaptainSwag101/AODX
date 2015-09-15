@@ -212,6 +212,7 @@ namespace Client
                     evi.name = msg.strName;
                     evi.desc = msg.strDesc;
                     evi.note = msg.strNote;
+                    evi.index = msg.index;
 
                     using (MemoryStream ms = new MemoryStream(msg.dataBytes))
                     {

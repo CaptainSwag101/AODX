@@ -31,6 +31,10 @@ namespace Client
 
         private void btn_OK_Click(object sender, EventArgs e)
         {
+            evidence[selected].name = nameTB.Text;
+            evidence[selected].note = noteTB.Text;
+            evidence[selected].desc = descTB.Text;
+            evidence[selected].icon = iconPB.Image;
             DialogResult = DialogResult.OK;
             Close();
         }

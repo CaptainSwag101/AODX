@@ -27,7 +27,7 @@ namespace Server
             }
             else
             {
-                MessageBox.Show("An instance of the masterserver is already running.","AODXServer");
+                MessageBox.Show("An instance of the server is already running.","AODXServer");
             }
         }
     }

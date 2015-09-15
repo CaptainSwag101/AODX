@@ -168,7 +168,10 @@ namespace Server
                                         }
 
                                         if (!found)
+                                        {
+                                            evi.index = evidence.Count;
                                             evidence.Add(evi);
+                                        }
 
                                         break;
 
@@ -211,7 +214,10 @@ namespace Server
                                         }
 
                                         if (!found2)
+                                        {
+                                            evi.index = evidence.Count;
                                             evidence.Add(evi);
+                                        }
 
                                         break;
                                 }
@@ -255,7 +261,10 @@ namespace Server
                                             }
 
                                             if (!found)
+                                            {
+                                                evi.index = evidence.Count;
                                                 evidence.Add(evi);
+                                            }
 
                                             evi = null;
 
@@ -301,7 +310,10 @@ namespace Server
                                             }
 
                                             if (!found2)
+                                            {
+                                                evi.index = evidence.Count;
                                                 evidence.Add(evi);
+                                            }
 
                                             evi = null;
                                             break;

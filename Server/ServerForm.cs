@@ -210,6 +210,7 @@ namespace Server
                         evi.name = msg.strName;
                         evi.desc = msg.strDesc;
                         evi.note = msg.strNote;
+                        evi.index = msg.index;
 
                         using (MemoryStream ms = new MemoryStream(msg.dataBytes))
                         {
@@ -219,7 +220,7 @@ namespace Server
                         bool found = false;
                         foreach (Evidence item in eviList)
                         {
-                            if (item.Equals(evi))
+                            if (item.index == evi.index)
                             {
                                 found = true;
                                 item.name = evi.name;
@@ -230,7 +231,10 @@ namespace Server
                             }
                         }
                         if (found == false)
+                        {
+                            evi.index = eviList.Count;
                             eviList.Add(evi);
+                        }
 
                         EviData dat = msg;
                         dat.cmdCommand = Command.Evidence;
@@ -248,8 +252,11 @@ namespace Server
                     else if (byteData[0] == 0 | byteData[0] == 1 | byteData[0] == 2 | byteData[0] == 3 | byteData[0] == 4 | byteData[0] == 5 | byteData[0] == 6 | byteData[0] == 7 | byteData[0] == 10 | byteData[0] == 11 | byteData[0] == 12)
                         parseMessage(receiveSocket);
                     else
+                    {
                         //TO DO: Look into this, something is definitely wrong when we receive 2 or 3 garbage messages from clients every time they present evidence!!!
+                        appendTxtLogSafe("<<" + receiveSocket.RemoteEndPoint.ToString() + " send an invalid packet with the first byte: " + byteData[0] + ">>\r\n");
                         receiveSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), receiveSocket);
+                    }
                 }
             }
             catch (SocketException)
@@ -291,7 +298,7 @@ namespace Server
         {
             foreach (Evidence evi in eviList)
             {
-                EviData dat = new EviData(evi.name, evi.desc, evi.note, evi.icon);
+                EviData dat = new EviData(evi.name, evi.desc, evi.note, evi.icon, evi.index);
                 byte[] msg = dat.ToByte();
                 sendHere.BeginSend(msg, 0, msg.Length, SocketFlags.None, new AsyncCallback(OnSend), sendHere);
                 System.Threading.Thread.Sleep(100);
@@ -342,6 +349,7 @@ namespace Server
 
                             if (msgReceived.strName == null || msgReceived.strName == "")
                             {
+                                appendTxtLogSafe("<<" + clientSocket.RemoteEndPoint.ToString() + " send an invalid Login packet>>\r\n");
                                 clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), clientSocket);
                                 return;
                             }
@@ -1005,12 +1013,13 @@ namespace Server
     class EviData
     {
         //Default constructor
-        public EviData(string name, string desc, string note, Image icon)
+        public EviData(string name, string desc, string note, Image icon, int i)
         {
             cmdCommand = Command.Evidence;
             strName = name;
             strDesc = desc;
             strNote = note;
+            index = i;
             MemoryStream ms = new MemoryStream();
             icon.Save(ms, icon.RawFormat);
             using (FileStream fs = new FileStream("base/test.gif", FileMode.Create))
@@ -1030,33 +1039,35 @@ namespace Server
             //The first four bytes are for the Command
             cmdCommand = (Command)BitConverter.ToInt32(data, 0);
 
+            index = BitConverter.ToInt32(data, 4);
+
             //The next four store the length of the name
-            int nameLen = BitConverter.ToInt32(data, 4);
+            int nameLen = BitConverter.ToInt32(data, 8);
 
-            int descLen = BitConverter.ToInt32(data, 8);
+            int descLen = BitConverter.ToInt32(data, 12);
 
-            int noteLen = BitConverter.ToInt32(data, 12);
+            int noteLen = BitConverter.ToInt32(data, 16);
 
-            dataSize = BitConverter.ToInt32(data, 16);
+            dataSize = BitConverter.ToInt32(data, 20);
 
             //This check makes sure that strName has been passed in the array of bytes
             if (nameLen > 0)
-                strName = Encoding.UTF8.GetString(data, 20, nameLen);
+                strName = Encoding.UTF8.GetString(data, 24, nameLen);
             else
                 strName = null;
 
             if (descLen > 0)
-                strDesc = Encoding.UTF8.GetString(data, 20 + nameLen, descLen);
+                strDesc = Encoding.UTF8.GetString(data, 24 + nameLen, descLen);
             else
                 strDesc = null;
 
             if (noteLen > 0)
-                strNote = Encoding.UTF8.GetString(data, 20 + nameLen + descLen, noteLen);
+                strNote = Encoding.UTF8.GetString(data, 24 + nameLen + descLen, noteLen);
             else
                 strNote = null;
 
             if (dataSize > 0)
-                dataBytes = data.Skip(20 + nameLen + descLen + noteLen).ToArray();
+                dataBytes = data.Skip(24 + nameLen + descLen + noteLen).ToArray();
             else
                 dataBytes = null;
         }
@@ -1068,6 +1079,8 @@ namespace Server
 
             //First four are for the Command
             result.AddRange(BitConverter.GetBytes((int)cmdCommand));
+
+            result.AddRange(BitConverter.GetBytes(index));
 
             //Add the length of the name
             if (strName != null)
@@ -1101,6 +1114,7 @@ namespace Server
         public string strName;      //Name and path of the file being sent/received
         public string strDesc;
         public string strNote;
+        public int index;
         public int dataSize;
         public byte[] dataBytes;
         public Command cmdCommand;  //Command type (login, logout, send message, etcetera)
@@ -1112,6 +1126,7 @@ namespace Server
         public string filename;
         public string desc;
         public string note;
+        public int index;
         public Image icon;
     }
 }
