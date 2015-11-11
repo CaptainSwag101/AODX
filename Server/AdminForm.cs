@@ -10,11 +10,11 @@ using System.Windows.Forms;
 
 namespace Server
 {
-    public partial class AdminForm : Form
-    {
-        public AdminForm()
-        {
-            InitializeComponent();
-        }
-    }
+	public partial class AdminForm : Form
+	{
+		public AdminForm()
+		{
+			InitializeComponent();
+		}
+	}
 }

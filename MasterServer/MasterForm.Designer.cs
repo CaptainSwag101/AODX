@@ -56,7 +56,7 @@
             this.lb_Servers.IntegralHeight = false;
             this.lb_Servers.Location = new System.Drawing.Point(12, 27);
             this.lb_Servers.Name = "lb_Servers";
-            this.lb_Servers.Size = new System.Drawing.Size(359, 278);
+            this.lb_Servers.Size = new System.Drawing.Size(360, 279);
             this.lb_Servers.TabIndex = 0;
             // 
             // refreshStatsTimer
@@ -69,9 +69,9 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.localIPLabel});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 308);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 309);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Size = new System.Drawing.Size(383, 22);
+            this.statusStrip1.Size = new System.Drawing.Size(384, 22);
             this.statusStrip1.TabIndex = 1;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -90,7 +90,7 @@
             this.helpMenu});
             this.menuStrip.Location = new System.Drawing.Point(0, 0);
             this.menuStrip.Name = "menuStrip";
-            this.menuStrip.Size = new System.Drawing.Size(383, 24);
+            this.menuStrip.Size = new System.Drawing.Size(384, 24);
             this.menuStrip.TabIndex = 2;
             this.menuStrip.Text = "menuStrip1";
             // 
@@ -157,7 +157,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(383, 330);
+            this.ClientSize = new System.Drawing.Size(384, 331);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip);
             this.Controls.Add(this.lb_Servers);
