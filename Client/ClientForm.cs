@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using MonoGame.Framework;
+using MonoGame.Utilities;
 using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Text;
@@ -39,6 +41,199 @@ namespace Client
 
 	public partial class ClientForm : Form
 	{
+		#region declarations
+
+		public Socket clientSocket; //The main client socket
+		public string strName; //Character that the user is playing as
+		public List<string> songs; // = new List<string>();
+		public List<Evidence> eviList = new List<Evidence>();
+		public int selectedAnim = 1;
+		private int selectedEvidence;
+		private byte callout;
+		private int colorIndex;
+		private Color selectedColor = Color.White;
+		private string[] textToDisp = new string[3];
+		private int textTicks = 1;
+		private bool redraw;
+		private bool newGuy;
+		private int emoCount;
+		private int emoPage;
+		private int emoMaxPages;
+		private int eviCount;
+		private readonly int eviPage = 0;
+		private int eviMaxPages = 0;
+		private bool sendEnabled = true;
+		private bool mute;
+		private byte defHealth = 5;
+		private byte proHealth = 5;
+		private Data latestMsg;
+		private readonly WaveFileReader blipReader;
+		private readonly DirectSoundOut blipPlayer = new DirectSoundOut();
+		private WaveFileReader wr;
+		private readonly DirectSoundOut sfxPlayer = new DirectSoundOut();
+		private DmoMp3Decoder musicReader;
+		private readonly DirectSoundOut musicPlayer = new DirectSoundOut();
+		private byte[] byteData;
+		private int preAnimTime;
+		private int soundTime;
+		private int curPreAnimTime;
+		private int curSoundTime;
+		private string curPreAnim;
+		private bool readyToPresent;
+		private bool presenting;
+
+		//Properties related to drawing the XNA Game Display
+		public GameRenderer gameEntry;
+		private Image backgroundLayerImage;
+		private Image charLayerImage;
+		private Image deskLayerImage;
+		private Image chatBGLayerImage;
+		private Image objectLayerImage;
+		private Point objectLocation;
+		private Size objectSize;
+		private Image testimonyImage;
+		private Point testimonyLocation;
+		private Size testimonySize;
+		private Color dispColor = Color.White;
+		private string dispText1 = "";
+		private string dispText2 = "";
+		private string dispText3 = "";
+
+		//global brushes with ordinary/selected colors
+		private readonly SolidBrush reportsForegroundBrushSelected = new SolidBrush(Color.White);
+		private readonly SolidBrush reportsForegroundBrush = new SolidBrush(Color.Black);
+		private readonly SolidBrush reportsBackgroundBrushSelected = new SolidBrush(Color.FromKnownColor(KnownColor.Highlight));
+		private readonly SolidBrush reportsBackgroundBrushGreen = new SolidBrush(Color.LightGreen);
+		private readonly SolidBrush reportsBackgroundBrushRed = new SolidBrush(Color.Red);
+		private readonly AboutBox AboutForm = new AboutBox();
+		private readonly PrivateFontCollection fonts = new PrivateFontCollection();
+
+		#endregion
+
+		#region constructor
+
+		public ClientForm()
+		{
+			InitializeComponent();
+			blipReader = new WaveFileReader("base/sounds/general/sfx-blipmale.wav");
+			blipPlayer.Initialize(blipReader.Loop());
+			renderPB.BackColor = Color.Transparent;
+			backgroundLayerImage = Image.FromFile("base/background/default/defenseempty.png");
+			charLayerImage = null;
+			deskLayerImage = Image.FromFile("base/background/default/defbench.png");
+			chatBGLayerImage = Image.FromFile("base/misc/chat.png");
+			objectLayerImage = null;
+			arrowLeft.Load("base/misc/btn_arrowLeft.png");
+			arrowLeft.Enabled = false;
+			arrowLeft.Visible = false;
+			arrowRight.Load("base/misc/btn_arrowRight.png");
+			arrowRight.Enabled = false;
+			arrowRight.Visible = false;
+			btn_objection.Image = Image.FromFile("base/misc/btn_objection_off.png");
+			btn_objection.Visible = true;
+			btn_holdit.Image = Image.FromFile("base/misc/btn_holdit_off.png");
+			btn_holdit.Visible = true;
+			btn_takethat.Image = Image.FromFile("base/misc/btn_takethat_off.png");
+			btn_takethat.Visible = true;
+			btn_back.Parent = courtRecordPB;
+			btn_present.Parent = courtRecordPB;
+			btn_edit.Parent = courtRecordPB;
+
+			crTitle.BackColor = Color.Transparent;
+			crTitle.Parent = courtRecordPB;
+			courtRecordPB.Controls.Add(evi1);
+			courtRecordPB.Controls.Add(evi2);
+			courtRecordPB.Controls.Add(evi3);
+			courtRecordPB.Controls.Add(evi4);
+			courtRecordPB.Controls.Add(evi5);
+			courtRecordPB.Controls.Add(evi6);
+			courtRecordPB.Controls.Add(evi7);
+			courtRecordPB.Controls.Add(evi8);
+			courtRecordPB.Controls.Add(evi9);
+			courtRecordPB.Controls.Add(evi10);
+			courtRecordPB.Controls.Add(evi11);
+			courtRecordPB.Controls.Add(evi12);
+			courtRecordPB.Controls.Add(evi13);
+			courtRecordPB.Controls.Add(evi14);
+			courtRecordPB.Controls.Add(evi15);
+			courtRecordPB.Controls.Add(evi16);
+			courtRecordPB.Controls.Add(evi17);
+			courtRecordPB.Controls.Add(evi18);
+
+			//btn_Exclaim.Parent = uiPanel;
+			//btn_Mute.Parent = uiPanel;
+			//txtColorChanger.Parent = uiPanel;
+			//defHealthBar.Parent = uiPanel;
+			//proHealthBar.Parent = uiPanel;
+			clearDispMsg();
+			setDispMsgColor(Color.White);
+
+			//displayMsg.Text = "Sample Text";
+			//Refresh();
+		}
+
+		private void ClientForm_Load(object sender, EventArgs e)
+		{
+			if (iniParser.GetSide(strName) != "jud")
+			{
+				btn_crossexamination.Visible = false;
+				btn_crossexamination.Enabled = false;
+				btn_edit.Visible = false;
+				btn_edit.Enabled = false;
+				courtRecordPB.Image = Image.FromFile("base/misc/inventory.png");
+				btn_testimony.Visible = false;
+				btn_testimony.Enabled = false;
+				btn_defminus.Visible = false;
+				btn_defminus.Enabled = false;
+				btn_defplus.Visible = false;
+				btn_defplus.Enabled = false;
+				btn_prominus.Visible = false;
+				btn_prominus.Enabled = false;
+				btn_proplus.Visible = false;
+				btn_proplus.Enabled = false;
+				txtLog.Size = new Size(240, 347);
+			}
+
+			fonts.AddFontFile("base/misc/Ace-Attorney-2.ttf");
+
+			musicList.Items.Clear();
+
+			foreach (var song in songs)
+				musicList.Items.Add(song);
+
+			Text = "AODXClient: " + strName;
+
+			emoCount = iniParser.GetEmoNum(strName);
+			emoMaxPages = (int)Math.Floor((decimal)(emoCount / 10));
+
+			loadEmoButtons();
+			loadEviButtons();
+
+			//Load the MonoGame/XNA Sprite Renderer
+			gameEntry = new GameRenderer(renderPB.Handle, this, renderPB);
+			gameEntry.Run();
+
+			//byteData = new byte[incomingSize];
+			byteData = new byte[1048576];
+
+			//The user has logged into the system so we now request the server to send
+			//the names of all users who are in the chat room
+			var msgToSend = new Data();
+			msgToSend.cmdCommand = Command.List;
+			msgToSend.strName = strName;
+
+			byteData = msgToSend.ToByte();
+
+			clientSocket.BeginSend(byteData, 0, byteData.Length, SocketFlags.None, OnSend, null);
+
+			byteData = new byte[1048576];
+
+			//Start listening to the data asynchronously
+			clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, OnReceive, null);
+		}
+
+		#endregion
+
 		private void ClientForm_FormClosing(object sender, FormClosingEventArgs e)
 		{
 			/* if (MessageBox.Show("Are you sure you want to leave the courtroom?", "AODXClient: " + strName, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation) == DialogResult.No)
@@ -88,16 +283,14 @@ namespace Client
 
 		private void clearDispMsg()
 		{
-			displayMsg1.Text = "";
-			displayMsg2.Text = "";
-			displayMsg3.Text = "";
+			dispText1 = "";
+			dispText2 = "";
+			dispText3 = "";
 		}
 
 		private void setDispMsgColor(Color newColor)
 		{
-			displayMsg1.ForeColor = newColor;
-			displayMsg2.ForeColor = newColor;
-			displayMsg3.ForeColor = newColor;
+			dispColor = newColor;
 		}
 
 		//custom method to draw the items, don't forget to set DrawMode of the ListBox to OwnerDrawFixed
@@ -428,18 +621,18 @@ namespace Client
 					if (found == false)
 						eviList.Add(evi);
 
-					testimonyPB.Location = new Point(257, 3);
-					testimonyPB.BringToFront();
+					testimonyLocation = new Point(257, 3);
+					//testimonyPB.BringToFront();
 					var icon = new PictureBox();
 					icon.Image = evi.icon;
 					icon.Location = new Point(6, 5);
 					icon.Size = new Size(70, 70);
 					icon.BringToFront();
-					testimonyPB.Invoke((MethodInvoker)delegate
+					/* testimonyPB.Invoke((MethodInvoker)delegate
 					{
 						//perform on the UI thread
 						testimonyPB.Controls.Add(icon);
-					});
+					}); */
 					var name = new Label();
 					name.Text = evi.name;
 					name.Location = new Point(91, 8);
@@ -449,11 +642,11 @@ namespace Client
 					name.BackColor = Color.Transparent;
 					//name.Font = new Font(fonts.Families[0], 12.0f, FontStyle.Bold);
 					name.BringToFront();
-					testimonyPB.Invoke((MethodInvoker)delegate
+					/* testimonyPB.Invoke((MethodInvoker)delegate
 					{
 						//perform on the UI thread
 						testimonyPB.Controls.Add(name);
-					});
+					}); */
 					var note = new Label();
 					note.Text = evi.note;
 					note.Location = new Point(92, 26);
@@ -461,11 +654,11 @@ namespace Client
 					//note.Font = new Font(fonts.Families[0], 12.0f);
 					note.BackColor = Color.Transparent;
 					note.BringToFront();
-					testimonyPB.Invoke((MethodInvoker)delegate
+					/* testimonyPB.Invoke((MethodInvoker)delegate
 					{
 						//perform on the UI thread
 						testimonyPB.Controls.Add(note);
-					});
+					}); */
 					var desc = new Label();
 					desc.Text = evi.desc;
 					desc.Location = new Point(9, 81);
@@ -474,13 +667,13 @@ namespace Client
 					desc.BackColor = Color.Transparent;
 					desc.ForeColor = Color.White;
 					desc.BringToFront();
-					testimonyPB.Invoke((MethodInvoker)delegate
+					/* testimonyPB.Invoke((MethodInvoker)delegate
 					{
 						//perform on the UI thread
 						testimonyPB.Controls.Add(desc);
-					});
-					testimonyPB.Size = new Size(256, 127);
-					testimonyPB.Image = Image.FromFile("base/misc/inventory_update.png");
+					}); */
+					testimonySize = new Size(256, 127);
+					testimonyImage = Image.FromFile("base/misc/inventory_update.png");
 					wr = new WaveFileReader("base/sounds/general/sfx-selectjingle.wav");
 
 					sfxPlayer.Initialize(wr);
@@ -489,7 +682,7 @@ namespace Client
 
 					for (var x = 0; x <= 64; x++)
 					{
-						testimonyPB.Location = new Point(256 - (4 * x), 3);
+						testimonyLocation = new Point(256 - (4 * x), 3);
 						//icon.Location = new Point(256 + 6 - (2 * x), 3 + 5);
 						//name.Location = new Point(256 + 91 - (2 * x), 3 + 8);
 						//note.Location = new Point(256 + 92 - (2 * x), 3 + 26);
@@ -504,7 +697,7 @@ namespace Client
 
 					for (var x = 0; x <= 64; x++)
 					{
-						testimonyPB.Location = new Point(0 - (4 * x), 3);
+						testimonyLocation = new Point(0 - (4 * x), 3);
 						//icon.Location = new Point(6 - (2 * x), 3 + 5);
 						//name.Location = new Point(91 - (2 * x), 3 + 8);
 						//note.Location = new Point(92 - (2 * x), 3 + 26);
@@ -515,7 +708,7 @@ namespace Client
 						desc.Refresh();
 					}
 
-					testimonyPB.Image = null;
+					testimonyImage = null;
 					name.Dispose();
 					icon.Dispose();
 					desc.Dispose();
@@ -573,13 +766,13 @@ namespace Client
 						} else
 						{
 							newGuy = true;
-							testimonyPB.Image = null;
+							testimonyImage = null;
 						}
 
 						latestMsg = msgReceived;
-						objectLayerPB.Image = null;
-						objectLayerPB.Location = new Point(0, 0);
-						objectLayerPB.Size = new Size(256, 192);
+						objectLayerImage = null;
+						objectLocation = new Point(0, 0);
+						objectSize = new Size(256, 192);
 
 						if (msgReceived.callout <= 3)
 						{
@@ -625,7 +818,7 @@ namespace Client
 								iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim) == null |
 								iniParser.GetPreAnimTime(msgReceived.strName, msgReceived.anim) <= 0)
 							{
-								charLayerPB.Enabled = true;
+								charLayerImage = null;
 								setCharSprite("base/characters/" + msgReceived.strName + "/(b)" +
 											  iniParser.GetAnim(msgReceived.strName, msgReceived.anim) + ".gif");
 								if (msgReceived.cmdCommand == Command.Present)
@@ -639,39 +832,39 @@ namespace Client
 									switch (iniParser.GetSide(msgReceived.strName))
 									{
 									case "def":
-										testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceRight.gif");
+										testimonyImage = Image.FromFile("base/misc/ani_evidenceRight.gif");
 										Thread.Sleep(100);
-										testimonyPB.Location = new Point(173, 13);
-										testimonyPB.Size = new Size(70, 70);
-										testimonyPB.Image = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
+										testimonyLocation = new Point(173, 13);
+										testimonySize = new Size(70, 70);
+										testimonyImage = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
 										break;
 									case "pro":
-										testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceLeft.gif");
+										testimonyImage = Image.FromFile("base/misc/ani_evidenceLeft.gif");
 										Thread.Sleep(100);
-										testimonyPB.Location = new Point(13, 13);
-										testimonyPB.Size = new Size(70, 70);
-										testimonyPB.Image = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
+										testimonyLocation = new Point(13, 13);
+										testimonySize = new Size(70, 70);
+										testimonyImage = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
 										break;
 									case "hld":
-										testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceLeft.gif");
+										testimonyImage = Image.FromFile("base/misc/ani_evidenceLeft.gif");
 										Thread.Sleep(100);
-										testimonyPB.Location = new Point(13, 13);
-										testimonyPB.Size = new Size(70, 70);
-										testimonyPB.Image = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
+										testimonyLocation = new Point(13, 13);
+										testimonySize = new Size(70, 70);
+										testimonyImage = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
 										break;
 									case "hlp":
-										testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceRight.gif");
+										testimonyImage = Image.FromFile("base/misc/ani_evidenceRight.gif");
 										Thread.Sleep(100);
-										testimonyPB.Location = new Point(173, 13);
-										testimonyPB.Size = new Size(70, 70);
-										testimonyPB.Image = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
+										testimonyLocation = new Point(173, 13);
+										testimonySize = new Size(70, 70);
+										testimonyImage = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
 										break;
 									default:
-										testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceRight.gif");
+										testimonyImage = Image.FromFile("base/misc/ani_evidenceRight.gif");
 										Thread.Sleep(100);
-										testimonyPB.Location = new Point(173, 13);
-										testimonyPB.Size = new Size(70, 70);
-										testimonyPB.Image = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
+										testimonyLocation = new Point(173, 13);
+										testimonySize = new Size(70, 70);
+										testimonyImage = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
 										break;
 									}
 
@@ -762,7 +955,7 @@ namespace Client
 				displayMsg1.Visible = false;
 				displayMsg2.Visible = false;
 				displayMsg3.Visible = false;
-				objectLayerPB.Image = Image.FromFile("base/misc/ani_objection.gif");
+				objectLayerImage = Image.FromFile("base/misc/ani_objection.gif");
 				if (File.Exists("base/characters/" + latestMsg.strName + "/objection.wav"))
 					wr = new WaveFileReader("base/characters/" + latestMsg.strName + "/objection.wav");
 				else
@@ -781,7 +974,7 @@ namespace Client
 				displayMsg1.Visible = false;
 				displayMsg2.Visible = false;
 				displayMsg3.Visible = false;
-				objectLayerPB.Image = Image.FromFile("base/misc/ani_holdit.gif");
+				objectLayerImage = Image.FromFile("base/misc/ani_holdit.gif");
 				if (File.Exists("base/characters/" + latestMsg.strName + "/holdit.wav"))
 					wr = new WaveFileReader("base/characters/" + latestMsg.strName + "/holdit.wav");
 				else
@@ -800,7 +993,7 @@ namespace Client
 				displayMsg1.Visible = false;
 				displayMsg2.Visible = false;
 				displayMsg3.Visible = false;
-				objectLayerPB.Image = Image.FromFile("base/misc/ani_takethat.gif");
+				objectLayerImage = Image.FromFile("base/misc/ani_takethat.gif");
 				if (File.Exists("base/characters/" + latestMsg.strName + "/takethat.wav"))
 					wr = new WaveFileReader("base/characters/" + latestMsg.strName + "/takethat.wav");
 				else
@@ -814,9 +1007,9 @@ namespace Client
 				break;
 
 			case 4:
-				testimonyPB.Location = new Point(0, 3);
-				testimonyPB.Size = new Size(256, 111);
-				testimonyPB.Image = Image.FromFile("base/misc/ani_witnessTestimony2.gif");
+				testimonyLocation = new Point(0, 3);
+				testimonySize = new Size(256, 111);
+				testimonyImage = Image.FromFile("base/misc/ani_witnessTestimony2.gif");
 				wr = new WaveFileReader("base/sounds/general/sfx-testimony.wav");
 
 				sfxPlayer.Initialize(wr);
@@ -827,9 +1020,9 @@ namespace Client
 				break;
 
 			case 5:
-				testimonyPB.Location = new Point(0, 3);
-				testimonyPB.Size = new Size(256, 111);
-				testimonyPB.Image = Image.FromFile("base/misc/ani_crossexamination.gif");
+				testimonyLocation = new Point(0, 3);
+				testimonySize = new Size(256, 111);
+				testimonyImage = Image.FromFile("base/misc/ani_crossexamination.gif");
 				Thread.Sleep(300);
 				wr = new WaveFileReader("base/sounds/general/sfx-testimony2.wav");
 
@@ -848,16 +1041,16 @@ namespace Client
 			displayMsg1.Visible = true;
 			displayMsg2.Visible = true;
 			displayMsg3.Visible = true;
-			objectLayerPB.Image = null;
-			testimonyPB.Image = null;
+			objectLayerImage = null;
+			testimonyImage = null;
 		}
 
 		private void setCharSprite(string file)
 		{
 			if (File.Exists(file))
-				charLayerPB.Image = Image.FromFile(file);
+				charLayerImage = Image.FromFile(file);
 			else
-				charLayerPB.Image = Image.FromFile("base/misc/placeholder_char.gif");
+				charLayerImage = Image.FromFile("base/misc/placeholder_char.gif");
 		}
 
 		private void appendTxtLogSafe(string txt)
@@ -948,67 +1141,67 @@ namespace Client
 				case "def":
 					if (!zoom)
 					{
-						backgroundPB.Image = Image.FromFile("base/background/default/defenseempty.png");
-						deskLayerPB.Image = Image.FromFile("base/background/default/defbench.png");
+						renderPB.Image = Image.FromFile("base/background/default/defenseempty.png");
+						deskLayerImage = Image.FromFile("base/background/default/defbench.png");
 					} else
 					{
-						backgroundPB.Image = Image.FromFile("base/misc/ani_zoom_def.gif");
-						deskLayerPB.Image = null;
+						renderPB.Image = Image.FromFile("base/misc/ani_zoom_def.gif");
+						deskLayerImage = null;
 					}
 					break;
 				case "pro":
 					if (!zoom)
 					{
-						backgroundPB.Image = Image.FromFile("base/background/default/prosecutorempty.png");
-						deskLayerPB.Image = Image.FromFile("base/background/default/probench.png");
+						renderPB.Image = Image.FromFile("base/background/default/prosecutorempty.png");
+						deskLayerImage = Image.FromFile("base/background/default/probench.png");
 					} else
 					{
-						backgroundPB.Image = Image.FromFile("base/misc/ani_zoom_pro.gif");
-						deskLayerPB.Image = null;
+						renderPB.Image = Image.FromFile("base/misc/ani_zoom_pro.gif");
+						deskLayerImage = null;
 					}
 					break;
 				case "jud":
 					if (!zoom)
 					{
-						backgroundPB.Image = Image.FromFile("base/background/default/judgestand.png");
-						deskLayerPB.Image = null;
+						renderPB.Image = Image.FromFile("base/background/default/judgestand.png");
+						deskLayerImage = null;
 					} else
 					{
-						backgroundPB.Image = Image.FromFile("base/misc/ani_zoom_def.gif");
-						deskLayerPB.Image = null;
+						renderPB.Image = Image.FromFile("base/misc/ani_zoom_def.gif");
+						deskLayerImage = null;
 					}
 					break;
 				case "wit":
 					if (!zoom)
 					{
-						backgroundPB.Image = Image.FromFile("base/background/default/witnessempty.png");
-						deskLayerPB.Image = Image.FromFile("base/background/default/witstand.png");
+						renderPB.Image = Image.FromFile("base/background/default/witnessempty.png");
+						deskLayerImage = Image.FromFile("base/background/default/witstand.png");
 					} else
 					{
-						backgroundPB.Image = Image.FromFile("base/misc/ani_zoom_pro.gif");
-						deskLayerPB.Image = null;
+						renderPB.Image = Image.FromFile("base/misc/ani_zoom_pro.gif");
+						deskLayerImage = null;
 					}
 					break;
 				case "hld":
 					if (!zoom)
 					{
-						backgroundPB.Image = Image.FromFile("base/background/default/helperstand.png");
-						deskLayerPB.Image = null;
+						renderPB.Image = Image.FromFile("base/background/default/helperstand.png");
+						deskLayerImage = null;
 					} else
 					{
-						backgroundPB.Image = Image.FromFile("base/misc/ani_zoom_def.gif");
-						deskLayerPB.Image = null;
+						renderPB.Image = Image.FromFile("base/misc/ani_zoom_def.gif");
+						deskLayerImage = null;
 					}
 					break;
 				case "hlp":
 					if (!zoom)
 					{
-						backgroundPB.Image = Image.FromFile("base/background/default/prohelperstand.png");
-						deskLayerPB.Image = null;
+						renderPB.Image = Image.FromFile("base/background/default/prohelperstand.png");
+						deskLayerImage = null;
 					} else
 					{
-						backgroundPB.Image = Image.FromFile("base/misc/ani_zoom_pro.gif");
-						deskLayerPB.Image = null;
+						renderPB.Image = Image.FromFile("base/misc/ani_zoom_pro.gif");
+						deskLayerImage = null;
 					}
 					break;
 				}
@@ -1154,8 +1347,8 @@ namespace Client
 				{
 					if (curPreAnimTime < preAnimTime)
 					{
-						//if (charLayerPB.Image.FrameDimensionsList.Length > curPreAnimTime)
-						//charLayerPB.Image.SelectActiveFrame(new System.Drawing.Imaging.FrameDimension(charLayerPB.Image.FrameDimensionsList[curPreAnimTime]), curPreAnimTime);
+						//if (charLayerImage.FrameDimensionsList.Length > curPreAnimTime)
+						//charLayerImage.SelectActiveFrame(new System.Drawing.Imaging.FrameDimension(charLayerImage.FrameDimensionsList[curPreAnimTime]), curPreAnimTime);
 						curPreAnimTime++;
 					} else
 					{
@@ -1174,39 +1367,39 @@ namespace Client
 							switch (iniParser.GetSide(latestMsg.strName))
 							{
 							case "def":
-								testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceRight.gif");
+								testimonyImage = Image.FromFile("base/misc/ani_evidenceRight.gif");
 								Thread.Sleep(100);
-								testimonyPB.Location = new Point(173, 13);
-								testimonyPB.Size = new Size(70, 70);
-								testimonyPB.Image = eviList[Convert.ToInt32(latestMsg.strMessage.Split('|').Last())].icon;
+								testimonyLocation = new Point(173, 13);
+								testimonySize = new Size(70, 70);
+								testimonyImage = eviList[Convert.ToInt32(latestMsg.strMessage.Split('|').Last())].icon;
 								break;
 							case "pro":
-								testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceLeft.gif");
+								testimonyImage = Image.FromFile("base/misc/ani_evidenceLeft.gif");
 								Thread.Sleep(100);
-								testimonyPB.Location = new Point(13, 13);
-								testimonyPB.Size = new Size(70, 70);
-								testimonyPB.Image = eviList[Convert.ToInt32(latestMsg.strMessage.Split('|').Last())].icon;
+								testimonyLocation = new Point(13, 13);
+								testimonySize = new Size(70, 70);
+								testimonyImage = eviList[Convert.ToInt32(latestMsg.strMessage.Split('|').Last())].icon;
 								break;
 							case "hld":
-								testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceLeft.gif");
+								testimonyImage = Image.FromFile("base/misc/ani_evidenceLeft.gif");
 								Thread.Sleep(100);
-								testimonyPB.Location = new Point(13, 13);
-								testimonyPB.Size = new Size(70, 70);
-								testimonyPB.Image = eviList[Convert.ToInt32(latestMsg.strMessage.Split('|').Last())].icon;
+								testimonyLocation = new Point(13, 13);
+								testimonySize = new Size(70, 70);
+								testimonyImage = eviList[Convert.ToInt32(latestMsg.strMessage.Split('|').Last())].icon;
 								break;
 							case "hlp":
-								testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceRight.gif");
+								testimonyImage = Image.FromFile("base/misc/ani_evidenceRight.gif");
 								Thread.Sleep(100);
-								testimonyPB.Location = new Point(173, 13);
-								testimonyPB.Size = new Size(70, 70);
-								testimonyPB.Image = eviList[Convert.ToInt32(latestMsg.strMessage.Split('|').Last())].icon;
+								testimonyLocation = new Point(173, 13);
+								testimonySize = new Size(70, 70);
+								testimonyImage = eviList[Convert.ToInt32(latestMsg.strMessage.Split('|').Last())].icon;
 								break;
 							default:
-								testimonyPB.Image = Image.FromFile("base/misc/ani_evidenceRight.gif");
+								testimonyImage = Image.FromFile("base/misc/ani_evidenceRight.gif");
 								Thread.Sleep(100);
-								testimonyPB.Location = new Point(173, 13);
-								testimonyPB.Size = new Size(70, 70);
-								testimonyPB.Image = eviList[Convert.ToInt32(latestMsg.strMessage.Split('|').Last())].icon;
+								testimonyLocation = new Point(173, 13);
+								testimonySize = new Size(70, 70);
+								testimonyImage = eviList[Convert.ToInt32(latestMsg.strMessage.Split('|').Last())].icon;
 								break;
 							}
 
@@ -1215,7 +1408,7 @@ namespace Client
 
 						setCharSprite("base/characters/" + latestMsg.strName + "/(b)" +
 									  iniParser.GetAnim(latestMsg.strName, latestMsg.anim) + ".gif");
-						charLayerPB.Enabled = true;
+						//charLayerPB.Enabled = true;
 						prepWriteDispBoxes(latestMsg, latestMsg.textColor);
 					}
 				}
@@ -1227,7 +1420,7 @@ namespace Client
 
 					if (latestMsg != null)
 					{
-						charLayerPB.Load("base/characters/" + latestMsg.strName + "/(b)" + latestMsg.anim + ".gif");
+						charLayerImage = Image.FromFile("base/characters/" + latestMsg.strName + "/(b)" + latestMsg.anim + ".gif");
 						prepWriteDispBoxes(latestMsg, latestMsg.textColor);
 					}
 				} */
@@ -1744,196 +1937,6 @@ namespace Client
 		private void modLoginMenuItem_Click(object sender, EventArgs e)
 		{
 		}
-
-		#region declarations
-
-		public Socket clientSocket; //The main client socket
-		public string strName; //Character that the user is playing as
-		public List<string> songs; // = new List<string>();
-		public List<Evidence> eviList = new List<Evidence>();
-		public int selectedAnim = 1;
-		private int selectedEvidence;
-		private byte callout;
-		private int colorIndex;
-		private Color selectedColor = Color.White;
-		private string[] textToDisp = new string[3];
-		private int textTicks = 1;
-		private bool redraw;
-		private bool newGuy;
-		private int emoCount;
-		private int emoPage;
-		private int emoMaxPages;
-		private int eviCount;
-		private readonly int eviPage = 0;
-		private int eviMaxPages = 0;
-		private bool sendEnabled = true;
-		private bool mute;
-		private byte defHealth = 5;
-		private byte proHealth = 5;
-		private Data latestMsg;
-		private readonly WaveFileReader blipReader;
-		private readonly DirectSoundOut blipPlayer = new DirectSoundOut();
-		private WaveFileReader wr;
-		private readonly DirectSoundOut sfxPlayer = new DirectSoundOut();
-		private DmoMp3Decoder musicReader;
-		private readonly DirectSoundOut musicPlayer = new DirectSoundOut();
-		private byte[] byteData;
-		private int preAnimTime;
-		private int soundTime;
-		private int curPreAnimTime;
-		private int curSoundTime;
-		private string curPreAnim;
-		private bool readyToPresent;
-		private bool presenting;
-		//global brushes with ordinary/selected colors
-		private readonly SolidBrush reportsForegroundBrushSelected = new SolidBrush(Color.White);
-		private readonly SolidBrush reportsForegroundBrush = new SolidBrush(Color.Black);
-		private readonly SolidBrush reportsBackgroundBrushSelected = new SolidBrush(Color.FromKnownColor(KnownColor.Highlight));
-		private readonly SolidBrush reportsBackgroundBrushGreen = new SolidBrush(Color.LightGreen);
-		private readonly SolidBrush reportsBackgroundBrushRed = new SolidBrush(Color.Red);
-		private readonly AboutBox AboutForm = new AboutBox();
-		private readonly PrivateFontCollection fonts = new PrivateFontCollection();
-
-		#endregion
-
-		#region constructor
-
-		public ClientForm()
-		{
-			InitializeComponent();
-			blipReader = new WaveFileReader("base/sounds/general/sfx-blipmale.wav");
-			blipPlayer.Initialize(blipReader.Loop());
-			backgroundPB.BackColor = Color.Transparent;
-			backgroundPB.Load("base/background/default/defenseempty.png");
-			backgroundPB.Controls.Add(charLayerPB);
-			charLayerPB.BackColor = Color.Transparent;
-			charLayerPB.Image = null;
-			charLayerPB.Controls.Add(deskLayerPB);
-			deskLayerPB.BackColor = Color.Transparent;
-			deskLayerPB.Load("base/background/default/defbench.png");
-			deskLayerPB.Controls.Add(chatBGLayerPB);
-			chatBGLayerPB.Load("base/misc/chat.png");
-			chatBGLayerPB.BackColor = Color.Transparent;
-			chatBGLayerPB.Controls.Add(objectLayerPB);
-			objectLayerPB.BackColor = Color.Transparent;
-			objectLayerPB.Image = null;
-			objectLayerPB.Controls.Add(displayMsg1);
-			objectLayerPB.Controls.Add(displayMsg2);
-			objectLayerPB.Controls.Add(displayMsg3);
-			nameLabel.BackColor = Color.Transparent;
-			objectLayerPB.Controls.Add(nameLabel);
-			objectLayerPB.Controls.Add(testimonyPB);
-			displayMsg1.BackColor = Color.Transparent;
-			displayMsg2.BackColor = Color.Transparent;
-			displayMsg3.BackColor = Color.Transparent;
-			arrowLeft.Load("base/misc/btn_arrowLeft.png");
-			arrowLeft.Enabled = false;
-			arrowLeft.Visible = false;
-			arrowRight.Load("base/misc/btn_arrowRight.png");
-			arrowRight.Enabled = false;
-			arrowRight.Visible = false;
-			btn_objection.Image = Image.FromFile("base/misc/btn_objection_off.png");
-			btn_objection.Visible = true;
-			btn_holdit.Image = Image.FromFile("base/misc/btn_holdit_off.png");
-			btn_holdit.Visible = true;
-			btn_takethat.Image = Image.FromFile("base/misc/btn_takethat_off.png");
-			btn_takethat.Visible = true;
-			btn_back.Parent = courtRecordPB;
-			btn_present.Parent = courtRecordPB;
-			btn_edit.Parent = courtRecordPB;
-
-			crTitle.BackColor = Color.Transparent;
-			crTitle.Parent = courtRecordPB;
-			courtRecordPB.Controls.Add(evi1);
-			courtRecordPB.Controls.Add(evi2);
-			courtRecordPB.Controls.Add(evi3);
-			courtRecordPB.Controls.Add(evi4);
-			courtRecordPB.Controls.Add(evi5);
-			courtRecordPB.Controls.Add(evi6);
-			courtRecordPB.Controls.Add(evi7);
-			courtRecordPB.Controls.Add(evi8);
-			courtRecordPB.Controls.Add(evi9);
-			courtRecordPB.Controls.Add(evi10);
-			courtRecordPB.Controls.Add(evi11);
-			courtRecordPB.Controls.Add(evi12);
-			courtRecordPB.Controls.Add(evi13);
-			courtRecordPB.Controls.Add(evi14);
-			courtRecordPB.Controls.Add(evi15);
-			courtRecordPB.Controls.Add(evi16);
-			courtRecordPB.Controls.Add(evi17);
-			courtRecordPB.Controls.Add(evi18);
-
-			//btn_Exclaim.Parent = uiPanel;
-			//btn_Mute.Parent = uiPanel;
-			//txtColorChanger.Parent = uiPanel;
-			//defHealthBar.Parent = uiPanel;
-			//proHealthBar.Parent = uiPanel;
-			clearDispMsg();
-			setDispMsgColor(Color.White);
-
-			//displayMsg.Text = "Sample Text";
-			//Refresh();
-		}
-
-		private void ClientForm_Load(object sender, EventArgs e)
-		{
-			nameLabel.Text = "";
-
-			if (iniParser.GetSide(strName) != "jud")
-			{
-				btn_crossexamination.Visible = false;
-				btn_crossexamination.Enabled = false;
-				btn_edit.Visible = false;
-				btn_edit.Enabled = false;
-				courtRecordPB.Image = Image.FromFile("base/misc/inventory.png");
-				btn_testimony.Visible = false;
-				btn_testimony.Enabled = false;
-				btn_defminus.Visible = false;
-				btn_defminus.Enabled = false;
-				btn_defplus.Visible = false;
-				btn_defplus.Enabled = false;
-				btn_prominus.Visible = false;
-				btn_prominus.Enabled = false;
-				btn_proplus.Visible = false;
-				btn_proplus.Enabled = false;
-				txtLog.Size = new Size(240, 347);
-			}
-
-			fonts.AddFontFile("base/misc/Ace-Attorney-2.ttf");
-
-			musicList.Items.Clear();
-
-			foreach (var song in songs)
-				musicList.Items.Add(song);
-
-			Text = "AODXClient: " + strName;
-
-			emoCount = iniParser.GetEmoNum(strName);
-			emoMaxPages = (int)Math.Floor((decimal)(emoCount / 10));
-
-			loadEmoButtons();
-			loadEviButtons();
-
-			//byteData = new byte[incomingSize];
-			byteData = new byte[1048576];
-
-			//The user has logged into the system so we now request the server to send
-			//the names of all users who are in the chat room
-			var msgToSend = new Data();
-			msgToSend.cmdCommand = Command.List;
-			msgToSend.strName = strName;
-
-			byteData = msgToSend.ToByte();
-
-			clientSocket.BeginSend(byteData, 0, byteData.Length, SocketFlags.None, OnSend, null);
-
-			byteData = new byte[1048576];
-
-			//Start listening to the data asynchronously
-			clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, OnReceive, null);
-		}
-
-		#endregion
 	}
 
 	//The data structure by which the server and the client interact with 

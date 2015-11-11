@@ -50,6 +50,10 @@ namespace Client
 					try
 					{
 						Application.Run(AODXClientForm);
+						//AODXClientForm.gameEntry = new GameRenderer(AODXClientForm.renderPB.Handle, AODXClientForm, AODXClientForm.renderPB);
+						//AODXClientForm.gameEntry.Run();
+						//AODXClientForm.Show();
+						
 					} catch (Exception ex)
 					{
 						if (debug)
