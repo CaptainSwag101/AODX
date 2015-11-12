@@ -728,30 +728,6 @@ YOU MUST CONSTRUCT ADDITIONAL PYLONS.</value>
   <data name="&gt;&gt;displayMsg1.ZOrder" xml:space="preserve">
     <value>3</value>
   </data>
-  <data name="renderPB.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
-    <value>NoControl</value>
-  </data>
-  <data name="renderPB.Location" type="System.Drawing.Point, System.Drawing">
-    <value>0, 0</value>
-  </data>
-  <data name="renderPB.Size" type="System.Drawing.Size, System.Drawing">
-    <value>256, 192</value>
-  </data>
-  <data name="renderPB.TabIndex" type="System.Int32, mscorlib">
-    <value>1</value>
-  </data>
-  <data name="&gt;&gt;renderPB.Name" xml:space="preserve">
-    <value>renderPB</value>
-  </data>
-  <data name="&gt;&gt;renderPB.Type" xml:space="preserve">
-    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;renderPB.Parent" xml:space="preserve">
-    <value>GameDisplay</value>
-  </data>
-  <data name="&gt;&gt;renderPB.ZOrder" xml:space="preserve">
-    <value>4</value>
-  </data>
   <data name="GameDisplay.Location" type="System.Drawing.Point, System.Drawing">
     <value>12, 27</value>
   </data>

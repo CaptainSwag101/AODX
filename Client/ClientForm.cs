@@ -17,6 +17,10 @@ using CSCore;
 using CSCore.Codecs.MP3;
 using CSCore.Codecs.WAV;
 using CSCore.SoundOut;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Color = System.Drawing.Color;
+using Point = System.Drawing.Point;
 
 namespace Client
 {
@@ -83,21 +87,21 @@ namespace Client
 		private bool presenting;
 
 		//Properties related to drawing the XNA Game Display
-		public GameRenderer gameEntry;
-		private Image backgroundLayerImage;
-		private Image charLayerImage;
-		private Image deskLayerImage;
-		private Image chatBGLayerImage;
-		private Image objectLayerImage;
-		private Point objectLocation;
-		private Size objectSize;
-		private Image testimonyImage;
-		private Point testimonyLocation;
-		private Size testimonySize;
-		private Color dispColor = Color.White;
-		private string dispText1 = "";
-		private string dispText2 = "";
-		private string dispText3 = "";
+		private GameRenderer gameEntry;
+		public Image backgroundLayerImage;
+		public Image charLayerImage;
+		public Image deskLayerImage;
+		public Image chatBGLayerImage;
+		public Image objectLayerImage;
+		public Vector2 objectLocation;
+		public Size objectSize;
+		public Image testimonyImage;
+		public Vector2 testimonyLocation;
+		public Size testimonySize;
+		public Color dispColor = Color.White;
+		public string dispText1 = "";
+		public string dispText2 = "";
+		public string dispText3 = "";
 
 		//global brushes with ordinary/selected colors
 		private readonly SolidBrush reportsForegroundBrushSelected = new SolidBrush(Color.White);
@@ -115,11 +119,11 @@ namespace Client
 		public ClientForm()
 		{
 			InitializeComponent();
+			
 			blipReader = new WaveFileReader("base/sounds/general/sfx-blipmale.wav");
 			blipPlayer.Initialize(blipReader.Loop());
-			renderPB.BackColor = Color.Transparent;
 			backgroundLayerImage = Image.FromFile("base/background/default/defenseempty.png");
-			charLayerImage = null;
+			charLayerImage = Image.FromFile("base/characters/Apollo/(a)apollonormal.gif");
 			deskLayerImage = Image.FromFile("base/background/default/defbench.png");
 			chatBGLayerImage = Image.FromFile("base/misc/chat.png");
 			objectLayerImage = null;
@@ -168,8 +172,15 @@ namespace Client
 			clearDispMsg();
 			setDispMsgColor(Color.White);
 
+			System.Windows.Forms.Application.Idle += new EventHandler(OnApplicationIdle);
+
 			//displayMsg.Text = "Sample Text";
 			//Refresh();
+		}
+
+		private void OnApplicationIdle(object sender, EventArgs e)
+		{
+			gameEntry.RunOneFrame();
 		}
 
 		private void ClientForm_Load(object sender, EventArgs e)
@@ -210,8 +221,22 @@ namespace Client
 			loadEviButtons();
 
 			//Load the MonoGame/XNA Sprite Renderer
-			gameEntry = new GameRenderer(renderPB.Handle, this, renderPB);
-			gameEntry.Run();
+			gameEntry = new GameRenderer(this);
+			Form form = Form.FromHandle(gameEntry.Window.Handle) as Form;
+			bool wannaGoSlow = true;
+			if (wannaGoSlow)
+			{
+				form.FormBorderStyle = FormBorderStyle.None;
+				form.Dock = DockStyle.Top;
+				form.TopLevel = false;
+				form.Parent = GameDisplay;
+				//form.Size = new Size(256, 192);
+				GameDisplay.Controls.Add(form);
+			}
+			form.Visible = true;
+			//These methods need to happen in this order for now
+			gameEntry.RunOneFrame();
+			gameEntry.ChangeSprites();
 
 			//byteData = new byte[incomingSize];
 			byteData = new byte[1048576];
@@ -621,7 +646,7 @@ namespace Client
 					if (found == false)
 						eviList.Add(evi);
 
-					testimonyLocation = new Point(257, 3);
+					testimonyLocation = new Vector2(257, 3);
 					//testimonyPB.BringToFront();
 					var icon = new PictureBox();
 					icon.Image = evi.icon;
@@ -682,7 +707,7 @@ namespace Client
 
 					for (var x = 0; x <= 64; x++)
 					{
-						testimonyLocation = new Point(256 - (4 * x), 3);
+						testimonyLocation = new Vector2(256 - (4 * x), 3);
 						//icon.Location = new Point(256 + 6 - (2 * x), 3 + 5);
 						//name.Location = new Point(256 + 91 - (2 * x), 3 + 8);
 						//note.Location = new Point(256 + 92 - (2 * x), 3 + 26);
@@ -697,7 +722,7 @@ namespace Client
 
 					for (var x = 0; x <= 64; x++)
 					{
-						testimonyLocation = new Point(0 - (4 * x), 3);
+						testimonyLocation = new Vector2(0 - (4 * x), 3);
 						//icon.Location = new Point(6 - (2 * x), 3 + 5);
 						//name.Location = new Point(91 - (2 * x), 3 + 8);
 						//note.Location = new Point(92 - (2 * x), 3 + 26);
@@ -771,7 +796,7 @@ namespace Client
 
 						latestMsg = msgReceived;
 						objectLayerImage = null;
-						objectLocation = new Point(0, 0);
+						objectLocation = new Vector2(0, 0);
 						objectSize = new Size(256, 192);
 
 						if (msgReceived.callout <= 3)
@@ -834,35 +859,35 @@ namespace Client
 									case "def":
 										testimonyImage = Image.FromFile("base/misc/ani_evidenceRight.gif");
 										Thread.Sleep(100);
-										testimonyLocation = new Point(173, 13);
+										testimonyLocation = new Vector2(173, 13);
 										testimonySize = new Size(70, 70);
 										testimonyImage = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
 										break;
 									case "pro":
 										testimonyImage = Image.FromFile("base/misc/ani_evidenceLeft.gif");
 										Thread.Sleep(100);
-										testimonyLocation = new Point(13, 13);
+										testimonyLocation = new Vector2(13, 13);
 										testimonySize = new Size(70, 70);
 										testimonyImage = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
 										break;
 									case "hld":
 										testimonyImage = Image.FromFile("base/misc/ani_evidenceLeft.gif");
 										Thread.Sleep(100);
-										testimonyLocation = new Point(13, 13);
+										testimonyLocation = new Vector2(13, 13);
 										testimonySize = new Size(70, 70);
 										testimonyImage = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
 										break;
 									case "hlp":
 										testimonyImage = Image.FromFile("base/misc/ani_evidenceRight.gif");
 										Thread.Sleep(100);
-										testimonyLocation = new Point(173, 13);
+										testimonyLocation = new Vector2(173, 13);
 										testimonySize = new Size(70, 70);
 										testimonyImage = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
 										break;
 									default:
 										testimonyImage = Image.FromFile("base/misc/ani_evidenceRight.gif");
 										Thread.Sleep(100);
-										testimonyLocation = new Point(173, 13);
+										testimonyLocation = new Vector2(173, 13);
 										testimonySize = new Size(70, 70);
 										testimonyImage = eviList[Convert.ToInt32(msgReceived.strMessage.Split('|').Last())].icon;
 										break;
@@ -1007,7 +1032,7 @@ namespace Client
 				break;
 
 			case 4:
-				testimonyLocation = new Point(0, 3);
+				testimonyLocation = new Vector2(0, 3);
 				testimonySize = new Size(256, 111);
 				testimonyImage = Image.FromFile("base/misc/ani_witnessTestimony2.gif");
 				wr = new WaveFileReader("base/sounds/general/sfx-testimony.wav");
@@ -1020,7 +1045,7 @@ namespace Client
 				break;
 
 			case 5:
-				testimonyLocation = new Point(0, 3);
+				testimonyLocation = new Vector2(0, 3);
 				testimonySize = new Size(256, 111);
 				testimonyImage = Image.FromFile("base/misc/ani_crossexamination.gif");
 				Thread.Sleep(300);
@@ -1141,66 +1166,66 @@ namespace Client
 				case "def":
 					if (!zoom)
 					{
-						renderPB.Image = Image.FromFile("base/background/default/defenseempty.png");
+						backgroundLayerImage = Image.FromFile("base/background/default/defenseempty.png");
 						deskLayerImage = Image.FromFile("base/background/default/defbench.png");
 					} else
 					{
-						renderPB.Image = Image.FromFile("base/misc/ani_zoom_def.gif");
+						backgroundLayerImage = Image.FromFile("base/misc/ani_zoom_def.gif");
 						deskLayerImage = null;
 					}
 					break;
 				case "pro":
 					if (!zoom)
 					{
-						renderPB.Image = Image.FromFile("base/background/default/prosecutorempty.png");
+						backgroundLayerImage = Image.FromFile("base/background/default/prosecutorempty.png");
 						deskLayerImage = Image.FromFile("base/background/default/probench.png");
 					} else
 					{
-						renderPB.Image = Image.FromFile("base/misc/ani_zoom_pro.gif");
+						backgroundLayerImage = Image.FromFile("base/misc/ani_zoom_pro.gif");
 						deskLayerImage = null;
 					}
 					break;
 				case "jud":
 					if (!zoom)
 					{
-						renderPB.Image = Image.FromFile("base/background/default/judgestand.png");
+						backgroundLayerImage = Image.FromFile("base/background/default/judgestand.png");
 						deskLayerImage = null;
 					} else
 					{
-						renderPB.Image = Image.FromFile("base/misc/ani_zoom_def.gif");
+						backgroundLayerImage = Image.FromFile("base/misc/ani_zoom_def.gif");
 						deskLayerImage = null;
 					}
 					break;
 				case "wit":
 					if (!zoom)
 					{
-						renderPB.Image = Image.FromFile("base/background/default/witnessempty.png");
+						backgroundLayerImage = Image.FromFile("base/background/default/witnessempty.png");
 						deskLayerImage = Image.FromFile("base/background/default/witstand.png");
 					} else
 					{
-						renderPB.Image = Image.FromFile("base/misc/ani_zoom_pro.gif");
+						backgroundLayerImage = Image.FromFile("base/misc/ani_zoom_pro.gif");
 						deskLayerImage = null;
 					}
 					break;
 				case "hld":
 					if (!zoom)
 					{
-						renderPB.Image = Image.FromFile("base/background/default/helperstand.png");
+						backgroundLayerImage = Image.FromFile("base/background/default/helperstand.png");
 						deskLayerImage = null;
 					} else
 					{
-						renderPB.Image = Image.FromFile("base/misc/ani_zoom_def.gif");
+						backgroundLayerImage = Image.FromFile("base/misc/ani_zoom_def.gif");
 						deskLayerImage = null;
 					}
 					break;
 				case "hlp":
 					if (!zoom)
 					{
-						renderPB.Image = Image.FromFile("base/background/default/prohelperstand.png");
+						backgroundLayerImage = Image.FromFile("base/background/default/prohelperstand.png");
 						deskLayerImage = null;
 					} else
 					{
-						renderPB.Image = Image.FromFile("base/misc/ani_zoom_pro.gif");
+						backgroundLayerImage = Image.FromFile("base/misc/ani_zoom_pro.gif");
 						deskLayerImage = null;
 					}
 					break;
@@ -1369,35 +1394,35 @@ namespace Client
 							case "def":
 								testimonyImage = Image.FromFile("base/misc/ani_evidenceRight.gif");
 								Thread.Sleep(100);
-								testimonyLocation = new Point(173, 13);
+								testimonyLocation = new Vector2(173, 13);
 								testimonySize = new Size(70, 70);
 								testimonyImage = eviList[Convert.ToInt32(latestMsg.strMessage.Split('|').Last())].icon;
 								break;
 							case "pro":
 								testimonyImage = Image.FromFile("base/misc/ani_evidenceLeft.gif");
 								Thread.Sleep(100);
-								testimonyLocation = new Point(13, 13);
+								testimonyLocation = new Vector2(13, 13);
 								testimonySize = new Size(70, 70);
 								testimonyImage = eviList[Convert.ToInt32(latestMsg.strMessage.Split('|').Last())].icon;
 								break;
 							case "hld":
 								testimonyImage = Image.FromFile("base/misc/ani_evidenceLeft.gif");
 								Thread.Sleep(100);
-								testimonyLocation = new Point(13, 13);
+								testimonyLocation = new Vector2(13, 13);
 								testimonySize = new Size(70, 70);
 								testimonyImage = eviList[Convert.ToInt32(latestMsg.strMessage.Split('|').Last())].icon;
 								break;
 							case "hlp":
 								testimonyImage = Image.FromFile("base/misc/ani_evidenceRight.gif");
 								Thread.Sleep(100);
-								testimonyLocation = new Point(173, 13);
+								testimonyLocation = new Vector2(173, 13);
 								testimonySize = new Size(70, 70);
 								testimonyImage = eviList[Convert.ToInt32(latestMsg.strMessage.Split('|').Last())].icon;
 								break;
 							default:
 								testimonyImage = Image.FromFile("base/misc/ani_evidenceRight.gif");
 								Thread.Sleep(100);
-								testimonyLocation = new Point(173, 13);
+								testimonyLocation = new Vector2(173, 13);
 								testimonySize = new Size(70, 70);
 								testimonyImage = eviList[Convert.ToInt32(latestMsg.strMessage.Split('|').Last())].icon;
 								break;
@@ -1936,6 +1961,7 @@ namespace Client
 
 		private void modLoginMenuItem_Click(object sender, EventArgs e)
 		{
+
 		}
 	}
 

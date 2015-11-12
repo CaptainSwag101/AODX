@@ -55,10 +55,10 @@ namespace Client
 			this.OOCInput = new System.Windows.Forms.TextBox();
 			this.OOCChat = new System.Windows.Forms.TextBox();
 			this.GameDisplay = new System.Windows.Forms.Panel();
+			this.nameLabel = new System.Windows.Forms.Label();
 			this.displayMsg3 = new System.Windows.Forms.Label();
 			this.displayMsg2 = new System.Windows.Forms.Label();
 			this.displayMsg1 = new System.Windows.Forms.Label();
-			this.renderPB = new System.Windows.Forms.PictureBox();
 			this.txtMessage = new System.Windows.Forms.TextBox();
 			this.txtLog = new System.Windows.Forms.TextBox();
 			this.dispTextRedraw = new System.Windows.Forms.Timer(this.components);
@@ -103,7 +103,6 @@ namespace Client
 			this.evi2 = new Client.IndexButton();
 			this.courtRecordPB = new System.Windows.Forms.PictureBox();
 			this.OOCName = new System.Windows.Forms.TextBox();
-			this.nameLabel = new System.Windows.Forms.Label();
 			this.menuStrip.SuspendLayout();
 			((System.ComponentModel.ISupportInitialize)(this.arrowRight)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.arrowLeft)).BeginInit();
@@ -119,7 +118,6 @@ namespace Client
 			((System.ComponentModel.ISupportInitialize)(this.emoButton2)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.emoButton1)).BeginInit();
 			this.GameDisplay.SuspendLayout();
-			((System.ComponentModel.ISupportInitialize)(this.renderPB)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.btn_objection)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.btn_holdit)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.btn_takethat)).BeginInit();
@@ -354,9 +352,15 @@ namespace Client
 			this.GameDisplay.Controls.Add(this.displayMsg3);
 			this.GameDisplay.Controls.Add(this.displayMsg2);
 			this.GameDisplay.Controls.Add(this.displayMsg1);
-			this.GameDisplay.Controls.Add(this.renderPB);
 			resources.ApplyResources(this.GameDisplay, "GameDisplay");
 			this.GameDisplay.Name = "GameDisplay";
+			// 
+			// nameLabel
+			// 
+			this.nameLabel.BackColor = System.Drawing.Color.Transparent;
+			this.nameLabel.ForeColor = System.Drawing.Color.White;
+			resources.ApplyResources(this.nameLabel, "nameLabel");
+			this.nameLabel.Name = "nameLabel";
 			// 
 			// displayMsg3
 			// 
@@ -378,13 +382,6 @@ namespace Client
 			this.displayMsg1.ForeColor = System.Drawing.Color.White;
 			resources.ApplyResources(this.displayMsg1, "displayMsg1");
 			this.displayMsg1.Name = "displayMsg1";
-			// 
-			// renderPB
-			// 
-			this.renderPB.BackColor = System.Drawing.Color.Transparent;
-			resources.ApplyResources(this.renderPB, "renderPB");
-			this.renderPB.Name = "renderPB";
-			this.renderPB.TabStop = false;
 			// 
 			// txtMessage
 			// 
@@ -753,13 +750,6 @@ namespace Client
 			resources.ApplyResources(this.OOCName, "OOCName");
 			this.OOCName.Name = "OOCName";
 			// 
-			// nameLabel
-			// 
-			this.nameLabel.BackColor = System.Drawing.Color.Transparent;
-			this.nameLabel.ForeColor = System.Drawing.Color.White;
-			resources.ApplyResources(this.nameLabel, "nameLabel");
-			this.nameLabel.Name = "nameLabel";
-			// 
 			// ClientForm
 			// 
 			resources.ApplyResources(this, "$this");
@@ -809,7 +799,6 @@ namespace Client
 			((System.ComponentModel.ISupportInitialize)(this.emoButton2)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.emoButton1)).EndInit();
 			this.GameDisplay.ResumeLayout(false);
-			((System.ComponentModel.ISupportInitialize)(this.renderPB)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.btn_objection)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.btn_holdit)).EndInit();
 			((System.ComponentModel.ISupportInitialize)(this.btn_takethat)).EndInit();
@@ -924,7 +913,6 @@ namespace Client
         private System.Windows.Forms.PictureBox btn_edit;
         private System.Windows.Forms.ToolStripMenuItem toolsMenu;
         private System.Windows.Forms.ToolStripMenuItem modLoginMenuItem;
-		public System.Windows.Forms.PictureBox renderPB;
 		private System.Windows.Forms.Label displayMsg1;
 		private System.Windows.Forms.Label displayMsg3;
 		private System.Windows.Forms.Label displayMsg2;
