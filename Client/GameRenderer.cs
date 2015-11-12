@@ -93,7 +93,7 @@ namespace Client
 			background = GetTextures(parent?.backgroundLayerImage) != null ? GifAnimation.FromTextures(GetTextures(parent?.backgroundLayerImage)) : null;
 			character = GetTextures(parent?.charLayerImage) != null ? GifAnimation.FromTextures(GetTextures(parent?.charLayerImage)) : null;
 			desk = GetTextures(parent?.deskLayerImage) != null ? GifAnimation.FromTextures(GetTextures(parent?.deskLayerImage)) : null;
-			chatBG = GetTextures(parent?.backgroundLayerImage) != null ? GifAnimation.FromTextures(GetTextures(parent?.backgroundLayerImage)) : null;
+			chatBG = GetTextures(parent?.chatBGLayerImage) != null ? GifAnimation.FromTextures(GetTextures(parent?.chatBGLayerImage)) : null;
 			testimony = GetTextures(parent?.testimonyImage) != null ? GifAnimation.FromTextures(GetTextures(parent?.testimonyImage)) : null;
 			objection = GetTextures(parent?.objectLayerImage) != null ? GifAnimation.FromTextures(GetTextures(parent?.objectLayerImage)) : null;
 		}

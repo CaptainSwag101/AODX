@@ -123,7 +123,7 @@ namespace Client
 			blipReader = new WaveFileReader("base/sounds/general/sfx-blipmale.wav");
 			blipPlayer.Initialize(blipReader.Loop());
 			backgroundLayerImage = Image.FromFile("base/background/default/defenseempty.png");
-			charLayerImage = Image.FromFile("base/characters/Phoenix/(a)normal.gif");
+			charLayerImage = null;
 			deskLayerImage = Image.FromFile("base/background/default/defbench.png");
 			chatBGLayerImage = Image.FromFile("base/misc/chat.png");
 			objectLayerImage = null;
@@ -706,6 +706,7 @@ namespace Client
 					}); */
 					testimonySize = new Size(256, 127);
 					testimonyImage = Image.FromFile("base/misc/inventory_update.png");
+					gameEntry.ChangeSprites();
 					wr = new WaveFileReader("base/sounds/general/sfx-selectjingle.wav");
 
 					sfxPlayer.Initialize(wr);
@@ -845,14 +846,16 @@ namespace Client
 							else
 								ChangeSides();
 
+							gameEntry.ChangeSprites();
+
 							//If there is no pre-animation
 							if (iniParser.GetAnimType(msgReceived.strName, msgReceived.anim) == 5 |
 								iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim) == null |
 								iniParser.GetPreAnimTime(msgReceived.strName, msgReceived.anim) <= 0)
 							{
 								charLayerImage = null;
-								setCharSprite("base/characters/" + msgReceived.strName + "/(b)" +
-											  iniParser.GetAnim(msgReceived.strName, msgReceived.anim) + ".gif");
+								setCharSprite("base/characters/" + msgReceived.strName + "/(b)" + iniParser.GetAnim(msgReceived.strName, msgReceived.anim) + ".gif");
+								gameEntry.ChangeSprites();
 								if (msgReceived.cmdCommand == Command.Present)
 								{
 									sfxPlayer.Stop();
@@ -865,6 +868,7 @@ namespace Client
 									{
 									case "def":
 										testimonyImage = Image.FromFile("base/misc/ani_evidenceRight.gif");
+										gameEntry.ChangeSprites();
 										Thread.Sleep(100);
 										testimonyLocation = new Vector2(173, 13);
 										testimonySize = new Size(70, 70);
@@ -872,6 +876,7 @@ namespace Client
 										break;
 									case "pro":
 										testimonyImage = Image.FromFile("base/misc/ani_evidenceLeft.gif");
+										gameEntry.ChangeSprites();
 										Thread.Sleep(100);
 										testimonyLocation = new Vector2(13, 13);
 										testimonySize = new Size(70, 70);
@@ -879,6 +884,7 @@ namespace Client
 										break;
 									case "hld":
 										testimonyImage = Image.FromFile("base/misc/ani_evidenceLeft.gif");
+										gameEntry.ChangeSprites();
 										Thread.Sleep(100);
 										testimonyLocation = new Vector2(13, 13);
 										testimonySize = new Size(70, 70);
@@ -886,6 +892,7 @@ namespace Client
 										break;
 									case "hlp":
 										testimonyImage = Image.FromFile("base/misc/ani_evidenceRight.gif");
+										gameEntry.ChangeSprites();
 										Thread.Sleep(100);
 										testimonyLocation = new Vector2(173, 13);
 										testimonySize = new Size(70, 70);
@@ -893,6 +900,7 @@ namespace Client
 										break;
 									default:
 										testimonyImage = Image.FromFile("base/misc/ani_evidenceRight.gif");
+										gameEntry.ChangeSprites();
 										Thread.Sleep(100);
 										testimonyLocation = new Vector2(173, 13);
 										testimonySize = new Size(70, 70);
@@ -910,6 +918,7 @@ namespace Client
 											  iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim) + ".gif");
 								preAnimTime = iniParser.GetPreAnimTime(msgReceived.strName, msgReceived.anim);
 								curPreAnim = iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim);
+								gameEntry.ChangeSprites();
 							}
 							//dispTextRedraw.Enabled = true;
 						} else
@@ -988,6 +997,7 @@ namespace Client
 				displayMsg2.Visible = false;
 				displayMsg3.Visible = false;
 				objectLayerImage = Image.FromFile("base/misc/ani_objection.gif");
+				gameEntry.ChangeSprites();
 				if (File.Exists("base/characters/" + latestMsg.strName + "/objection.wav"))
 					wr = new WaveFileReader("base/characters/" + latestMsg.strName + "/objection.wav");
 				else
@@ -1007,6 +1017,7 @@ namespace Client
 				displayMsg2.Visible = false;
 				displayMsg3.Visible = false;
 				objectLayerImage = Image.FromFile("base/misc/ani_holdit.gif");
+				gameEntry.ChangeSprites();
 				if (File.Exists("base/characters/" + latestMsg.strName + "/holdit.wav"))
 					wr = new WaveFileReader("base/characters/" + latestMsg.strName + "/holdit.wav");
 				else
@@ -1026,6 +1037,7 @@ namespace Client
 				displayMsg2.Visible = false;
 				displayMsg3.Visible = false;
 				objectLayerImage = Image.FromFile("base/misc/ani_takethat.gif");
+				gameEntry.ChangeSprites();
 				if (File.Exists("base/characters/" + latestMsg.strName + "/takethat.wav"))
 					wr = new WaveFileReader("base/characters/" + latestMsg.strName + "/takethat.wav");
 				else
@@ -1042,6 +1054,7 @@ namespace Client
 				testimonyLocation = new Vector2(0, 3);
 				testimonySize = new Size(256, 111);
 				testimonyImage = Image.FromFile("base/misc/ani_witnessTestimony2.gif");
+				gameEntry.ChangeSprites();
 				wr = new WaveFileReader("base/sounds/general/sfx-testimony.wav");
 
 				sfxPlayer.Initialize(wr);
@@ -1055,6 +1068,7 @@ namespace Client
 				testimonyLocation = new Vector2(0, 3);
 				testimonySize = new Size(256, 111);
 				testimonyImage = Image.FromFile("base/misc/ani_crossexamination.gif");
+				gameEntry.ChangeSprites();
 				Thread.Sleep(300);
 				wr = new WaveFileReader("base/sounds/general/sfx-testimony2.wav");
 
@@ -1083,6 +1097,8 @@ namespace Client
 				charLayerImage = Image.FromFile(file);
 			else
 				charLayerImage = Image.FromFile("base/misc/placeholder_char.gif");
+
+			gameEntry.ChangeSprites();
 		}
 
 		private void appendTxtLogSafe(string txt)
@@ -1180,6 +1196,7 @@ namespace Client
 						backgroundLayerImage = Image.FromFile("base/misc/ani_zoom_def.gif");
 						deskLayerImage = null;
 					}
+					gameEntry.ChangeSprites();
 					break;
 				case "pro":
 					if (!zoom)
@@ -1191,6 +1208,7 @@ namespace Client
 						backgroundLayerImage = Image.FromFile("base/misc/ani_zoom_pro.gif");
 						deskLayerImage = null;
 					}
+					gameEntry.ChangeSprites();
 					break;
 				case "jud":
 					if (!zoom)
@@ -1202,6 +1220,7 @@ namespace Client
 						backgroundLayerImage = Image.FromFile("base/misc/ani_zoom_def.gif");
 						deskLayerImage = null;
 					}
+					gameEntry.ChangeSprites();
 					break;
 				case "wit":
 					if (!zoom)
@@ -1213,6 +1232,7 @@ namespace Client
 						backgroundLayerImage = Image.FromFile("base/misc/ani_zoom_pro.gif");
 						deskLayerImage = null;
 					}
+					gameEntry.ChangeSprites();
 					break;
 				case "hld":
 					if (!zoom)
@@ -1224,6 +1244,7 @@ namespace Client
 						backgroundLayerImage = Image.FromFile("base/misc/ani_zoom_def.gif");
 						deskLayerImage = null;
 					}
+					gameEntry.ChangeSprites();
 					break;
 				case "hlp":
 					if (!zoom)
@@ -1235,6 +1256,7 @@ namespace Client
 						backgroundLayerImage = Image.FromFile("base/misc/ani_zoom_pro.gif");
 						deskLayerImage = null;
 					}
+					gameEntry.ChangeSprites();
 					break;
 				}
 			} catch (Exception ex)
@@ -1400,6 +1422,7 @@ namespace Client
 							{
 							case "def":
 								testimonyImage = Image.FromFile("base/misc/ani_evidenceRight.gif");
+								gameEntry.ChangeSprites();
 								Thread.Sleep(100);
 								testimonyLocation = new Vector2(173, 13);
 								testimonySize = new Size(70, 70);
@@ -1407,6 +1430,7 @@ namespace Client
 								break;
 							case "pro":
 								testimonyImage = Image.FromFile("base/misc/ani_evidenceLeft.gif");
+								gameEntry.ChangeSprites();
 								Thread.Sleep(100);
 								testimonyLocation = new Vector2(13, 13);
 								testimonySize = new Size(70, 70);
@@ -1414,6 +1438,7 @@ namespace Client
 								break;
 							case "hld":
 								testimonyImage = Image.FromFile("base/misc/ani_evidenceLeft.gif");
+								gameEntry.ChangeSprites();
 								Thread.Sleep(100);
 								testimonyLocation = new Vector2(13, 13);
 								testimonySize = new Size(70, 70);
@@ -1421,6 +1446,7 @@ namespace Client
 								break;
 							case "hlp":
 								testimonyImage = Image.FromFile("base/misc/ani_evidenceRight.gif");
+								gameEntry.ChangeSprites();
 								Thread.Sleep(100);
 								testimonyLocation = new Vector2(173, 13);
 								testimonySize = new Size(70, 70);
@@ -1428,12 +1454,14 @@ namespace Client
 								break;
 							default:
 								testimonyImage = Image.FromFile("base/misc/ani_evidenceRight.gif");
+								gameEntry.ChangeSprites();
 								Thread.Sleep(100);
 								testimonyLocation = new Vector2(173, 13);
 								testimonySize = new Size(70, 70);
 								testimonyImage = eviList[Convert.ToInt32(latestMsg.strMessage.Split('|').Last())].icon;
 								break;
 							}
+							gameEntry.ChangeSprites();
 
 							latestMsg.strMessage = latestMsg.strMessage.Split('|')[0];
 						}
