@@ -21,6 +21,7 @@ namespace Client
 		GraphicsDeviceManager graphics;
 		PresentationParameters drawParams = new PresentationParameters();
 		SpriteBatch sb;
+		SpriteFont AAFont;
 		ClientForm parent;
 		GifAnimation background;
 		GifAnimation character;
@@ -117,7 +118,15 @@ namespace Client
 			// Create a new SpriteBatch, which can be used to draw textures.
 			sb = new SpriteBatch(graphics.GraphicsDevice);
 
-			// TODO: use this.Content to load your game content here
+			try
+			{
+				AAFont = Content.Load<SpriteFont>("base/misc/aafont");
+			}
+			catch (Exception ex)
+			{
+				if (Program.debug)
+					MessageBox.Show(ex.Message + "\r\n" + ex.StackTrace, "GameRenderer", MessageBoxButtons.OK, MessageBoxIcon.Error);
+			}
 		}
 
 		/// <summary>
@@ -181,6 +190,9 @@ namespace Client
 				{
 					sb.Draw(objection.GetTexture(), objection.GetTexture().Bounds, Color.White);
 				}
+				sb.DrawString(AAFont, parent.displayMsg1.Text, new Vector2(5, 134), XNAColor(parent.dispColor));
+				sb.DrawString(AAFont, parent.displayMsg2.Text, new Vector2(5, 152), XNAColor(parent.dispColor));
+				sb.DrawString(AAFont, parent.displayMsg3.Text, new Vector2(5, 170), XNAColor(parent.dispColor));
 
 				sb.End();
 
@@ -191,6 +203,11 @@ namespace Client
 			} finally {
 				sb.End();
 			}
+		}
+
+		public Color XNAColor(System.Drawing.Color color)
+		{
+			return new Color(color.R, color.G, color.B, color.A);
 		}
 	}
 }

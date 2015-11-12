@@ -762,7 +762,7 @@ YOU MUST CONSTRUCT ADDITIONAL PYLONS.</value>
     <value>NoControl</value>
   </data>
   <data name="displayMsg3.Location" type="System.Drawing.Point, System.Drawing">
-    <value>4, 170</value>
+    <value>5, 170</value>
   </data>
   <data name="displayMsg3.MaximumSize" type="System.Drawing.Size, System.Drawing">
     <value>246, 16</value>

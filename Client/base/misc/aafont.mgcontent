@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>E:/jpmac/Documents/GitHub/AODX/Client/base/misc/aafont.spritefont</SourceFile>
+  <SourceTime>2015-11-12T02:00:33.4024559-07:00</SourceTime>
+  <DestFile>E:/jpmac/Documents/GitHub/AODX/Client/base/misc/aafont.xnb</DestFile>
+  <DestTime>2015-11-12T02:01:45.6269769-07:00</DestTime>
+  <Importer>FontDescriptionImporter</Importer>
+  <ImporterTime>2015-04-29T11:14:44-06:00</ImporterTime>
+  <Processor>FontDescriptionProcessor</Processor>
+  <ProcessorTime>2015-04-29T11:14:44-06:00</ProcessorTime>
+  <Parameters>
+    <Key>TextureFormat</Key>
+    <Value>Compressed</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput />
+</PipelineBuildEvent>

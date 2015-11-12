@@ -913,10 +913,10 @@ namespace Client
         private System.Windows.Forms.PictureBox btn_edit;
         private System.Windows.Forms.ToolStripMenuItem toolsMenu;
         private System.Windows.Forms.ToolStripMenuItem modLoginMenuItem;
-		private System.Windows.Forms.Label displayMsg1;
-		private System.Windows.Forms.Label displayMsg3;
-		private System.Windows.Forms.Label displayMsg2;
-		private System.Windows.Forms.Label nameLabel;
+		public System.Windows.Forms.Label displayMsg1;
+		public System.Windows.Forms.Label displayMsg3;
+		public System.Windows.Forms.Label displayMsg2;
+		public System.Windows.Forms.Label nameLabel;
 	}
 }
 

@@ -59,13 +59,13 @@ namespace Client
 		private string[] textToDisp = new string[3];
 		private int textTicks = 1;
 		private bool redraw;
-		private bool newGuy;
+		//private bool newGuy;
 		private int emoCount;
 		private int emoPage;
 		private int emoMaxPages;
 		private int eviCount;
 		private readonly int eviPage = 0;
-		private int eviMaxPages = 0;
+		//private int eviMaxPages = 0;
 		private bool sendEnabled = true;
 		private bool mute;
 		private byte defHealth = 5;
@@ -236,10 +236,9 @@ namespace Client
 				displayMsg1.BackColor = Color.Transparent;
 				displayMsg2.BackColor = Color.Transparent;
 				displayMsg3.BackColor = Color.Transparent;
-				form.Controls.Add(nameLabel);
-				form.Controls.Add(displayMsg1);
-				form.Controls.Add(displayMsg2);
-				form.Controls.Add(displayMsg3);
+				displayMsg1.SendToBack();
+				displayMsg2.SendToBack();
+				displayMsg3.SendToBack();
 			}
 			form.Visible = true;
 			//These methods need to happen in this order for now
@@ -316,9 +315,9 @@ namespace Client
 
 		private void clearDispMsg()
 		{
-			dispText1 = "";
-			dispText2 = "";
-			dispText3 = "";
+			displayMsg1.Text = "";
+			displayMsg2.Text = "";
+			displayMsg3.Text = "";
 		}
 
 		private void setDispMsgColor(Color newColor)
@@ -795,10 +794,10 @@ namespace Client
 					case Command.Present:
 						if (latestMsg != null && msgReceived.strName == latestMsg.strName)
 						{
-							newGuy = false;
+							//newGuy = false;
 						} else
 						{
-							newGuy = true;
+							//newGuy = true;
 							testimonyImage = null;
 						}
 
