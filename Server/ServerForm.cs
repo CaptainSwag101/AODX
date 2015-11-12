@@ -288,7 +288,7 @@ namespace Server
 		{
 			try
 			{
-				if (isClosing != true)
+				if (!isClosing)
 				{
 					//Transform the array of bytes received from the user into an
 					//intelligent form of object Data
@@ -326,13 +326,19 @@ namespace Server
 						//When a user logs in to the server then we add her to our
 						//list of clients
 
-						if (msgReceived.strName == null || msgReceived.strName == "")
+						if (string.IsNullOrEmpty(msgReceived.strName))
 						{
 							appendTxtLogSafe("<<" + clientSocket.RemoteEndPoint.ToString() + " send an invalid Login packet>>\r\n");
 							clientSocket.BeginReceive(byteData, 0, byteData.Length, SocketFlags.None, new AsyncCallback(OnReceive), clientSocket);
 							return;
 						}
 
+						if (clientList.Cast<ClientInfo>().Any(client => client.strName == msgReceived.strName))
+						{
+							appendTxtLogSafe("<<" + clientSocket.RemoteEndPoint.ToString() + " tried to log in with a character already being used>>\r\n");
+							clientSocket.Close();
+							return;
+						}
 						ClientInfo clientInfo = new ClientInfo();
 						clientInfo.socket = clientSocket;
 						clientInfo.strName = msgReceived.strName;
@@ -593,20 +599,22 @@ namespace Server
 		{
 			try
 			{
+				isClosing = true;
 				masterSocket.EndSend(ar);
 				masterSocket.Disconnect(false);
-				int nIndex = 0;
-				foreach (ClientInfo client in clientList)
+				for (int nIndex = clientList.Count; nIndex > 0; nIndex--)
 				{
+					if (nIndex > 0)
+						break;
+
 					clientList.RemoveAt(nIndex);
 					//removeLstUsersSafe(client.strName + " - " + client.character);
-					removeLstUsersSafe(client.strName + " - " + ((IPEndPoint)client.socket.RemoteEndPoint).Address.ToString());
-					client.socket.Close();
-					++nIndex;
+					removeLstUsersSafe(((ClientInfo)clientList[nIndex]).strName + " - " + ((IPEndPoint)((ClientInfo)clientList[nIndex]).socket.RemoteEndPoint).Address.ToString());
+					((ClientInfo)clientList[nIndex]).socket.Close();
 				}
 				//serverSocket.EndReceive();
 				serverSocket.Close();
-				isClosing = true;
+
 			} catch (SocketException) { } catch (ObjectDisposedException) { } catch (Exception ex)
 			{
 				if (Program.debug)

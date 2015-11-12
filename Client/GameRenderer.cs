@@ -145,12 +145,18 @@ namespace Client
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Update(GameTime gameTime)
 		{
-			background?.Update(gameTime.ElapsedGameTime.Ticks);
-			character?.Update(gameTime.ElapsedGameTime.Ticks);
-			desk?.Update(gameTime.ElapsedGameTime.Ticks);
-			chatBG?.Update(gameTime.ElapsedGameTime.Ticks);
-			testimony?.Update(gameTime.ElapsedGameTime.Ticks);
-			objection?.Update(gameTime.ElapsedGameTime.Ticks);
+			if (background != null && background?.FrameCount > 1)
+				background?.Update(gameTime.ElapsedGameTime.Ticks);
+			if (character != null && character?.FrameCount > 1)
+				character?.Update(gameTime.ElapsedGameTime.Ticks);
+			if (desk != null && desk.FrameCount > 1)
+				desk?.Update(gameTime.ElapsedGameTime.Ticks);
+			if (chatBG != null && chatBG?.FrameCount > 1)
+				chatBG?.Update(gameTime.ElapsedGameTime.Ticks);
+			if (testimony != null && testimony?.FrameCount > 1)
+				testimony?.Update(gameTime.ElapsedGameTime.Ticks);
+			if (objection != null && objection?.FrameCount > 1)
+				objection?.Update(gameTime.ElapsedGameTime.Ticks);
 
 			base.Update(gameTime);
 		}

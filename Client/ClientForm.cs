@@ -88,6 +88,7 @@ namespace Client
 
 		//Properties related to drawing the XNA Game Display
 		private GameRenderer gameEntry;
+		private Stopwatch drawTimer = new Stopwatch();
 		public Image backgroundLayerImage;
 		public Image charLayerImage;
 		public Image deskLayerImage;
@@ -119,7 +120,7 @@ namespace Client
 		public ClientForm()
 		{
 			InitializeComponent();
-			
+
 			blipReader = new WaveFileReader("base/sounds/general/sfx-blipmale.wav");
 			blipPlayer.Initialize(blipReader.Loop());
 			backgroundLayerImage = Image.FromFile("base/background/default/defenseempty.png");
@@ -172,7 +173,8 @@ namespace Client
 			clearDispMsg();
 			setDispMsgColor(Color.White);
 
-			System.Windows.Forms.Application.Idle += new EventHandler(OnApplicationIdle);
+			drawTimer.Start();
+			Application.Idle += new EventHandler(OnApplicationIdle);
 
 			//displayMsg.Text = "Sample Text";
 			//Refresh();
@@ -180,7 +182,13 @@ namespace Client
 
 		private void OnApplicationIdle(object sender, EventArgs e)
 		{
-			gameEntry.RunOneFrame();
+			drawTimer.Stop();
+			if (((double)drawTimer.ElapsedMilliseconds / (double)16.666666667) >= 1)
+			{
+				gameEntry.RunOneFrame();
+				drawTimer.Reset();
+			}
+			drawTimer.Start();
 		}
 
 		private void ClientForm_Load(object sender, EventArgs e)
