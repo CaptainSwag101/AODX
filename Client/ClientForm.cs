@@ -232,10 +232,10 @@ namespace Client
 				form.Parent = GameDisplay;
 				form.Size = new Size(256, 192);
 				GameDisplay.Controls.Add(form);
-				nameLabel.BackColor = Color.Transparent;
-				displayMsg1.BackColor = Color.Transparent;
-				displayMsg2.BackColor = Color.Transparent;
-				displayMsg3.BackColor = Color.Transparent;
+				//nameLabel.BackColor = Color.Transparent;
+				//displayMsg1.BackColor = Color.Transparent;
+				//displayMsg2.BackColor = Color.Transparent;
+				//displayMsg3.BackColor = Color.Transparent;
 				displayMsg1.SendToBack();
 				displayMsg2.SendToBack();
 				displayMsg3.SendToBack();
@@ -846,8 +846,6 @@ namespace Client
 							else
 								ChangeSides();
 
-							gameEntry.ChangeSprites();
-
 							//If there is no pre-animation
 							if (iniParser.GetAnimType(msgReceived.strName, msgReceived.anim) == 5 |
 								iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim) == null |
@@ -855,7 +853,6 @@ namespace Client
 							{
 								charLayerImage = null;
 								setCharSprite("base/characters/" + msgReceived.strName + "/(b)" + iniParser.GetAnim(msgReceived.strName, msgReceived.anim) + ".gif");
-								gameEntry.ChangeSprites();
 								if (msgReceived.cmdCommand == Command.Present)
 								{
 									sfxPlayer.Stop();
@@ -918,7 +915,7 @@ namespace Client
 											  iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim) + ".gif");
 								preAnimTime = iniParser.GetPreAnimTime(msgReceived.strName, msgReceived.anim);
 								curPreAnim = iniParser.GetPreAnim(msgReceived.strName, msgReceived.anim);
-								gameEntry.ChangeSprites();
+								//gameEntry.ChangeSprites(); //Don't know if this needs to be here or not
 							}
 							//dispTextRedraw.Enabled = true;
 						} else
@@ -1007,7 +1004,7 @@ namespace Client
 				if (!mute)
 					sfxPlayer.Play();
 
-				Thread.Sleep(1000);
+				Thread.Sleep(800);
 				break;
 
 			case 2:
@@ -1027,7 +1024,7 @@ namespace Client
 				if (!mute)
 					sfxPlayer.Play();
 
-				Thread.Sleep(1000);
+				Thread.Sleep(800);
 				break;
 
 			case 3:
@@ -1047,7 +1044,7 @@ namespace Client
 				if (!mute)
 					sfxPlayer.Play();
 
-				Thread.Sleep(1000);
+				Thread.Sleep(800);
 				break;
 
 			case 4:
@@ -1061,7 +1058,7 @@ namespace Client
 				if (!mute)
 					sfxPlayer.Play();
 
-				Thread.Sleep(3500);
+				Thread.Sleep(3300);
 				break;
 
 			case 5:
@@ -1069,7 +1066,7 @@ namespace Client
 				testimonySize = new Size(256, 111);
 				testimonyImage = Image.FromFile("base/misc/ani_crossexamination.gif");
 				gameEntry.ChangeSprites();
-				Thread.Sleep(300);
+				Thread.Sleep(100);
 				wr = new WaveFileReader("base/sounds/general/sfx-testimony2.wav");
 
 				sfxPlayer.Initialize(wr);
@@ -1196,7 +1193,6 @@ namespace Client
 						backgroundLayerImage = Image.FromFile("base/misc/ani_zoom_def.gif");
 						deskLayerImage = null;
 					}
-					gameEntry.ChangeSprites();
 					break;
 				case "pro":
 					if (!zoom)
@@ -1208,7 +1204,6 @@ namespace Client
 						backgroundLayerImage = Image.FromFile("base/misc/ani_zoom_pro.gif");
 						deskLayerImage = null;
 					}
-					gameEntry.ChangeSprites();
 					break;
 				case "jud":
 					if (!zoom)
@@ -1220,7 +1215,6 @@ namespace Client
 						backgroundLayerImage = Image.FromFile("base/misc/ani_zoom_def.gif");
 						deskLayerImage = null;
 					}
-					gameEntry.ChangeSprites();
 					break;
 				case "wit":
 					if (!zoom)
@@ -1232,7 +1226,6 @@ namespace Client
 						backgroundLayerImage = Image.FromFile("base/misc/ani_zoom_pro.gif");
 						deskLayerImage = null;
 					}
-					gameEntry.ChangeSprites();
 					break;
 				case "hld":
 					if (!zoom)
@@ -1244,7 +1237,6 @@ namespace Client
 						backgroundLayerImage = Image.FromFile("base/misc/ani_zoom_def.gif");
 						deskLayerImage = null;
 					}
-					gameEntry.ChangeSprites();
 					break;
 				case "hlp":
 					if (!zoom)
@@ -1256,9 +1248,9 @@ namespace Client
 						backgroundLayerImage = Image.FromFile("base/misc/ani_zoom_pro.gif");
 						deskLayerImage = null;
 					}
-					gameEntry.ChangeSprites();
 					break;
 				}
+				gameEntry.ChangeSprites();
 			} catch (Exception ex)
 			{
 				if (Program.debug)
