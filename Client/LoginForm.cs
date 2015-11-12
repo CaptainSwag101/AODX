@@ -29,15 +29,15 @@ namespace Client
 		public LoginForm()
 		{
 			InitializeComponent();
-			btn_PublicServers.Load("base/misc/btn_public_on.png");
+			//btn_PublicServers.Load("base/misc/btn_public_on.png");
 			background.Controls.Add(btn_PublicServers);
-			btn_FavoriteServers.Load("base/misc/btn_fav_off.png");
+			//btn_FavoriteServers.Load("base/misc/btn_fav_off.png");
 			background.Controls.Add(btn_FavoriteServers);
-			btn_Refresh.Load("base/misc/btn_refresh.png");
+			//btn_Refresh.Load("base/misc/btn_refresh.png");
 			background.Controls.Add(btn_Refresh);
-			btn_AddFav.Load("base/misc/btn_addFav.png");
+			//btn_AddFav.Load("base/misc/btn_addFav.png");
 			background.Controls.Add(btn_AddFav);
-			btn_Connect.Load("base/misc/btn_connect.png");
+			//btn_Connect.Load("base/misc/btn_connect.png");
 			background.Controls.Add(btn_Connect);
 			userCount.BackColor = Color.Transparent;
 			background.Controls.Add(userCount);
@@ -125,7 +125,7 @@ namespace Client
 			try
 			{
 				masterSocket.EndConnect(ar);
-				btn_Refresh.Load("base/misc/btn_refresh.png");
+				//btn_Refresh.Load("base/misc/btn_refresh.png");
 				//btnOK.Enabled = false;
 
 				var b = new byte[1];
@@ -414,7 +414,7 @@ namespace Client
 
 		private void btn_Refresh_Click(object sender, EventArgs e)
 		{
-			btn_Refresh.Load("base/misc/btn_refresh_pressed.png");
+			//btn_Refresh.Load("base/misc/btn_refresh_pressed.png");
 			if (clientSocket != null && clientSocket.Connected)
 			{
 				//clientSocket.BeginDisconnect(true, new AsyncCallback(OnDisconnect), null);
@@ -429,7 +429,7 @@ namespace Client
 
 		private void btn_Connect_Click(object sender, EventArgs e)
 		{
-			btn_Connect.Load("base/misc/btn_connect_pressed.png");
+			//btn_Connect.Load("base/misc/btn_connect_pressed.png");
 			try
 			{
 				if (serverList.Items.Count > 0 && serverList.SelectedItem != null && clientSocket != null)

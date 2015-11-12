@@ -120,53 +120,7 @@
   <metadata name="menuStrip.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="exitMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
-    <value>Alt+F4</value>
-  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="exitMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>134, 22</value>
-  </data>
-  <data name="exitMenuItem.Text" xml:space="preserve">
-    <value>E&amp;xit</value>
-  </data>
-  <data name="fileMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>37, 20</value>
-  </data>
-  <data name="fileMenu.Text" xml:space="preserve">
-    <value>&amp;File</value>
-  </data>
-  <data name="modLoginMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>172, 22</value>
-  </data>
-  <data name="modLoginMenuItem.Text" xml:space="preserve">
-    <value>&amp;Moderator Login...</value>
-  </data>
-  <data name="toolsMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>47, 20</value>
-  </data>
-  <data name="toolsMenu.Text" xml:space="preserve">
-    <value>&amp;Tools</value>
-  </data>
-  <data name="updateMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 22</value>
-  </data>
-  <data name="updateMenuItem.Text" xml:space="preserve">
-    <value>Check for &amp;Updates</value>
-  </data>
-  <data name="aboutMenuItem.Size" type="System.Drawing.Size, System.Drawing">
-    <value>171, 22</value>
-  </data>
-  <data name="aboutMenuItem.Text" xml:space="preserve">
-    <value>About...</value>
-  </data>
-  <data name="helpMenu.Size" type="System.Drawing.Size, System.Drawing">
-    <value>44, 20</value>
-  </data>
-  <data name="helpMenu.Text" xml:space="preserve">
-    <value>&amp;Help</value>
-  </data>
   <data name="menuStrip.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 0</value>
   </data>
@@ -191,6 +145,52 @@
   </data>
   <data name="&gt;&gt;menuStrip.ZOrder" xml:space="preserve">
     <value>22</value>
+  </data>
+  <data name="fileMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>37, 20</value>
+  </data>
+  <data name="fileMenu.Text" xml:space="preserve">
+    <value>&amp;File</value>
+  </data>
+  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
+  <data name="exitMenuItem.ShortcutKeys" type="System.Windows.Forms.Keys, System.Windows.Forms">
+    <value>Alt+F4</value>
+  </data>
+  <data name="exitMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>134, 22</value>
+  </data>
+  <data name="exitMenuItem.Text" xml:space="preserve">
+    <value>E&amp;xit</value>
+  </data>
+  <data name="toolsMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>47, 20</value>
+  </data>
+  <data name="toolsMenu.Text" xml:space="preserve">
+    <value>&amp;Tools</value>
+  </data>
+  <data name="modLoginMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>172, 22</value>
+  </data>
+  <data name="modLoginMenuItem.Text" xml:space="preserve">
+    <value>&amp;Moderator Login...</value>
+  </data>
+  <data name="helpMenu.Size" type="System.Drawing.Size, System.Drawing">
+    <value>44, 20</value>
+  </data>
+  <data name="helpMenu.Text" xml:space="preserve">
+    <value>&amp;Help</value>
+  </data>
+  <data name="updateMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 22</value>
+  </data>
+  <data name="updateMenuItem.Text" xml:space="preserve">
+    <value>Check for &amp;Updates</value>
+  </data>
+  <data name="aboutMenuItem.Size" type="System.Drawing.Size, System.Drawing">
+    <value>171, 22</value>
+  </data>
+  <data name="aboutMenuItem.Text" xml:space="preserve">
+    <value>About...</value>
   </data>
   <metadata name="animTimer.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>264, 17</value>
@@ -254,6 +254,147 @@
   </data>
   <data name="&gt;&gt;arrowLeft.ZOrder" xml:space="preserve">
     <value>1</value>
+  </data>
+  <data name="&gt;&gt;emoButton10.Name" xml:space="preserve">
+    <value>emoButton10</value>
+  </data>
+  <data name="&gt;&gt;emoButton10.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton10.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton10.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;emoButton9.Name" xml:space="preserve">
+    <value>emoButton9</value>
+  </data>
+  <data name="&gt;&gt;emoButton9.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton9.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton9.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;emoButton8.Name" xml:space="preserve">
+    <value>emoButton8</value>
+  </data>
+  <data name="&gt;&gt;emoButton8.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton8.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton8.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;emoButton7.Name" xml:space="preserve">
+    <value>emoButton7</value>
+  </data>
+  <data name="&gt;&gt;emoButton7.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton7.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton7.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;emoButton6.Name" xml:space="preserve">
+    <value>emoButton6</value>
+  </data>
+  <data name="&gt;&gt;emoButton6.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton6.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton6.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;emoButton5.Name" xml:space="preserve">
+    <value>emoButton5</value>
+  </data>
+  <data name="&gt;&gt;emoButton5.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton5.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton5.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;emoButton4.Name" xml:space="preserve">
+    <value>emoButton4</value>
+  </data>
+  <data name="&gt;&gt;emoButton4.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton4.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton4.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;emoButton3.Name" xml:space="preserve">
+    <value>emoButton3</value>
+  </data>
+  <data name="&gt;&gt;emoButton3.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton3.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton3.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;emoButton2.Name" xml:space="preserve">
+    <value>emoButton2</value>
+  </data>
+  <data name="&gt;&gt;emoButton2.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton2.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton2.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;emoButton1.Name" xml:space="preserve">
+    <value>emoButton1</value>
+  </data>
+  <data name="&gt;&gt;emoButton1.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;emoButton1.Parent" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emoButton1.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="emotionPanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 284</value>
+  </data>
+  <data name="emotionPanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>256, 112</value>
+  </data>
+  <data name="emotionPanel.TabIndex" type="System.Int32, mscorlib">
+    <value>18</value>
+  </data>
+  <data name="&gt;&gt;emotionPanel.Name" xml:space="preserve">
+    <value>emotionPanel</value>
+  </data>
+  <data name="&gt;&gt;emotionPanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;emotionPanel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;emotionPanel.ZOrder" xml:space="preserve">
+    <value>17</value>
   </data>
   <data name="emoButton10.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Bottom</value>
@@ -525,27 +666,6 @@
   <data name="&gt;&gt;emoButton1.ZOrder" xml:space="preserve">
     <value>11</value>
   </data>
-  <data name="emotionPanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 284</value>
-  </data>
-  <data name="emotionPanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>256, 112</value>
-  </data>
-  <data name="emotionPanel.TabIndex" type="System.Int32, mscorlib">
-    <value>18</value>
-  </data>
-  <data name="&gt;&gt;emotionPanel.Name" xml:space="preserve">
-    <value>emotionPanel</value>
-  </data>
-  <data name="&gt;&gt;emotionPanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;emotionPanel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;emotionPanel.ZOrder" xml:space="preserve">
-    <value>17</value>
-  </data>
   <data name="OOCInput.Anchor" type="System.Windows.Forms.AnchorStyles, System.Windows.Forms">
     <value>Top, Left, Right</value>
   </data>
@@ -608,6 +728,9 @@ YOU MUST CONSTRUCT ADDITIONAL PYLONS.</value>
   <data name="&gt;&gt;OOCChat.ZOrder" xml:space="preserve">
     <value>19</value>
   </data>
+  <data name="nameLabel.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Arial, 8.25pt</value>
+  </data>
   <data name="nameLabel.Location" type="System.Drawing.Point, System.Drawing">
     <value>0, 117</value>
   </data>
@@ -631,6 +754,9 @@ YOU MUST CONSTRUCT ADDITIONAL PYLONS.</value>
   </data>
   <data name="&gt;&gt;nameLabel.ZOrder" xml:space="preserve">
     <value>0</value>
+  </data>
+  <data name="displayMsg3.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Ace Attorney 2, 12pt</value>
   </data>
   <data name="displayMsg3.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
@@ -665,6 +791,9 @@ YOU MUST CONSTRUCT ADDITIONAL PYLONS.</value>
   <data name="&gt;&gt;displayMsg3.ZOrder" xml:space="preserve">
     <value>1</value>
   </data>
+  <data name="displayMsg2.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Ace Attorney 2, 12pt</value>
+  </data>
   <data name="displayMsg2.ImeMode" type="System.Windows.Forms.ImeMode, System.Windows.Forms">
     <value>NoControl</value>
   </data>
@@ -697,6 +826,9 @@ YOU MUST CONSTRUCT ADDITIONAL PYLONS.</value>
   </data>
   <data name="&gt;&gt;displayMsg2.ZOrder" xml:space="preserve">
     <value>2</value>
+  </data>
+  <data name="displayMsg1.Font" type="System.Drawing.Font, System.Drawing">
+    <value>Ace Attorney 2, 12pt</value>
   </data>
   <data name="displayMsg1.Location" type="System.Drawing.Point, System.Drawing">
     <value>5, 134</value>
@@ -1627,6 +1759,309 @@ YOU MUST CONSTRUCT ADDITIONAL PYLONS.</value>
   </data>
   <data name="&gt;&gt;uiPanel.ZOrder" xml:space="preserve">
     <value>23</value>
+  </data>
+  <data name="&gt;&gt;btn_edit.Name" xml:space="preserve">
+    <value>btn_edit</value>
+  </data>
+  <data name="&gt;&gt;btn_edit.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btn_edit.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;btn_edit.ZOrder" xml:space="preserve">
+    <value>0</value>
+  </data>
+  <data name="&gt;&gt;btn_present.Name" xml:space="preserve">
+    <value>btn_present</value>
+  </data>
+  <data name="&gt;&gt;btn_present.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btn_present.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;btn_present.ZOrder" xml:space="preserve">
+    <value>1</value>
+  </data>
+  <data name="&gt;&gt;btn_back.Name" xml:space="preserve">
+    <value>btn_back</value>
+  </data>
+  <data name="&gt;&gt;btn_back.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;btn_back.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;btn_back.ZOrder" xml:space="preserve">
+    <value>2</value>
+  </data>
+  <data name="&gt;&gt;crTitle.Name" xml:space="preserve">
+    <value>crTitle</value>
+  </data>
+  <data name="&gt;&gt;crTitle.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Label, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;crTitle.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;crTitle.ZOrder" xml:space="preserve">
+    <value>3</value>
+  </data>
+  <data name="&gt;&gt;evi1.Name" xml:space="preserve">
+    <value>evi1</value>
+  </data>
+  <data name="&gt;&gt;evi1.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;evi1.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;evi1.ZOrder" xml:space="preserve">
+    <value>4</value>
+  </data>
+  <data name="&gt;&gt;evi18.Name" xml:space="preserve">
+    <value>evi18</value>
+  </data>
+  <data name="&gt;&gt;evi18.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;evi18.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;evi18.ZOrder" xml:space="preserve">
+    <value>5</value>
+  </data>
+  <data name="&gt;&gt;evi17.Name" xml:space="preserve">
+    <value>evi17</value>
+  </data>
+  <data name="&gt;&gt;evi17.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;evi17.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;evi17.ZOrder" xml:space="preserve">
+    <value>6</value>
+  </data>
+  <data name="&gt;&gt;evi16.Name" xml:space="preserve">
+    <value>evi16</value>
+  </data>
+  <data name="&gt;&gt;evi16.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;evi16.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;evi16.ZOrder" xml:space="preserve">
+    <value>7</value>
+  </data>
+  <data name="&gt;&gt;evi15.Name" xml:space="preserve">
+    <value>evi15</value>
+  </data>
+  <data name="&gt;&gt;evi15.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;evi15.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;evi15.ZOrder" xml:space="preserve">
+    <value>8</value>
+  </data>
+  <data name="&gt;&gt;evi14.Name" xml:space="preserve">
+    <value>evi14</value>
+  </data>
+  <data name="&gt;&gt;evi14.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;evi14.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;evi14.ZOrder" xml:space="preserve">
+    <value>9</value>
+  </data>
+  <data name="&gt;&gt;evi13.Name" xml:space="preserve">
+    <value>evi13</value>
+  </data>
+  <data name="&gt;&gt;evi13.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;evi13.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;evi13.ZOrder" xml:space="preserve">
+    <value>10</value>
+  </data>
+  <data name="&gt;&gt;evi12.Name" xml:space="preserve">
+    <value>evi12</value>
+  </data>
+  <data name="&gt;&gt;evi12.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;evi12.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;evi12.ZOrder" xml:space="preserve">
+    <value>11</value>
+  </data>
+  <data name="&gt;&gt;evi11.Name" xml:space="preserve">
+    <value>evi11</value>
+  </data>
+  <data name="&gt;&gt;evi11.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;evi11.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;evi11.ZOrder" xml:space="preserve">
+    <value>12</value>
+  </data>
+  <data name="&gt;&gt;evi10.Name" xml:space="preserve">
+    <value>evi10</value>
+  </data>
+  <data name="&gt;&gt;evi10.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;evi10.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;evi10.ZOrder" xml:space="preserve">
+    <value>13</value>
+  </data>
+  <data name="&gt;&gt;evi9.Name" xml:space="preserve">
+    <value>evi9</value>
+  </data>
+  <data name="&gt;&gt;evi9.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;evi9.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;evi9.ZOrder" xml:space="preserve">
+    <value>14</value>
+  </data>
+  <data name="&gt;&gt;evi8.Name" xml:space="preserve">
+    <value>evi8</value>
+  </data>
+  <data name="&gt;&gt;evi8.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;evi8.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;evi8.ZOrder" xml:space="preserve">
+    <value>15</value>
+  </data>
+  <data name="&gt;&gt;evi7.Name" xml:space="preserve">
+    <value>evi7</value>
+  </data>
+  <data name="&gt;&gt;evi7.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;evi7.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;evi7.ZOrder" xml:space="preserve">
+    <value>16</value>
+  </data>
+  <data name="&gt;&gt;evi6.Name" xml:space="preserve">
+    <value>evi6</value>
+  </data>
+  <data name="&gt;&gt;evi6.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;evi6.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;evi6.ZOrder" xml:space="preserve">
+    <value>17</value>
+  </data>
+  <data name="&gt;&gt;evi5.Name" xml:space="preserve">
+    <value>evi5</value>
+  </data>
+  <data name="&gt;&gt;evi5.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;evi5.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;evi5.ZOrder" xml:space="preserve">
+    <value>18</value>
+  </data>
+  <data name="&gt;&gt;evi4.Name" xml:space="preserve">
+    <value>evi4</value>
+  </data>
+  <data name="&gt;&gt;evi4.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;evi4.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;evi4.ZOrder" xml:space="preserve">
+    <value>19</value>
+  </data>
+  <data name="&gt;&gt;evi3.Name" xml:space="preserve">
+    <value>evi3</value>
+  </data>
+  <data name="&gt;&gt;evi3.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;evi3.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;evi3.ZOrder" xml:space="preserve">
+    <value>20</value>
+  </data>
+  <data name="&gt;&gt;evi2.Name" xml:space="preserve">
+    <value>evi2</value>
+  </data>
+  <data name="&gt;&gt;evi2.Type" xml:space="preserve">
+    <value>Client.IndexButton, AODXClient, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null</value>
+  </data>
+  <data name="&gt;&gt;evi2.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;evi2.ZOrder" xml:space="preserve">
+    <value>21</value>
+  </data>
+  <data name="&gt;&gt;courtRecordPB.Name" xml:space="preserve">
+    <value>courtRecordPB</value>
+  </data>
+  <data name="&gt;&gt;courtRecordPB.Type" xml:space="preserve">
+    <value>System.Windows.Forms.PictureBox, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;courtRecordPB.Parent" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;courtRecordPB.ZOrder" xml:space="preserve">
+    <value>22</value>
+  </data>
+  <data name="evidencePanel.Location" type="System.Drawing.Point, System.Drawing">
+    <value>12, 430</value>
+  </data>
+  <data name="evidencePanel.MaximumSize" type="System.Drawing.Size, System.Drawing">
+    <value>500, 350</value>
+  </data>
+  <data name="evidencePanel.MinimumSize" type="System.Drawing.Size, System.Drawing">
+    <value>500, 350</value>
+  </data>
+  <data name="evidencePanel.Size" type="System.Drawing.Size, System.Drawing">
+    <value>500, 350</value>
+  </data>
+  <data name="evidencePanel.TabIndex" type="System.Int32, mscorlib">
+    <value>38</value>
+  </data>
+  <data name="&gt;&gt;evidencePanel.Name" xml:space="preserve">
+    <value>evidencePanel</value>
+  </data>
+  <data name="&gt;&gt;evidencePanel.Type" xml:space="preserve">
+    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
+  <data name="&gt;&gt;evidencePanel.Parent" xml:space="preserve">
+    <value>$this</value>
+  </data>
+  <data name="&gt;&gt;evidencePanel.ZOrder" xml:space="preserve">
+    <value>1</value>
   </data>
   <data name="btn_edit.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
@@ -2702,33 +3137,6 @@ YOU MUST CONSTRUCT ADDITIONAL PYLONS.</value>
   </data>
   <data name="&gt;&gt;courtRecordPB.ZOrder" xml:space="preserve">
     <value>22</value>
-  </data>
-  <data name="evidencePanel.Location" type="System.Drawing.Point, System.Drawing">
-    <value>12, 430</value>
-  </data>
-  <data name="evidencePanel.MaximumSize" type="System.Drawing.Size, System.Drawing">
-    <value>500, 350</value>
-  </data>
-  <data name="evidencePanel.MinimumSize" type="System.Drawing.Size, System.Drawing">
-    <value>500, 350</value>
-  </data>
-  <data name="evidencePanel.Size" type="System.Drawing.Size, System.Drawing">
-    <value>500, 350</value>
-  </data>
-  <data name="evidencePanel.TabIndex" type="System.Int32, mscorlib">
-    <value>38</value>
-  </data>
-  <data name="&gt;&gt;evidencePanel.Name" xml:space="preserve">
-    <value>evidencePanel</value>
-  </data>
-  <data name="&gt;&gt;evidencePanel.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Panel, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="&gt;&gt;evidencePanel.Parent" xml:space="preserve">
-    <value>$this</value>
-  </data>
-  <data name="&gt;&gt;evidencePanel.ZOrder" xml:space="preserve">
-    <value>1</value>
   </data>
   <data name="OOCName.Location" type="System.Drawing.Point, System.Drawing">
     <value>520, 406</value>

@@ -123,7 +123,7 @@ namespace Client
 			blipReader = new WaveFileReader("base/sounds/general/sfx-blipmale.wav");
 			blipPlayer.Initialize(blipReader.Loop());
 			backgroundLayerImage = Image.FromFile("base/background/default/defenseempty.png");
-			charLayerImage = Image.FromFile("base/characters/Apollo/(a)apollonormal.gif");
+			charLayerImage = Image.FromFile("base/characters/Phoenix/(a)normal.gif");
 			deskLayerImage = Image.FromFile("base/background/default/defbench.png");
 			chatBGLayerImage = Image.FromFile("base/misc/chat.png");
 			objectLayerImage = null;
@@ -230,8 +230,16 @@ namespace Client
 				form.Dock = DockStyle.Top;
 				form.TopLevel = false;
 				form.Parent = GameDisplay;
-				//form.Size = new Size(256, 192);
+				form.Size = new Size(256, 192);
 				GameDisplay.Controls.Add(form);
+				nameLabel.BackColor = Color.Transparent;
+				displayMsg1.BackColor = Color.Transparent;
+				displayMsg2.BackColor = Color.Transparent;
+				displayMsg3.BackColor = Color.Transparent;
+				form.Controls.Add(nameLabel);
+				form.Controls.Add(displayMsg1);
+				form.Controls.Add(displayMsg2);
+				form.Controls.Add(displayMsg3);
 			}
 			form.Visible = true;
 			//These methods need to happen in this order for now

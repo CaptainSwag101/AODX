@@ -33,8 +33,8 @@ namespace Client
 		{
 			graphics = new GraphicsDeviceManager(this);
 			//renderTarget = new RenderTarget2D(new GraphicsDevice(GraphicsAdapter.DefaultAdapter, GraphicsProfile.HiDef, drawParams), 256, 192);
-			graphics.PreferredBackBufferHeight = 256;
-			graphics.PreferredBackBufferWidth = 192;
+			graphics.PreferredBackBufferWidth = 256;
+			graphics.PreferredBackBufferHeight = 192;
 			parent = parentForm;
 
 			Content.RootDirectory = "";

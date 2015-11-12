@@ -357,30 +357,30 @@ namespace Client
 			// 
 			// nameLabel
 			// 
-			this.nameLabel.BackColor = System.Drawing.Color.Transparent;
-			this.nameLabel.ForeColor = System.Drawing.Color.White;
+			this.nameLabel.BackColor = System.Drawing.Color.DodgerBlue;
 			resources.ApplyResources(this.nameLabel, "nameLabel");
+			this.nameLabel.ForeColor = System.Drawing.Color.White;
 			this.nameLabel.Name = "nameLabel";
 			// 
 			// displayMsg3
 			// 
-			this.displayMsg3.BackColor = System.Drawing.Color.Transparent;
-			this.displayMsg3.ForeColor = System.Drawing.Color.White;
+			this.displayMsg3.BackColor = System.Drawing.Color.Black;
 			resources.ApplyResources(this.displayMsg3, "displayMsg3");
+			this.displayMsg3.ForeColor = System.Drawing.Color.White;
 			this.displayMsg3.Name = "displayMsg3";
 			// 
 			// displayMsg2
 			// 
-			this.displayMsg2.BackColor = System.Drawing.Color.Transparent;
-			this.displayMsg2.ForeColor = System.Drawing.Color.White;
+			this.displayMsg2.BackColor = System.Drawing.Color.Black;
 			resources.ApplyResources(this.displayMsg2, "displayMsg2");
+			this.displayMsg2.ForeColor = System.Drawing.Color.White;
 			this.displayMsg2.Name = "displayMsg2";
 			// 
 			// displayMsg1
 			// 
-			this.displayMsg1.BackColor = System.Drawing.Color.Transparent;
-			this.displayMsg1.ForeColor = System.Drawing.Color.White;
+			this.displayMsg1.BackColor = System.Drawing.Color.Black;
 			resources.ApplyResources(this.displayMsg1, "displayMsg1");
+			this.displayMsg1.ForeColor = System.Drawing.Color.White;
 			this.displayMsg1.Name = "displayMsg1";
 			// 
 			// txtMessage
