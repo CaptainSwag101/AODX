@@ -252,12 +252,16 @@ namespace Server
                                     bool found = false;
                                     foreach (Evidence data in evidence)
                                     {
-                                        data?.icon.Save("base/test4.gif");
-                                        if (data?.filename != evi.filename) continue;
-                                        data.icon = evi.icon;
-                                        data.icon.Save("base/test4.gif");
-                                        found = true;
-                                        break;
+                                        data?.icon?.Save("base/test4.gif");
+	                                    if (data == null || data.filename != evi.filename)
+	                                    {
+		                                    continue;
+	                                    }
+
+		                                data.icon = evi.icon;
+										data.icon.Save("base/test4.gif");
+										found = true;
+										break;
                                     }
 
                                     if (!found)
