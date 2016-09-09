@@ -36,11 +36,13 @@ namespace Client
 
 		private void btn_Login_Click(object sender, EventArgs e)
 		{
-			Data msgToSend = new Data();
-			msgToSend.cmdCommand = Command.Login;
-			msgToSend.strName = strName;
+		    Data msgToSend = new Data
+		    {
+		        cmdCommand = Command.Login,
+		        strName = strName
+		    };
 
-			DialogResult = DialogResult.OK;
+		    DialogResult = DialogResult.OK;
 
 			byte[] b = msgToSend.ToByte();
 
